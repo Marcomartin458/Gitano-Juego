@@ -47,7 +47,7 @@ function startChapter1() {
 
   renderChoices([
     {
-      text: '🔥 "¡Vamos todos a hablar con ese gachó ahora mismo!" — Confrontación directa.',
+      text: '🔥 "¡Vamos todos a hablar con ese payico ahora mismo sus muertos pisaos!" — Confrontación directa.',
       hint: 'Sube Intimidación. Baja relación con Payos.',
       danger: true
     },
@@ -77,7 +77,7 @@ function chapter1_a_confrontacion() {
     <div class="event-date">Capítulo I — Escena 2</div>
     <h2 class="event-title">El Primer Movimiento</h2>
     <p class="narrative-text">
-      Llegas al mercadillo con siete hombres del clan. La gente se aparta. Encuentras al ${personajeImg('chatoRuiz')} <span class="narrative-char">${clan.enemigoPrincipal}</span> en su puesto de atrás, ese que vende de todo y paga a nadie.
+      Llegas al mercadillo con siete hombres del clan. La gente se aparta. Encuentras al ${personajeImg('chatoRuiz')} <span class="narrative-char">${clan.enemigoPrincipal}</span> en su puesto de atrás, ese que vende de todo y paga a nadie, rata de los cojones.
     </p>
     <p class="narrative-text">
       Es un tío gordo, con cadena de oro y gafas de sol aunque está nublado. Te mira de arriba abajo y suelta una carcajada: <em>"Ay, qué monada, ¡si vienen los gitanillos a protestar!"</em>
