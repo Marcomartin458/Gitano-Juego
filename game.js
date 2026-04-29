@@ -97,12 +97,12 @@ const GameState = {
     agenteTorres: {
       nombre: 'Agente Torres',
       rol: 'Policía',
-      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Pablo_Motos.jpg/220px-Pablo_Motos.jpg'
+      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/El_Cordob%C3%A9s_%28cropped%29.jpg/220px-El_Cordob%C3%A9s_%28cropped%29.jpg'
     },
     chatoRuiz: {
       nombre: 'El Chato Ruiz',
       rol: 'Rival',
-      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/El_Cordob%C3%A9s_%28cropped%29.jpg/220px-El_Cordob%C3%A9s_%28cropped%29.jpg'
+      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Pablo_Motos.jpg/220px-Pablo_Motos.jpg'
     },
     viejoSebastian: {
       nombre: 'Viejo Sebastián',
