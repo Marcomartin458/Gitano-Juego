@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════
    EL GITANO JUEGO — ESTILOS v5.0 San Blas
-   Fondo cálido asegurado
+   Fondo cálido garantizado
    ═══════════════════════════════════════════ */
 
 :root {
@@ -30,7 +30,7 @@ html, body {
   color: var(--text-primary);
 }
 
-/* Fondo general con degradado animado y textura visible */
+/* Fondo general con degradado visible */
 body::before {
   content: '';
   position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -41,7 +41,7 @@ body::before {
   z-index: -2;
 }
 
-/* Textura de ruido (puntitos repetidos) */
+/* Textura de ruido (puntitos) */
 .bg-texture {
   position: fixed; top: 0; left: 0; width: 100%; height: 100%;
   background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="4" height="4" viewBox="0 0 4 4"><path d="M1 1h1v1H1z" fill="rgba(255,255,255,0.05)"/></svg>');
@@ -49,25 +49,25 @@ body::before {
   opacity: 0.6; z-index: -1; pointer-events: none;
 }
 
-/* Partículas */
 #particles-js {
   position: fixed; top: 0; left: 0;
   width: 100%; height: 100%;
   z-index: 0; pointer-events: none;
 }
 
-/* Pantallas – fondo semitransparente para que se vea el fondo general */
 .screen {
   position: fixed; top: 0; left: 0;
   width: 100%; height: 100%;
   overflow-y: auto; display: none;
   z-index: 10;
-  background: rgba(10,8,6,0.75);   /* oscuro pero deja ver el degradado */
+  background: rgba(10,8,6,0.75);
   backdrop-filter: blur(8px);
 }
 .screen.active { display: block; }
 
-/* Carga */
+/* El resto de estilos se mantiene igual que antes... (carga, menú, tarjetas, combate, etc.) */
+/* Incluyo solo los esenciales para que no se pierdan */
+
 .loading-content {
   position: relative; z-index: 2;
   display: flex; flex-direction: column;
@@ -89,7 +89,6 @@ body::before {
   margin-top: 0.8rem; font-weight: 300;
 }
 
-/* Menú */
 .menu-content {
   position: relative; z-index: 2;
   display: flex; flex-direction: column;
@@ -113,11 +112,9 @@ body::before {
 }
 .version-text { font-size: 0.8rem; color: var(--text-secondary); opacity: 0.5; margin-top: 2rem; }
 
-/* Secciones */
 .section-title { font-family: var(--font-display); color: var(--gold); font-size: 2.8rem; letter-spacing: 2px; }
 .section-sub { color: var(--text-secondary); margin-bottom: 2rem; font-size: 1.1rem; }
 
-/* Tarjetas de clan */
 .clan-card {
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
@@ -132,7 +129,6 @@ body::before {
   border-color: var(--gold);
 }
 
-/* Layout juego */
 .game-layout { display: flex; flex-direction: column; height: 100vh; }
 .game-header {
   background: rgba(20,15,10,0.95);
@@ -172,7 +168,6 @@ body::before {
   padding: 0.5rem; display: flex; justify-content: space-around; flex-shrink: 0;
 }
 
-/* Combate */
 .combat-content { padding: 1.5rem; position: relative; z-index: 2; max-width: 700px; margin: 0 auto; }
 .vs-text {
   font-family: var(--font-display); font-size: 2.8rem; font-weight: 400;
@@ -193,7 +188,6 @@ body::before {
 }
 .combat-log-line { color: var(--text-secondary); margin-bottom: 0.4rem; }
 
-/* Botones mejorados */
 .btn-danger {
   background: linear-gradient(135deg, #FF4500, #C73000);
   border: none; box-shadow: 0 0 15px rgba(255,69,0,0.5);
@@ -207,10 +201,8 @@ body::before {
   background: rgba(212,175,55,0.15); color: var(--gold-light);
 }
 
-/* Notificaciones */
 .toast { background: rgba(20,15,10,0.95) !important; backdrop-filter: blur(10px); }
 
-/* Responsive */
 @media (max-width: 600px) {
   .game-header { padding: 0.5rem; }
   .hstat { min-width: 40px; }
