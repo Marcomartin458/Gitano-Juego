@@ -63,17 +63,16 @@ const GameState = {
   combat: null,
   clanData: null,
 
-  // Imágenes de gitanos famosos (Wikimedia Commons, libres de derechos)
   personajes: {
     viejoCurro: {
       nombre: 'Viejo Curro',
       rol: 'Patriarca',
-      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Camar%C3%B3n_de_la_Isla_%28cropped%29.jpg/220px-Camar%C3%B3n_de_la_Isla_%28cropped%29.jpg'
+      img: 'https://upload.wikimedia.org/wikipedia/commons/7/79/Camaron_de_la_Isla.jpg'
     },
     miguelito: {
       nombre: 'Miguelito',
       rol: 'Guerrero',
-      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Joaqu%C3%ADn_Cort%C3%A9s_en_la_Gala_de_los_Premios_Goya_2018_%28cropped%29.jpg/220px-Joaqu%C3%ADn_Cort%C3%A9s_en_la_Gala_de_los_Premios_Goya_2018_%28cropped%29.jpg'
+      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Joaqu%C3%ADn_Cort%C3%A9s.jpg/220px-Joaqu%C3%ADn_Cort%C3%A9s.jpg'
     },
     tioAntonio: {
       nombre: 'Tío Antonio',
@@ -98,20 +97,19 @@ const GameState = {
     agenteTorres: {
       nombre: 'Agente Torres',
       rol: 'Policía',
-      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Policia_Nacional_Espa%C3%B1a_%28cropped%29.jpg/220px-Policia_Nacional_Espa%C3%B1a_%28cropped%29.jpg'
+      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Pablo_Motos.jpg/220px-Pablo_Motos.jpg'
     },
     chatoRuiz: {
       nombre: 'El Chato Ruiz',
       rol: 'Rival',
-      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/El_Cordob%C3%A9s_%28cropped%29.jpg/220px-El_Cordob%C3%A9s_%28cropped%29.jpg'
+      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Manuel_Molina_%28poeta%29.jpg/220px-Manuel_Molina_%28poeta%29.jpg'
     },
     viejoSebastian: {
       nombre: 'Viejo Sebastián',
       rol: 'Mediador',
-      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Manuel_Molina_%28poeta%29.jpg/220px-Manuel_Molina_%28poeta%29.jpg'
+      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/El_Cordob%C3%A9s_%28cropped%29.jpg/220px-El_Cordob%C3%A9s_%28cropped%29.jpg'
     }
   }
-};
 
 // ════════════════════════════════════════
 // DATOS DE CLANES (adaptados a Madrid)
