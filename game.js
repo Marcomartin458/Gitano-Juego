@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════
-   EL GITANO JUEGO — MOTOR PRINCIPAL v4.0
+   EL GITANO JUEGO — MOTOR PRINCIPAL v5.0 (San Blas Edition)
    ═══════════════════════════════════════════════════════════ */
 
 'use strict';
@@ -53,7 +53,9 @@ const GameState = {
     amorProhibido: false,
     pedimientoAceptado: false,
     fugaDeAmantes: false,
-    venganzaAmorosa: false
+    venganzaAmorosa: false,
+    pruebaDelPanuelo: false,
+    embarazoLola: false
   },
 
   inventory: [],
@@ -61,156 +63,143 @@ const GameState = {
   combat: null,
   clanData: null,
 
-  // Personajes con imágenes
+  // Imágenes de gitanos famosos (Wikimedia Commons, libres de derechos)
   personajes: {
     viejoCurro: {
       nombre: 'Viejo Curro',
       rol: 'Patriarca',
-      img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face'
+      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Camar%C3%B3n_de_la_Isla_%28cropped%29.jpg/220px-Camar%C3%B3n_de_la_Isla_%28cropped%29.jpg'
     },
     miguelito: {
       nombre: 'Miguelito',
       rol: 'Guerrero',
-      img: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=200&h=200&fit=crop&crop=face'
+      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Joaqu%C3%ADn_Cort%C3%A9s_en_la_Gala_de_los_Premios_Goya_2018_%28cropped%29.jpg/220px-Joaqu%C3%ADn_Cort%C3%A9s_en_la_Gala_de_los_Premios_Goya_2018_%28cropped%29.jpg'
     },
     tioAntonio: {
       nombre: 'Tío Antonio',
       rol: 'Consejero',
-      img: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face'
+      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Antonio_Orozco.jpg/220px-Antonio_Orozco.jpg'
     },
     laLola: {
       nombre: 'La Lola',
       rol: 'Prima',
-      img: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop&crop=face'
+      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Lola_Flores_%281958%29.jpg/220px-Lola_Flores_%281958%29.jpg'
     },
     laEncarna: {
       nombre: 'La Encarna',
       rol: 'Abogada',
-      img: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop&crop=face'
+      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Rosario_Flores.jpg/220px-Rosario_Flores.jpg'
     },
     tomas: {
       nombre: 'Tomás',
       rol: 'Hermano',
-      img: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop&crop=face'
+      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Farruquito_%28cropped%29.jpg/220px-Farruquito_%28cropped%29.jpg'
     },
     agenteTorres: {
       nombre: 'Agente Torres',
       rol: 'Policía',
-      img: 'https://images.unsplash.com/photo-1566753323558-f4e0952af115?w=200&h=200&fit=crop&crop=face'
+      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Policia_Nacional_Espa%C3%B1a_%28cropped%29.jpg/220px-Policia_Nacional_Espa%C3%B1a_%28cropped%29.jpg'
     },
     chatoRuiz: {
       nombre: 'El Chato Ruiz',
       rol: 'Rival',
-      img: 'https://images.unsplash.com/photo-1508341591423-4347099e1f19?w=200&h=200&fit=crop&crop=face'
+      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/El_Cordob%C3%A9s_%28cropped%29.jpg/220px-El_Cordob%C3%A9s_%28cropped%29.jpg'
     },
     viejoSebastian: {
       nombre: 'Viejo Sebastián',
       rol: 'Mediador',
-      img: 'https://images.unsplash.com/photo-1517705008128-361805f42e86?w=200&h=200&fit=crop&crop=face'
+      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Manuel_Molina_%28poeta%29.jpg/220px-Manuel_Molina_%28poeta%29.jpg'
     }
   }
 };
 
 // ════════════════════════════════════════
-// DATOS DE CLANES
+// DATOS DE CLANES (adaptados a Madrid)
 // ════════════════════════════════════════
 const CLANES = {
   heredia: {
     nombre: 'Clan Heredia',
     icono: '🔥',
-    tagline: 'Los Reyes del Mercadillo',
-    desc: 'Ferralleros, tratantes y comerciantes. Controlan los mercadillos de media Andalucía.',
+    tagline: 'Los Reyes del Rastro',
+    desc: 'Tratantes y comerciantes del Rastro de Madrid. Tienen pasta y contactos.',
     bonos: { recursos: 30, diplomacia: 10 },
     legado: 'Controlar 3 rutas comerciales',
     color: '#D4AF37',
-    barrio: 'Las Tres Mil Viviendas, Sevilla',
+    barrio: 'San Blas-Canillejas, Madrid',
     enemigoPrincipal: 'El Chato Ruiz',
-    enemigoDesc: 'Un payo que controla el mercadillo de Los Bermejales y quiere expulsaros.'
+    enemigoDesc: 'Un payo que controla el mercadillo de Canillejas y quiere expulsaros.'
   },
   amaya: {
     nombre: 'Clan Amaya',
     icono: '🎶',
-    tagline: 'Los Artistas del Alma',
-    desc: 'Cantaores y bailaores conocidos en toda España. El arte es su moneda.',
+    tagline: 'Los Artistas del Tablao',
+    desc: 'Cantaores y bailaores de la escena madrileña. Arte y flow.',
     bonos: { honra: 40, diplomacia: 15 },
-    legado: 'Que tu arte sea conocido en toda Andalucía',
+    legado: 'Llenar el WiZink Center con tu música',
     color: '#FF6B35',
-    barrio: 'Santiago, Jerez de la Frontera',
+    barrio: 'Lavapiés, Madrid',
     enemigoPrincipal: 'El Inspector Morales',
-    enemigoDesc: 'Un inspector que quiere demoler vuestro local de ensayo por "denuncias de ruido".'
+    enemigoDesc: 'Un inspector que quiere cerrar vuestro tablao por "denuncias de ruido".'
   },
   vargas: {
     nombre: 'Clan Vargas',
     icono: '🐴',
-    tagline: 'Los Guerreros del Asfalto',
-    desc: 'Chatarreros y feriantes. Llevan siglos en la carretera. Nadie les toca las narices.',
+    tagline: 'Los Guerreros del Ensanche',
+    desc: 'Chatarreros y feriantes de Vallecas. Nadie se mete con ellos.',
     bonos: { combate: 25, intimidacion: 15 },
-    legado: 'Cruzar España de norte a sur sin que te paren',
+    legado: 'Cruzar la M-40 de punta a punta sin que te paren',
     color: '#FF4500',
-    barrio: 'Polígono Sur, Sevilla',
+    barrio: 'Vallecas, Madrid',
     enemigoPrincipal: 'Los Hermanos Cárdenas',
-    enemigoDesc: 'Una familia paya que reclama la chatarrería que lleváis años trabajando.'
+    enemigoDesc: 'Una familia paya que reclama el solar donde tenéis la chatarrería.'
   }
 };
 
 // ════════════════════════════════════════
-// VOCABULARIO CALÓ
+// VOCABULARIO CALÓ JUVENIL (generación Z)
 // ════════════════════════════════════════
 const CALO = {
-  'chabó': 'chico joven',
-  'chabala': 'chica joven',
-  'calé': 'gitano',
-  'gachó': 'hombre payo',
-  'gachí': 'mujer paya',
-  'chorar': 'robar',
-  'duquelas': 'penas del alma',
-  'juncal': 'elegante / digno',
-  'palanqueta': 'herramienta',
-  'lacha': 'vergüenza / honor',
-  'chungo': 'malo / peligroso',
-  'parné': 'dinero',
+  'gitanico': 'gitano (en plan cariñoso)',
+  'lache': 'vergüenza / corte',
   'payo': 'no gitano',
   'pasma': 'policía',
-  'diñar': 'dar / pegar',
-  'menda': 'yo / uno mismo',
-  'sinela': 'patrona / jefa',
-  'bibaró': 'rico / poderoso',
-  'mangar': 'pedir / mendigar',
-  'sos': 'qué / cómo',
-  'camelar': 'querer / enamorar',
-  'jiñar': 'tener miedo',
-  'gili': 'tonto',
-  'currelar': 'trabajar',
-  'chai': 'hija',
-  'choro': 'ladrón',
-  'barí': 'grande / importante',
-  'chitón': 'silencio / cállate',
-  'acho': 'tío (exclamación)'
+  'parné': 'dinero',
+  'chabó': 'chaval',
+  'chabala': 'chavala',
+  'camelar': 'gustar / molar',
+  'jiñar': 'acojonarse',
+  'gili': 'tonto / pringao',
+  'currelar': 'currar',
+  'chungo': 'malo / peligroso',
+  'duquelas': 'penas',
+  'sinela': 'jefa',
+  'bibaró': 'rico',
+  'diñar': 'pegar',
+  'mangar': 'robar'
 };
 
 const INSULTOS_PAYOS = [
-  '¡Maldito gachó de mierda!',
-  '¡Payo cabrón, que no tienes lacha!',
-  '¡Hijo de la gran puta, gili del quince!',
+  '¡Maldito payo de mierda!',
+  '¡Payo cabrón, que no tienes lache!',
+  '¡Gili del quince!',
   '¡Vete a la mierda, sinvergüenza!',
-  '¡Por tus muertos, payo inútil!',
-  '¡Que te den, gacho raspa!'
+  '¡Que te den, gachó!'
 ];
 
 const INSULTOS_GITANOS = [
-  '¡Anda ya, calé sin honra!',
-  '¡Traidor a tu sangre!',
-  '¡Ni gitano ni payo, que eres peor que los dos!',
-  '¡Tu padre se revuelve en la tierra por lo que has hecho!'
+  '¡Anda ya, gitanico sin honra!',
+  '¡Traidor a tus primos!',
+  '¡Ni gitano ni payo, eres peor que los dos!',
+  '¡Tu abuelo se revuelve en la tierra!'
 ];
 
 const EXPRESIONES_GITANAS = [
-  '¡Acho!',
-  '¡Por los clavos!',
+  '¡Acho, qué fuerte!',
+  '¡Por los clavos de cristo!',
   '¡Que me muera si miento!',
   '¡Malaya sea!',
-  '¡Mi sangre te lo jura!',
-  'Con los ojos de mi madre te lo digo'
+  '¡Te lo juro por mi sangre!',
+  '¡Con los ojos de mi abuela te lo digo!'
 ];
 
 // ════════════════════════════════════════
@@ -229,7 +218,7 @@ function showScreen(id) {
 function showNotification(text, type = 'neutral') {
   const toastEl = document.getElementById('notificationToast');
   const body = document.getElementById('toastBody');
-  body.textContent = text;
+  body.innerHTML = text;
   body.className = 'toast-body';
   if (type === 'good') body.classList.add('text-success');
   else if (type === 'bad') body.classList.add('text-danger');
@@ -265,7 +254,7 @@ function modFaction(faction, amount) {
 function calóWord(word) {
   const translation = CALO[word.toLowerCase()];
   if (translation) {
-    return `<span class="text-accent fst-italic" style="cursor:help;border-bottom:1px dotted var(--text-accent);" onclick="showCulturalModal('El Caló', '<b>${word}</b>: ${translation}. El caló es la lengua del pueblo gitano español, mezcla del romaní antiguo con el castellano.')">${word} 📚</span>`;
+    return `<span class="text-accent fst-italic" style="cursor:help;border-bottom:1px dotted var(--text-accent);" onclick="showCulturalModal('El Caló callejero', '<b>${word}</b>: ${translation}. Palabreo gitano de la calle, mezcla de romaní y español.')">${word} <i class="fas fa-info-circle"></i></span>`;
   }
   return word;
 }
@@ -273,7 +262,7 @@ function calóWord(word) {
 function personajeImg(key) {
   const p = GameState.personajes[key];
   if (p) {
-    return `<img src="${p.img}" alt="${p.nombre}" class="fighter-img rounded-circle me-2" style="width:60px;height:60px;object-fit:cover;border:2px solid var(--gold);" title="${p.nombre} (${p.rol})">`;
+    return `<img src="${p.img}" alt="${p.nombre}" class="fighter-img rounded-circle me-2" style="width:60px;height:60px;object-fit:cover;border:3px solid var(--gold);box-shadow: 0 0 10px rgba(212,175,55,0.3);" title="${p.nombre} (${p.rol})">`;
   }
   return '';
 }
@@ -288,70 +277,95 @@ function showCulturalModal(title, text) {
 }
 function showInventory() {
   const inv = GameState.inventory.length === 0
-    ? '<p class="text-muted fst-italic">El inventario está vacío.</p>'
-    : '<ul class="list-unstyled">' + GameState.inventory.map(i => `<li class="text-light">• ${i}</li>`).join('') + '</ul>';
-  document.getElementById('modalTitle').textContent = '🎒 Inventario del Clan';
+    ? '<p class="text-muted fst-italic">El inventario está vacío, makina.</p>'
+    : '<ul class="list-unstyled">' + GameState.inventory.map(i => `<li class="text-light"><i class="fas fa-circle-notch text-gold me-2"></i> ${i}</li>`).join('') + '</ul>';
+  document.getElementById('modalTitle').textContent = '<i class="fas fa-backpack"></i> Inventario';
   document.getElementById('modalBody').innerHTML = inv;
   new bootstrap.Modal(document.getElementById('genericModal')).show();
 }
 function showRelations() {
   const fp = GameState.factions;
   const desc = (val) => {
-    if (val < 20) return '<span class="text-danger">🔴 Enemigos declarados</span>';
-    if (val < 40) return '<span class="text-warning">🟠 Tensión alta</span>';
-    if (val < 60) return '<span class="text-secondary">🟡 Neutral</span>';
-    if (val < 80) return '<span class="text-success">🟢 Respeto</span>';
-    return '<span class="text-gold">⭐ Aliados fuertes</span>';
+    if (val < 20) return '<span class="text-danger"><i class="fas fa-skull"></i> Enemigos</span>';
+    if (val < 40) return '<span class="text-warning"><i class="fas fa-exclamation-triangle"></i> Tensión</span>';
+    if (val < 60) return '<span class="text-secondary"><i class="fas fa-meh"></i> Neutral</span>';
+    if (val < 80) return '<span class="text-success"><i class="fas fa-thumbs-up"></i> Respeto</span>';
+    return '<span class="text-gold"><i class="fas fa-crown"></i> Aliados</span>';
   };
   const relHTML = `
     <div class="d-flex flex-column gap-2">
       ${[
-        ['👮 Pasma', 'policia'],
-        ['😤 Payos', 'payos'],
-        ['🔥 Otros Clanes', 'clanes'],
-        ['🏛️ Ayuntamiento', 'ayuntamiento']
+        ['<i class="fas fa-shield-haltered"></i> Pasma', 'policia'],
+        ['<i class="fas fa-user"></i> Payos', 'payos'],
+        ['<i class="fas fa-fire"></i> Otros Clanes', 'clanes'],
+        ['<i class="fas fa-building"></i> Ayuntamiento', 'ayuntamiento']
       ].map(([label, key]) => `
-        <div class="p-2 rounded" style="background:rgba(255,255,255,0.03);">
+        <div class="p-2 rounded" style="background:rgba(255,255,255,0.05);">
           <div class="d-flex justify-content-between align-items-center mb-1">
             <span class="fw-bold text-gold">${label}</span>
             ${desc(fp[key])}
           </div>
-          <div class="progress" style="height:6px;">
+          <div class="progress" style="height:8px;">
             <div class="progress-bar bg-warning" style="width:${fp[key]}%"></div>
           </div>
         </div>
       `).join('')}
     </div>
   `;
-  document.getElementById('modalTitle').textContent = '🤝 Relaciones';
+  document.getElementById('modalTitle').textContent = '<i class="fas fa-handshake"></i> Relaciones';
   document.getElementById('modalBody').innerHTML = relHTML;
   new bootstrap.Modal(document.getElementById('genericModal')).show();
 }
 function showHistory() {
   const hist = GameState.history.length === 0
-    ? '<p class="text-muted fst-italic">Aún no has tomado decisiones importantes...</p>'
+    ? '<p class="text-muted fst-italic">Aún no has hecho nada, gitanico...</p>'
     : GameState.history.map(h => `<div class="mb-2"><span class="text-gold fw-bold">Cap.${h.chapter}</span> ${h.text}</div>`).join('');
-  document.getElementById('modalTitle').textContent = '📜 Historial';
+  document.getElementById('modalTitle').textContent = '<i class="fas fa-scroll"></i> Historial';
   document.getElementById('modalBody').innerHTML = hist;
   new bootstrap.Modal(document.getElementById('genericModal')).show();
 }
 function showHelp() {
-  showCulturalModal('El GitanoJuego', `
-    <b>Un juego de texto interactivo sobre la cultura gitana española en el siglo XXI.</b><br><br>
-    ⭐ <b>Honra:</b> Tu reputación. Si cae a 0, el clan se disuelve.<br>
-    💶 <b>Parné:</b> Recursos económicos del clan.<br>
-    👥 <b>Familia:</b> Miembros del clan capaces de luchar.<br>
-    🤝 <b>Alianzas:</b> Clanes que te apoyan.<br><br>
-    <b>Combate:</b> Atacar, Esquivar o Farolear. Cada acción tiene consecuencias.<br><br>
-    <i>"Los gitanos no tenían libros, pero sí memoria."</i>
+  showCulturalModal('<i class="fas fa-info-circle"></i> El GitanoJuego', `
+    <b>Juego narrativo de clanes gitanos en el Madrid del siglo XXI.</b><br><br>
+    <i class="fas fa-star text-gold"></i> <b>Honra:</b> Tu reputación callejera.<br>
+    <i class="fas fa-euro-sign text-gold"></i> <b>Parné:</b> Pasta del clan.<br>
+    <i class="fas fa-users text-gold"></i> <b>Familia:</b> Miembros del clan.<br>
+    <i class="fas fa-handshake text-gold"></i> <b>Alianzas:</b> Clanes que te apoyan.<br><br>
+    <b>Combate:</b> Atacar, Esquivar o Farolear. ¡Y estate atento a los imprevistos!
   `);
 }
 
 // ════════════════════════════════════════
 // INICIALIZACIÓN
 // ════════════════════════════════════════
+function initParticles() {
+  tsParticles.load("particles-js", {
+    particles: {
+      number: { value: 50, density: { enable: true, value_area: 1000 } },
+      color: { value: ["#D4AF37", "#FF4500", "#F0D060", "#FF6B35"] },
+      shape: { type: "circle" },
+      opacity: { value: 0.4, random: true, anim: { enable: true, speed: 0.5, opacity_min: 0.1 } },
+      size: { value: 3, random: true },
+      move: { enable: true, speed: 0.8, direction: "none", random: true, out_mode: "out" }
+    },
+    interactivity: {
+      detect_on: "canvas",
+      events: { onhover: { enable: true, mode: "bubble" }, resize: true },
+      modes: { bubble: { distance: 200, size: 8, duration: 2, opacity: 0.8 } }
+    },
+    retina_detect: true
+  });
+}
+
 function initLoading() {
-  const messages = ['Cargando el camino...', 'Preparando el clan...', 'Escuchando el cante...', 'Afilando la navaja...', 'Consultando a los viejos...', '¡Apañao y listo, acho!'];
+  const messages = [
+    'Cargando el camino...',
+    'Bajando al Rastro...',
+    'Escuchando el cante...',
+    'Afilando la navaja...',
+    'Consultando a los viejos del barrio...',
+    '¡Apañao y listo, makina!'
+  ];
   let progress = 0;
   let msgIdx = 0;
   const bar = document.getElementById('loadingBar');
@@ -370,26 +384,6 @@ function initLoading() {
   }, 300);
 }
 
-// Partículas de fondo
-function initParticles() {
-  tsParticles.load("particles-js", {
-    particles: {
-      number: { value: 40, density: { enable: true, value_area: 800 } },
-      color: { value: ["#D4AF37", "#FF4500", "#F0D060"] },
-      shape: { type: "circle" },
-      opacity: { value: 0.3, random: true, anim: { enable: true, speed: 0.5, opacity_min: 0.1, sync: false } },
-      size: { value: 3, random: true },
-      move: { enable: true, speed: 0.5, direction: "none", random: true, straight: false, out_mode: "out" }
-    },
-    interactivity: {
-      detect_on: "canvas",
-      events: { onhover: { enable: true, mode: "bubble" }, resize: true },
-      modes: { bubble: { distance: 200, size: 6, duration: 2, opacity: 0.8 } }
-    },
-    retina_detect: true
-  });
-}
-
 // ════════════════════════════════════════
 // SELECCIÓN DE CLAN Y PERSONAJE
 // ════════════════════════════════════════
@@ -397,7 +391,7 @@ function startNewGame() {
   const clanCards = document.getElementById('clanCards');
   clanCards.innerHTML = Object.entries(CLANES).map(([id, clan]) => `
     <div class="col-md-4 mb-3">
-      <div class="card bg-dark text-light border-warning h-100" onclick="selectClan('${id}')" style="cursor:pointer;">
+      <div class="card clan-card bg-dark text-light border-warning h-100" onclick="selectClan('${id}')">
         <div class="card-body text-center">
           <span class="fs-1">${clan.icono}</span>
           <h3 class="card-title text-gold">${clan.nombre}</h3>
@@ -406,6 +400,7 @@ function startNewGame() {
           <div class="mt-2">
             <span class="badge bg-warning text-dark">${Object.entries(clan.bonos).map(([k,v]) => `+${v} ${k}`).join(', ')}</span>
           </div>
+          <p class="card-text mt-2"><small class="text-muted"><i class="fas fa-map-marker-alt"></i> ${clan.barrio}</small></p>
         </div>
       </div>
     </div>
@@ -425,23 +420,23 @@ function selectClan(clanId) {
   document.querySelectorAll('#clanCards .card').forEach(c => c.style.opacity = '0.5');
   setTimeout(() => {
     document.getElementById('roleChoices').innerHTML = `
-      <div class="role-card p-2 rounded mb-2 selected" data-role="cabeza" onclick="selectRole(this)" style="cursor:pointer;border:1px solid var(--border-gold);">
-        <span class="fs-4">👑</span>
-        <span class="fw-bold text-gold">El Cabeza</span>
-        <span class="text-muted">Patriarca. Máxima autoridad y responsabilidad.</span>
-        <span class="badge bg-warning text-dark">+10 Honra, +5 Diplomacia</span>
+      <div class="role-card p-3 rounded mb-2 selected" data-role="cabeza" onclick="selectRole(this)" style="cursor:pointer;border:2px solid var(--gold);background:rgba(212,175,55,0.1);">
+        <i class="fas fa-crown fs-3 text-gold"></i>
+        <span class="fw-bold text-gold ms-2">El Cabeza</span>
+        <span class="text-muted ms-2">Patriarca del barrio. Mandas más que el alcalde.</span>
+        <span class="badge bg-warning text-dark ms-2">+10 Honra, +5 Diplomacia</span>
       </div>
-      <div class="role-card p-2 rounded mb-2" data-role="guerrero" onclick="selectRole(this)" style="cursor:pointer;border:1px solid rgba(255,255,255,0.1);">
-        <span class="fs-4">⚔️</span>
-        <span class="fw-bold text-gold">El Guerrero</span>
-        <span class="text-muted">El más temido del clan. Nadie se mete con vosotros.</span>
-        <span class="badge bg-warning text-dark">+15 Combate, +5 Intimidación</span>
+      <div class="role-card p-3 rounded mb-2" data-role="guerrero" onclick="selectRole(this)" style="cursor:pointer;border:2px solid rgba(255,255,255,0.2);">
+        <i class="fas fa-fist-raised fs-3 text-danger"></i>
+        <span class="fw-bold text-gold ms-2">El Guerrero</span>
+        <span class="text-muted ms-2">El más temido del barrio. Tus puños son la ley.</span>
+        <span class="badge bg-warning text-dark ms-2">+15 Combate, +5 Intimidación</span>
       </div>
-      <div class="role-card p-2 rounded mb-2" data-role="listo" onclick="selectRole(this)" style="cursor:pointer;border:1px solid rgba(255,255,255,0.1);">
-        <span class="fs-4">🧠</span>
-        <span class="fw-bold text-gold">El Listo</span>
-        <span class="text-muted">El que negocia y piensa antes de actuar.</span>
-        <span class="badge bg-warning text-dark">+10 Diplomacia, opciones únicas</span>
+      <div class="role-card p-3 rounded mb-2" data-role="listo" onclick="selectRole(this)" style="cursor:pointer;border:2px solid rgba(255,255,255,0.2);">
+        <i class="fas fa-brain fs-3 text-primary"></i>
+        <span class="fw-bold text-gold ms-2">El Listo</span>
+        <span class="text-muted ms-2">El cerebro. Negocias y piensas antes de dar el palo.</span>
+        <span class="badge bg-warning text-dark ms-2">+10 Diplomacia, opciones únicas</span>
       </div>
     `;
     showScreen('character');
@@ -451,17 +446,19 @@ function selectClan(clanId) {
 function selectRole(el) {
   document.querySelectorAll('.role-card').forEach(r => {
     r.classList.remove('selected');
-    r.style.border = '1px solid rgba(255,255,255,0.1)';
+    r.style.border = '2px solid rgba(255,255,255,0.2)';
+    r.style.background = 'rgba(255,255,255,0.03)';
   });
   el.classList.add('selected');
-  el.style.border = '1px solid var(--gold)';
+  el.style.border = '2px solid var(--gold)';
+  el.style.background = 'rgba(212,175,55,0.1)';
   GameState.playerRole = el.dataset.role;
 }
 
 function createCharacter() {
   const name = document.getElementById('playerName').value.trim();
   if (!name) {
-    showNotification('¡Pon tu nombre, calé! Que sin nombre no eres nadie.', 'bad');
+    showNotification('<i class="fas fa-exclamation-circle"></i> ¡Pon tu nombre, gitanico! Sin nombre no eres nadie.', 'bad');
     return;
   }
   GameState.playerName = name;
@@ -499,10 +496,10 @@ let currentChoiceHandlers = [];
 function renderChoices(choices) {
   const area = document.getElementById('choicesInner');
   const letters = ['A', 'B', 'C', 'D', 'E'];
-  let html = '<div class="text-uppercase text-muted small mb-2">¿Qué haces?</div>';
+  let html = '<div class="text-uppercase text-muted small mb-2 fw-bold">¿Qué haces, makina?</div>';
   choices.forEach((c, i) => {
     const cls = c.danger ? 'btn-outline-danger' : c.good ? 'btn-outline-success' : 'btn-outline-warning';
-    html += `<button class="btn ${cls} w-100 mb-2 text-start" onclick="handleChoice(${i})">
+    html += `<button class="btn ${cls} w-100 mb-2 text-start animate__animated animate__fadeInUp" style="animation-delay:${i*0.1}s" onclick="handleChoice(${i})">
       <span class="badge bg-warning text-dark me-2">${letters[i]}</span>
       ${c.text}
       ${c.hint ? `<br><small class="text-muted fst-italic ms-4">${c.hint}</small>` : ''}
@@ -513,7 +510,7 @@ function renderChoices(choices) {
 
 function renderContinue(text, callback) {
   const area = document.getElementById('choicesInner');
-  area.innerHTML = `<button class="btn btn-danger w-100 mt-2" onclick="${callback}">${text || '▶ Continuar...'}</button>`;
+  area.innerHTML = `<button class="btn btn-danger w-100 mt-2 animate__animated animate__pulse animate__infinite" onclick="${callback}">${text || '▶ Dale caña...'}</button>`;
 }
 
 function handleChoice(index) {
