@@ -1,0 +1,165 @@
+/* ═══════════════════════════════════════════
+   EL GITANO JUEGO — ESTILOS PRINCIPALES
+   ═══════════════════════════════════════════ */
+
+:root {
+  --fire: #FF4500;
+  --gold: #D4AF37;
+  --gold-light: #F0D060;
+  --dark-bg: #0A0806;
+  --dark-card: #141008;
+  --dark-mid: #1E1610;
+  --text-primary: #F5E8C8;
+  --text-secondary: #A08060;
+  --text-accent: #FF6B35;
+  --border-gold: rgba(212,175,55,0.3);
+  --font-title: 'Playfair Display', serif;
+  --font-body: 'Crimson Pro', serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  width: 100%; height: 100%; overflow: hidden;
+  background: var(--dark-bg);
+  font-family: var(--font-body);
+  color: var(--text-primary);
+}
+
+/* Partículas de fondo */
+#particles-js {
+  position: fixed; top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0; pointer-events: none;
+}
+
+/* Pantallas */
+.screen {
+  position: fixed; top: 0; left: 0;
+  width: 100%; height: 100%;
+  overflow-y: auto; display: none;
+  z-index: 10;
+}
+.screen.active { display: block; }
+
+/* Carga */
+.loading-content {
+  position: relative; z-index: 2;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  height: 100vh;
+}
+.game-title {
+  font-family: var(--font-title);
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  font-weight: 900; font-style: italic;
+  background: linear-gradient(135deg, var(--gold-light), var(--fire), var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 25px rgba(255,100,0,0.5));
+}
+.game-subtitle {
+  font-size: 1rem; color: var(--text-secondary);
+  margin-top: 0.5rem;
+}
+
+/* Menú */
+.menu-content {
+  position: relative; z-index: 2;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  height: 100vh;
+}
+.main-title {
+  font-family: var(--font-title);
+  font-size: clamp(3rem, 10vw, 6rem);
+  font-weight: 900; font-style: italic;
+  background: linear-gradient(135deg, var(--gold-light), var(--fire), var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 30px rgba(255,100,0,0.5));
+}
+.main-subtitle {
+  font-size: 1.1rem; color: var(--text-secondary);
+  font-style: italic; margin-top: 0.5rem;
+}
+.version-text { font-size: 0.8rem; color: var(--text-secondary); opacity: 0.5; }
+
+/* Sección de selección */
+.section-title { font-family: var(--font-title); color: var(--gold); font-size: 2.5rem; font-weight: 700; }
+.section-sub { color: var(--text-secondary); margin-bottom: 2rem; }
+
+/* Game layout */
+.game-layout { display: flex; flex-direction: column; height: 100vh; }
+.game-header {
+  background: linear-gradient(to right, var(--dark-card), var(--dark-mid));
+  border-bottom: 1px solid var(--border-gold);
+  padding: 0.6rem 1rem;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-shrink: 0; flex-wrap: wrap; gap: 0.5rem;
+}
+.hstat { display: flex; flex-direction: column; align-items: center; min-width: 45px; }
+.hstat span:first-child { font-size: 1.2rem; }
+.hstat span:last-child { font-family: var(--font-title); font-weight: 700; color: var(--gold-light); }
+
+.narrative-area {
+  flex: 1; overflow-y: auto; padding: 1.5rem;
+  background: linear-gradient(180deg, rgba(20,16,8,0.9), rgba(10,8,6,0.95));
+}
+.narrative-inner { max-width: 720px; margin: 0 auto; }
+
+.choices-area {
+  background: linear-gradient(to top, var(--dark-card), transparent);
+  border-top: 1px solid var(--border-gold);
+  padding: 1rem; flex-shrink: 0;
+}
+.bottom-bar {
+  background: var(--dark-card); border-top: 1px solid rgba(255,255,255,0.05);
+  padding: 0.4rem; display: flex; justify-content: space-around; flex-shrink: 0;
+}
+
+/* Combate */
+.combat-content { padding: 1.5rem; position: relative; z-index: 2; }
+.vs-text {
+  font-family: var(--font-title); font-size: 2.5rem; font-weight: 900;
+  color: #F44336; text-shadow: 0 0 20px rgba(255,0,0,0.6);
+}
+.fighter-name { font-family: var(--font-title); color: var(--gold); font-weight: 700; }
+.fighter-img { border: 2px solid var(--gold); }
+.combat-log {
+  height: 120px; overflow-y: auto; background: rgba(0,0,0,0.4);
+  border: 1px solid var(--border-gold); border-radius: 8px; padding: 0.75rem;
+}
+.combat-log-line { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.5rem; }
+
+/* Ending */
+.ending-content {
+  position: relative; z-index: 2; max-width: 640px; margin: 0 auto;
+  padding-top: 10vh;
+}
+
+/* Utilidades */
+.text-gold { color: var(--gold) !important; }
+.btn-danger {
+  background: linear-gradient(135deg, var(--fire), #C73000);
+  border: none;
+  box-shadow: 0 0 15px rgba(255,69,0,0.4);
+}
+.btn-outline-warning {
+  color: var(--gold);
+  border-color: var(--border-gold);
+}
+.btn-outline-warning:hover {
+  background: rgba(212,175,55,0.1);
+  border-color: var(--gold);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .game-header { padding: 0.4rem; }
+  .hstat { min-width: 35px; }
+  .hstat span:first-child { font-size: 1rem; }
+  .narrative-area { padding: 1rem; }
+  .choices-area { padding: 0.75rem; }
+  .fighter-img { width: 60px !important; height: 60px !important; }
+}
