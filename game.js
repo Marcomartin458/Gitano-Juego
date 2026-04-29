@@ -102,14 +102,15 @@ const GameState = {
     chatoRuiz: {
       nombre: 'El Chato Ruiz',
       rol: 'Rival',
-      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Manuel_Molina_%28poeta%29.jpg/220px-Manuel_Molina_%28poeta%29.jpg'
+      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/El_Cordob%C3%A9s_%28cropped%29.jpg/220px-El_Cordob%C3%A9s_%28cropped%29.jpg'
     },
     viejoSebastian: {
       nombre: 'Viejo Sebastián',
       rol: 'Mediador',
-      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/El_Cordob%C3%A9s_%28cropped%29.jpg/220px-El_Cordob%C3%A9s_%28cropped%29.jpg'
+      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Manuel_Molina_%28poeta%29.jpg/220px-Manuel_Molina_%28poeta%29.jpg'
     }
   }
+};
 
 // ════════════════════════════════════════
 // DATOS DE CLANES (adaptados a Madrid)
