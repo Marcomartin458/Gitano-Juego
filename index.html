@@ -8,8 +8,10 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Animate.css 4.1 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <!-- Font Awesome 6 (iconos chulos) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
     <!-- tsParticles -->
     <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
     <!-- Bootstrap JS -->
@@ -17,20 +19,23 @@
     <!-- Estilos propios -->
     <link rel="stylesheet" href="style.css">
     <style>
-  body, .screen, .narrative-text, button, input, select, textarea {
-    color: #F5E8C8 !important;
-  }
-  .btn-danger, .btn-warning, .btn-outline-warning, .btn-primary, .btn-success {
-    color: inherit;
-  }
-  .text-muted { color: #A08060 !important; }
-</style>
+        /* Refuerzo de color para que el texto siempre sea legible */
+        body, .screen, .narrative-text, button, input, select, textarea {
+            color: #F5E8C8 !important;
+        }
+        .btn-danger, .btn-warning, .btn-outline-warning, .btn-primary, .btn-success {
+            color: inherit;
+        }
+        .text-muted { color: #A08060 !important; }
+    </style>
 </head>
 <body>
-    <!-- Contenedor de partículas (fuego/dorado) -->
+    <!-- Fondo de partículas (fuego urbano) -->
     <div id="particles-js"></div>
+    <!-- Textura de fondo sutil (pared de barrio) -->
+    <div class="bg-texture"></div>
 
-    <!-- PANTALLAS -->
+    <!-- PANTALLA DE CARGA -->
     <div id="screen-loading" class="screen active">
         <div class="loading-content text-center">
             <h1 class="game-title animate__animated animate__fadeInDown">El GitanoJuego</h1>
@@ -42,63 +47,67 @@
         </div>
     </div>
 
+    <!-- PANTALLA MENÚ PRINCIPAL -->
     <div id="screen-menu" class="screen">
         <div class="menu-content text-center">
             <h1 class="main-title animate__animated animate__fadeInDown">El GitanoJuego</h1>
-            <p class="main-subtitle animate__animated animate__fadeInUp">Edición Legendaria</p>
+            <p class="main-subtitle animate__animated animate__fadeInUp">Edición Legendaria — Madrid Callejera</p>
             <div class="d-grid gap-3 col-8 mx-auto mt-5">
                 <button class="btn btn-danger btn-lg animate__animated animate__pulse animate__infinite" onclick="startNewGame()">
-                    🔥 Nueva Partida
+                    <i class="fas fa-fire"></i> Nueva Partida
                 </button>
                 <button class="btn btn-outline-warning btn-lg" onclick="showHelp()">
-                    📖 Créditos y Ayuda
+                    <i class="fas fa-book"></i> Créditos y Ayuda
                 </button>
             </div>
-            <p class="version-text mt-5">v4.0 — Rostros del Camino</p>
+            <p class="version-text mt-5">v5.0 — San Blas Edition</p>
         </div>
     </div>
 
+    <!-- PANTALLA SELECCIÓN DE CLAN -->
     <div id="screen-clan" class="screen">
         <div class="container py-4">
             <h2 class="section-title text-center">Elige tu Clan</h2>
-            <p class="section-sub text-center">Siglo XXI. España. La calle es tu ley.</p>
+            <p class="section-sub text-center">Siglo XXI. Madrid. La calle es tu ley.</p>
             <div class="row g-3 justify-content-center" id="clanCards"></div>
         </div>
     </div>
 
+    <!-- PANTALLA CREACIÓN DE PERSONAJE -->
     <div id="screen-character" class="screen">
         <div class="container py-4">
             <h2 class="section-title text-center">Tu Historia</h2>
             <div class="row justify-content-center">
                 <div class="col-md-6">
                     <div class="mb-3">
-                        <label class="form-label text-gold">Tu nombre de jitanico</label>
-                        <input type="text" id="playerName" class="form-control bg-dark text-light border-warning" placeholder="El Junco, La Negra, El Rubio..." maxlength="20">
+                        <label class="form-label text-gold">Tu nombre, gitanico</label>
+                        <input type="text" id="playerName" class="form-control bg-dark text-light border-warning" placeholder="El Chulo, La Peke, El Rumba..." maxlength="20">
                     </div>
                     <div class="mb-3">
-                        <label class="form-label text-gold">Tu rol en el clan</label>
+                        <label class="form-label text-gold">Tu rollo en el clan</label>
                         <div id="roleChoices" class="d-grid gap-2"></div>
                     </div>
                     <button class="btn btn-danger btn-lg w-100 mt-3" onclick="createCharacter()">
-                        ¡Empieza la historia, payo!
+                        ¡Al lío, makina!
                     </button>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- PANTALLA JUEGO -->
     <div id="screen-game" class="screen">
         <div class="game-layout">
             <div class="game-header">
                 <div class="d-flex align-items-center">
-                    <span id="headerClanIcon" class="fs-3 me-2">🔥</span>
-                    <span id="headerClanName" class="fw-bold text-gold">Clan Heredia</span>
+                    <span id="headerClanIcon" class="fs-3 me-2"></span>
+                    <span id="headerClanName" class="fw-bold text-gold"></span>
                 </div>
                 <div class="d-flex gap-3">
-                    <div class="hstat"><span>⭐</span><span id="honraVal">75</span></div>
-                    <div class="hstat"><span>💶</span><span id="recursosVal">100</span></div>
-                    <div class="hstat"><span>👥</span><span id="miembrosVal">15</span></div>
-                    <div class="hstat"><span>🤝</span><span id="alianzasVal">0</span></div>
+                    <div class="hstat"><span><i class="fas fa-star"></i></span><span id="honraVal">75</span></div>
+                    <div class="hstat"><span><i class="fas fa-euro-sign"></i></span><span id="recursosVal">100</span></div>
+                    <div class="hstat"><span><i class="fas fa-users"></i></span><span id="miembrosVal">15</span></div>
+                    <div class="hstat"><span><i class="fas fa-handshake"></i></span><span id="alianzasVal">0</span></div>
                 </div>
                 <div id="headerChapter" class="text-warning">Capítulo 1</div>
             </div>
@@ -109,21 +118,22 @@
                 <div id="choicesInner" class="d-grid gap-2"></div>
             </div>
             <div class="bottom-bar">
-                <button class="btn btn-sm btn-outline-light" onclick="showInventory()">🎒 Inventario</button>
-                <button class="btn btn-sm btn-outline-light" onclick="showRelations()">🤝 Relaciones</button>
-                <button class="btn btn-sm btn-outline-light" onclick="showHistory()">📜 Historial</button>
-                <button class="btn btn-sm btn-outline-light" onclick="showHelp()">❓ Ayuda</button>
+                <button class="btn btn-sm btn-outline-light" onclick="showInventory()"><i class="fas fa-backpack"></i> Inventario</button>
+                <button class="btn btn-sm btn-outline-light" onclick="showRelations()"><i class="fas fa-handshake"></i> Relaciones</button>
+                <button class="btn btn-sm btn-outline-light" onclick="showHistory()"><i class="fas fa-scroll"></i> Historial</button>
+                <button class="btn btn-sm btn-outline-light" onclick="showHelp()"><i class="fas fa-question-circle"></i> Ayuda</button>
             </div>
         </div>
     </div>
 
+    <!-- PANTALLA COMBATE -->
     <div id="screen-combat" class="screen">
         <div class="combat-content container">
             <h2 id="combatTitle" class="text-center text-danger">⚔️ EL DUELO</h2>
             <p id="combatSubtitle" class="text-center">La navaja silba en el aire del amanecer</p>
             <div class="row align-items-center my-3">
                 <div class="col-5 text-center player-side">
-                    <div class="fighter-name" id="playerFighterName">El Junco</div>
+                    <div class="fighter-name" id="playerFighterName"></div>
                     <img id="playerFighterImg" src="" class="fighter-img rounded-circle mb-2" alt="Jugador" style="width:80px;height:80px;object-fit:cover;">
                     <div class="progress" style="height:10px;"><div class="progress-bar bg-success" id="playerHealth" style="width:100%"></div></div>
                     <small><span id="playerHP">100</span>/100</small>
@@ -134,7 +144,7 @@
                     <small>Ronda <span id="roundNum">1</span></small>
                 </div>
                 <div class="col-5 text-center enemy-side">
-                    <div class="fighter-name" id="enemyFighterName">El Chato Ruiz</div>
+                    <div class="fighter-name" id="enemyFighterName"></div>
                     <img id="enemyFighterImg" src="" class="fighter-img rounded-circle mb-2" alt="Enemigo" style="width:80px;height:80px;object-fit:cover;">
                     <div class="progress" style="height:10px;"><div class="progress-bar bg-danger" id="enemyHealth" style="width:100%"></div></div>
                     <small><span id="enemyHP">100</span>/100</small>
@@ -143,13 +153,14 @@
             </div>
             <div class="combat-log p-2 bg-dark rounded mb-2" id="combatLog" style="height:100px;overflow-y:auto;"></div>
             <div class="d-flex gap-2" id="combatActions">
-                <button class="btn btn-danger flex-fill" onclick="combatAction('attack')">👊 ATACAR</button>
-                <button class="btn btn-primary flex-fill" onclick="combatAction('dodge')">💨 ESQUIVAR</button>
-                <button class="btn btn-warning flex-fill" onclick="combatAction('bluff')">😈 FAROLEAR</button>
+                <button class="btn btn-danger flex-fill" onclick="combatAction('attack')"><i class="fas fa-fist-raised"></i> ATACAR</button>
+                <button class="btn btn-primary flex-fill" onclick="combatAction('dodge')"><i class="fas fa-wind"></i> ESQUIVAR</button>
+                <button class="btn btn-warning flex-fill" onclick="combatAction('bluff')"><i class="fas fa-face-smile"></i> FAROLEAR</button>
             </div>
         </div>
     </div>
 
+    <!-- PANTALLA FINAL -->
     <div id="screen-ending" class="screen">
         <div class="ending-content container text-center" id="endingContent"></div>
     </div>
@@ -171,7 +182,7 @@
     </div>
 
     <!-- Notification toast -->
-    <div id="notificationToast" class="toast align-items-center text-bg-dark border-warning position-fixed top-0 end-0 m-3" role="alert" aria-live="assertive" aria-atomic="true">
+    <div id="notificationToast" class="toast align-items-center text-bg-dark border-warning position-fixed top-0 end-0 m-3" role="alert">
         <div class="d-flex">
             <div class="toast-body" id="toastBody"></div>
             <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
