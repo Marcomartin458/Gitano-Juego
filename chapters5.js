@@ -538,4 +538,40 @@ function showEnding() {
         Los niños del clan crecen sin miedo. Y eso, ${name}, no tiene precio.
       </p>
       <p class="narrative-text">
-        <span class="stat
+        <span class="stat-change stat-up">⭐ Honra Final: ${GameState.stats.honra}</span>
+        <span class="stat-change stat-down">💶 Parné Final: ${GameState.stats.recursos}</span>
+      </p>
+    `;
+  } else {
+    endingHTML = `
+      <div class="event-date">Epílogo</div>
+      <h2 class="event-title">🌅 El Camino Sigue</h2>
+      <p class="narrative-text">
+        La vida continúa. El ${clan.nombre} sigue en el barrio, en el mercadillo, en la cocina donde se cuecen las decisiones. Has ganado unas batallas y perdido otras. Pero el camino no se acaba aquí.
+      </p>
+      <p class="narrative-text">
+        Porque ser gitano no es llegar a ningún sitio. Es el camino en sí mismo.
+      </p>
+      <p class="narrative-text">
+        <span class="stat-change stat-up">⭐ Honra Final: ${GameState.stats.honra}</span>
+        <span class="stat-change stat-up">💶 Parné Final: ${GameState.stats.recursos}</span>
+      </p>
+    `;
+  }
+
+  endingHTML += `
+    <p class="narrative-text mt-4">
+      <em>"Los gitanos no tenían libros, pero sí memoria."</em>
+    </p>
+    <div class="d-grid gap-2 mt-4">
+      <button class="btn btn-danger btn-lg" onclick="location.reload()">🔄 Volver a Jugar</button>
+    </div>
+    <p class="narrative-text text-center mt-3" style="font-size:0.8rem;opacity:0.5;">
+      El GitanoJuego v5.0 — si eres payo no te metas, semuera mi papá
+    </p>
+  `;
+
+  showScreen('game');
+  renderNarrative(endingHTML);
+  document.getElementById('choicesInner').innerHTML = '';
+}
