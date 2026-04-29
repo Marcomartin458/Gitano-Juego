@@ -1,12 +1,13 @@
 /* ═══════════════════════════════════════════
    EL GITANO JUEGO — ESTILOS v5.0 San Blas
+   Fondo cálido asegurado
    ═══════════════════════════════════════════ */
 
 :root {
   --fire: #FF4500;
   --gold: #D4AF37;
   --gold-light: #F0D060;
-  --dark-bg: #0a0a0a;
+  --dark-bg: #0a0806;
   --dark-card: #1a1a1a;
   --dark-mid: #222;
   --text-primary: #f0e6d2;
@@ -29,23 +30,23 @@ html, body {
   color: var(--text-primary);
 }
 
-/* Fondo con gradiente animado y textura de puntos */
+/* Fondo general con degradado animado y textura visible */
 body::before {
   content: '';
   position: fixed; top: 0; left: 0; width: 100%; height: 100%;
   background: 
-    radial-gradient(ellipse at 30% 50%, rgba(212, 175, 55, 0.08) 0%, transparent 50%),
-    radial-gradient(ellipse at 70% 50%, rgba(255, 69, 0, 0.1) 0%, transparent 50%),
-    linear-gradient(180deg, #0a0806 0%, #1a0f06 100%);
+    radial-gradient(ellipse at 30% 50%, rgba(212, 175, 55, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 50%, rgba(255, 69, 0, 0.15) 0%, transparent 50%),
+    linear-gradient(180deg, #0f0a05 0%, #1a1008 100%);
   z-index: -2;
 }
 
-/* Textura de ruido sutil */
+/* Textura de ruido (puntitos repetidos) */
 .bg-texture {
   position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="4" height="4" viewBox="0 0 4 4"><path d="M1 1h1v1H1z" fill="rgba(255,255,255,0.03)"/></svg>');
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="4" height="4" viewBox="0 0 4 4"><path d="M1 1h1v1H1z" fill="rgba(255,255,255,0.05)"/></svg>');
   background-repeat: repeat;
-  opacity: 0.5; z-index: -1; pointer-events: none;
+  opacity: 0.6; z-index: -1; pointer-events: none;
 }
 
 /* Partículas */
@@ -55,13 +56,13 @@ body::before {
   z-index: 0; pointer-events: none;
 }
 
-/* Pantallas */
+/* Pantallas – fondo semitransparente para que se vea el fondo general */
 .screen {
   position: fixed; top: 0; left: 0;
   width: 100%; height: 100%;
   overflow-y: auto; display: none;
   z-index: 10;
-  background: rgba(10,8,6,0.8);
+  background: rgba(10,8,6,0.75);   /* oscuro pero deja ver el degradado */
   backdrop-filter: blur(8px);
 }
 .screen.active { display: block; }
@@ -123,6 +124,7 @@ body::before {
   border-radius: 15px;
   transition: transform 0.3s, box-shadow 0.3s;
   cursor: pointer;
+  color: var(--text-primary);
 }
 .clan-card:hover {
   transform: translateY(-5px);
