@@ -1,12 +1,10 @@
 /* ═══════════════════════════════════════════════════════════
    EL GITANO JUEGO — CAPÍTULO 6: MADRID SE REARMA v6.0
+   (con escena de La Pelirroja corregida)
    ═══════════════════════════════════════════════════════════ */
 
 'use strict';
 
-// ════════════════════════════════════════
-// CAPÍTULO 6: MADRID SE REARMA
-// ════════════════════════════════════════
 function startChapter6() {
   saveCurrentState();
   GameState.chapter = 6;
@@ -63,9 +61,6 @@ function startChapter6() {
   ]);
 }
 
-// ════════════════════════════════════════
-// ELECCIÓN DEL MEDIADOR
-// ════════════════════════════════════════
 function chapter6_presentarse_mediador() {
   if (GameState.stats.honra < 50) {
     renderNarrative(`
@@ -135,12 +130,97 @@ function chapter6_apoyar_flores() {
       Antes de irse, la Abuela Flor te agarra del brazo: <em>"Tú has sido leal, muchacho. Cuando necesites algo, las Flores estamos contigo. Y por cierto, mi nieta ${personajeImg('laPelirroja')} <span class="narrative-char">La Pelirroja</span> te ha echado el ojo. No me hagas quedar mal."</em>
     </p>
     <p class="narrative-text">
+      La Pelirroja se acerca con una sonrisa descarada. Es guapa, lista y tiene más arte que un tablao. <em>"¿Eres tú el que se ha ganado a mi abuela? Pues ya estás tardando en invitarme a un café."</em>
+    </p>
+    <p class="narrative-text">
       <span class="stat-change stat-up">⭐ +5 Honra</span>
       <span class="stat-change stat-up">🤝 +1 Alianza (Las Flores)</span>
     </p>
   `);
 
-  GameState.inventory.push('🌸 Alianza con Las Flores');
+  // Nuevas opciones en lugar de continuar directamente
+  currentChoiceHandlers = [
+    () => romance_pelirroja_aceptar(),
+    () => romance_pelirroja_rechazar(),
+    () => romance_pelirroja_amistad()
+  ];
+
+  renderChoices([
+    {
+      text: '💘 Aceptar la invitación de La Pelirroja. Un café no se le niega a nadie.',
+      hint: 'Comienzas un romance con la nieta de la Abuela Flor. +Honra, +Alianza.',
+      good: true
+    },
+    {
+      text: '🙅 Rechazarla amablemente. No estoy para romances ahora.',
+      hint: 'Mantienes la alianza pero te pierdes una oportunidad.',
+    },
+    {
+      text: '🤝 Quedar como amigos. Me interesa más la política que el amor.',
+      hint: 'Ganas una aliada sin compromisos románticos.',
+    }
+  ]);
+}
+
+function romance_pelirroja_aceptar() {
+  addHistory('Aceptaste la invitación de La Pelirroja. Comienza un romance estratégico.');
+  GameState.flags.romancePelirroja = true;
+  modStat('honra', 5);
+  modFaction('clanes', 5);
+
+  renderNarrative(`
+    <p class="narrative-text">
+      Quedas con La Pelirroja en el café de la plaza. Resulta que es tan divertida como su abuela, pero con ideas modernas. Te habla de sus planes para modernizar el mercadillo sin perder la tradición.
+    </p>
+    <p class="narrative-text">
+      <em>"Mi abuela cree que solo sirvo para casarme, pero yo quiero ayudar a Las Flores a crecer. Y tú me gustas porque no eres un mandado."</em>
+    </p>
+    <p class="narrative-text">
+      El café acaba en cena, y la cena en un paseo por La Latina. La Pelirroja te besa en la mejilla al despedirse. <em>"Esto no significa que vaya a obedecerte, ¿vale? Pero me caes bien."</em>
+    </p>
+    <p class="narrative-text">
+      <span class="stat-change stat-up">⭐ +5 Honra</span>
+      <span class="stat-change stat-up">🤝 +5 Alianza con Las Flores</span>
+    </p>
+  `);
+
+  GameState.inventory.push('💘 Romance con La Pelirroja');
+  renderContinue('▶ Continuar — Una visita inesperada', 'chapter6_visita_tomas');
+}
+
+function romance_pelirroja_rechazar() {
+  addHistory('Rechazaste a La Pelirroja. La Abuela Flor lo respeta, pero se nota el desaire.');
+  modFaction('clanes', -2);
+
+  renderNarrative(`
+    <p class="narrative-text">
+      Le dices a La Pelirroja que ahora mismo no estás para citas. Ella encoje los hombros: <em>"Bueno, tú te lo pierdes, chaval."</em> La Abuela Flor te mira con un poco de decepción, pero no insiste.
+    </p>
+    <p class="narrative-text">
+      La alianza sigue en pie, aunque el ambiente se ha enfriado un poco.
+    </p>
+  `);
+
+  renderContinue('▶ Continuar — Una visita inesperada', 'chapter6_visita_tomas');
+}
+
+function romance_pelirroja_amistad() {
+  addHistory('Decidiste ser amigo de La Pelirroja. Alianza estratégica sin romance.');
+  modStat('diplomacia', 3);
+  modFaction('clanes', 3);
+
+  renderNarrative(`
+    <p class="narrative-text">
+      Le propones a La Pelirroja que os veáis como colegas. Ella se ríe: <em>"Por fin un hombre que no quiere casarme. Me gustas, tío. Seremos buenos socios."</em>
+    </p>
+    <p class="narrative-text">
+      Charláis sobre los problemas del Rastro y las amenazas de los Payos Renovados. Descubres que La Pelirroja tiene mucha información útil. La Abuela Flor te da un puro como agradecimiento.
+    </p>
+    <p class="narrative-text">
+      <span class="stat-change stat-up">🧠 +3 Diplomacia</span>
+    </p>
+  `);
+
   renderContinue('▶ Continuar — Una visita inesperada', 'chapter6_visita_tomas');
 }
 
@@ -165,9 +245,6 @@ function chapter6_ignorar_eleccion() {
   renderContinue('▶ Continuar — Una visita inesperada', 'chapter6_visita_tomas');
 }
 
-// ════════════════════════════════════════
-// VISITA DE TOMÁS Y EL ASESINATO
-// ════════════════════════════════════════
 function chapter6_visita_tomas() {
   const name = GameState.playerName;
 
@@ -338,7 +415,6 @@ function chapter6_venganza_directa() {
   modFaction('clanes', -15);
   modFaction('policia', -20);
 
-  // REINICIO: si la Honra cae por debajo de 15, el clan te abandona
   if (GameState.stats.honra < 15) {
     renderNarrative(`
       <div class="event-date">San Blas — Consecuencias</div>
@@ -369,9 +445,6 @@ function chapter6_venganza_directa() {
   renderContinue('▶ Continuar a pesar de todo', 'chapter6_elecciones_convocadas');
 }
 
-// ════════════════════════════════════════
-// DECIDIR QUÉ HACER CON LA INFORMACIÓN
-// ════════════════════════════════════════
 function chapter6_decidir_venganza() {
   renderNarrative(`
     <div class="event-date">San Blas — La decisión</div>
@@ -471,9 +544,6 @@ function chapter6_venganza_publica() {
   renderContinue('▶ Continuar — Las elecciones se acercan', 'chapter6_elecciones_convocadas');
 }
 
-// ════════════════════════════════════════
-// ROMANCE CON LA RIZOS
-// ════════════════════════════════════════
 function chapter6_elecciones_convocadas() {
   renderNarrative(`
     <div class="event-date">Junta Municipal — Una semana después</div>
@@ -601,9 +671,6 @@ function chapter6_romance_rizos() {
   ]);
 }
 
-// ════════════════════════════════════════
-// CAMPAÑA ELECTORAL
-// ════════════════════════════════════════
 function chapter6_campana_electoral() {
   renderNarrative(`
     <div class="event-date">Madrid — Seis meses después</div>
@@ -737,9 +804,6 @@ function chapter6_dia_elecciones() {
   renderContinue('▶ Ir al Capítulo VII', 'startChapter7()');
 }
 
-// ════════════════════════════════════════
-// FINAL ALTERNATIVO (si rechazaste la política)
-// ════════════════════════════════════════
 function chapter6_final() {
   renderNarrative(`
     <div class="event-date">San Blas — Fin del Capítulo VI</div>
@@ -756,9 +820,6 @@ function chapter6_final() {
   renderContinue('▶ Ir al Capítulo VII', 'startChapter7()');
 }
 
-// ════════════════════════════════════════
-// FUNCIÓN DE REINICIO
-// ════════════════════════════════════════
 function restartChapter6() {
   restoreCurrentState();
   startChapter6();
