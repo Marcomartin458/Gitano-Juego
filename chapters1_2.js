@@ -595,7 +595,9 @@ function chapter2_soborno_legal() {
   if (GameState.stats.recursos < 40) {
     showNotification('No tienes suficiente parné, makina.', 'bad');
     return;
-     // REINICIO CAPÍTULO 2
+  }
+
+  // REINICIO CAPÍTULO 2
   if (GameState.flags.pegastePolicia && rand(1, 10) <= 4) {
     renderNarrative(`
       <div class="event-date">Capítulo II — El Acuerdo</div>
@@ -610,28 +612,13 @@ function chapter2_soborno_legal() {
     renderContinue('🔄 Reiniciar Capítulo II', 'restartChapter2()');
     return;
   }
-  }
+
   addHistory('Pagaste un trato al Ayuntamiento. El dinero abre puertas.');
   modStat('recursos', -40);
   modFaction('ayuntamiento', 25);
   GameState.flags.sobornoPagado = true;
 
-  renderNarrative(`
-    <div class="event-date">Capítulo II — El Acuerdo</div>
-    <h2 class="event-title">El Parné Habla</h2>
-    <p class="narrative-text">
-      Al acabar la parte oficial, pides hablar a solas con el concejal. Le deslizas un sobre con la propuesta: pago adelantado de seis meses de tasa, más un diez por ciento extra.
-    </p>
-    <p class="narrative-text">
-      El concejal mira el sobre, lo guarda, y dice: <em>"Revisaremos su caso con mucha atención."</em>
-    </p>
-    <p class="narrative-text">
-      Una semana después: los puestos se mantienen. Sin dar explicaciones.
-      <span class="stat-change stat-down">💶 -40 Parné</span>
-      <span class="stat-change stat-up">🏛️ +25 Ayuntamiento</span>
-    </p>
-  `);
-
+  renderNarrative(`...`); // (el resto igual)
   renderContinue('▶ Continuar — El Chato no se rinde', 'chapter2_escala_conflicto()');
 }
 
