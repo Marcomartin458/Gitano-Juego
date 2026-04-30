@@ -55,7 +55,19 @@ const GameState = {
     fugaDeAmantes: false,
     venganzaAmorosa: false,
     pruebaDelPanuelo: false,
-    embarazoLola: false
+    embarazoLola: false,
+    batallaSanBlasGanada: false,
+    mediadorElegido: false,
+    investigacionCompleta: false,
+    tioAntonioAsesinado: false,
+    venganzaRealizada: false,
+    romanceRizos: false,
+    bodaRizos: false,
+    alianzaGatos: false,
+    alianzaFlores: false,
+    alianzaPayosRenovados: false,
+    eleccionesGanadas: false,
+    capitanChapter6: false
   },
 
   inventory: [],
