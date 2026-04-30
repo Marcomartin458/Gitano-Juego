@@ -68,6 +68,23 @@ function chapter3_apoyar_tomas() {
   modStat('recursos', -30);
   modStat('honra', 5);
 
+  // REINICIO CAPÍTULO 3: si la inversión te deja sin blanca, el clan colapsa
+  if (GameState.stats.recursos < 10) {
+    renderNarrative(`
+      <div class="event-date">Capítulo III — Inversión fallida</div>
+      <h2 class="event-title">Arruinados</h2>
+      <p class="narrative-text">
+        El negocio de Tomás ha sido un desastre. Te confirma por teléfono que lo ha perdido todo. El clan se queda sin recursos y sin capacidad de reacción.
+      </p>
+      <p class="narrative-text">
+        <span class="narrative-danger">EL CLAN SE HA DISUELTO POR BANCARROTA. Debes reiniciar el capítulo.</span>
+      </p>
+    `);
+    renderContinue('🔄 Reiniciar Capítulo III', 'restartChapter3()');
+    return;
+  }
+
+  // Solo si los recursos son suficientes se muestra el éxito
   renderNarrative(`
     <div class="event-date">Capítulo III — La Apuesta</div>
     <h2 class="event-title">La Sangre Tira</h2>
@@ -87,21 +104,7 @@ function chapter3_apoyar_tomas() {
       <span class="stat-change stat-up">💶 +5 Parné (primer retorno)</span>
     </p>
   `);
-  // REINICIO CAPÍTULO 3: si la inversión te deja sin blanca, el clan colapsa
-  if (GameState.stats.recursos < 10) {
-    renderNarrative(`
-      <div class="event-date">Capítulo III — Inversión fallida</div>
-      <h2 class="event-title">Arruinados</h2>
-      <p class="narrative-text">
-        El negocio de Tomás ha sido un desastre. Te confirma por teléfono que lo ha perdido todo. El clan se queda sin recursos y sin capacidad de reacción.
-      </p>
-      <p class="narrative-text">
-        <span class="narrative-danger">EL CLAN SE HA DISUELTO POR BANCARROTA. Debes reiniciar el capítulo.</span>
-      </p>
-    `);
-    renderContinue('🔄 Reiniciar Capítulo III', 'restartChapter3()');
-    return;
-  }
+
   renderContinue('▶ Continuar — La Lola y su amor prohibido', 'startRomanceLola()');
 }
 
