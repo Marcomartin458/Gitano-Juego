@@ -636,3 +636,12 @@ function chapter4_resistencia() {
   }
   renderContinue('▶ Continuar al Capítulo V — El Desenlace', 'startChapter5()');
 }
+function restartChapter3() {
+  restoreCurrentState();
+  startChapter3();
+}
+
+function restartChapter4() {
+  restoreCurrentState();
+  startChapter4();
+}
