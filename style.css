@@ -200,6 +200,12 @@ body::before {
 .btn-outline-warning:hover {
   background: rgba(212,175,55,0.15); color: var(--gold-light);
 }
+.btn-continue {
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
 
 .toast { background: rgba(20,15,10,0.95) !important; backdrop-filter: blur(10px); }
 
