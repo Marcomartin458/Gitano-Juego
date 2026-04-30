@@ -4,7 +4,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 'use strict';
-
+console.log('Cargando chapter6...');
 function startChapter6() {
   saveCurrentState();
   GameState.chapter = 6;
