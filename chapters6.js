@@ -1,10 +1,15 @@
 /* ═══════════════════════════════════════════════════════════
    EL GITANO JUEGO — CAPÍTULO 6: MADRID SE REARMA v6.0
-   (con escena de La Pelirroja corregida)
+   (versión extendida con Los Payos Renovados)
    ═══════════════════════════════════════════════════════════ */
 
 'use strict';
+
 console.log('Cargando chapter6...');
+
+// ════════════════════════════════════════
+// CAPÍTULO 6: MADRID SE REARMA
+// ════════════════════════════════════════
 function startChapter6() {
   saveCurrentState();
   GameState.chapter = 6;
@@ -138,7 +143,6 @@ function chapter6_apoyar_flores() {
     </p>
   `);
 
-  // Nuevas opciones en lugar de continuar directamente
   currentChoiceHandlers = [
     () => romance_pelirroja_aceptar(),
     () => romance_pelirroja_rechazar(),
@@ -606,7 +610,7 @@ function chapter6_aceptar_politica() {
     </p>
   `);
 
-  renderContinue('▶ Continuar — La campaña electoral', 'chapter6_campana_electoral');
+  renderContinue('▶ Continuar — Los nuevos aliados', 'chapter6_fer_y_los_renovados');
 }
 
 function chapter6_rechazar_politica() {
@@ -669,6 +673,123 @@ function chapter6_romance_rizos() {
       hint: 'La Rizos te apoyará igualmente.',
     }
   ]);
+}
+
+// ════════════════════════════════════════
+// NUEVA TRAMA: EL DESAFÍO DE LOS PAYOS RENOVADOS
+// ════════════════════════════════════════
+function chapter6_fer_y_los_renovados() {
+  renderNarrative(`
+    <div class="event-date">Malasaña — Local de Los Payos Renovados</div>
+    <h2 class="event-title">Fer, el de la kombucha</h2>
+    <p class="narrative-text">
+      Al día siguiente de aceptar el cargo de asesor, te llega un mensaje de un tal <span class="narrative-char">Fer</span>, líder de Los Payos Renovados. Quiere reunirse contigo en su "espacio de co-creación" de Malasaña.
+    </p>
+    <p class="narrative-text">
+      El sitio está lleno de muebles reciclados, luces de neón y un fuerte olor a kombucha de jengibre. Fer te recibe con un café de especialidad y una sonrisa de esas que no sabes si es sincera o de anuncio.
+    </p>
+    <p class="narrative-text">
+      <em>"Mira, tío, sé que no somos del mismo palo, pero el mercadillo puede ser más grande para todos si lo modernizamos."</em>
+    </p>
+    <p class="narrative-text">
+      Te propone una alianza comercial: ellos ponen la tecnología y la imagen de marca, vosotros ponéis la tradición y los contactos. A cambio, quieren tres puestos en el mercadillo de San Blas para vender sus productos.
+    </p>
+  `);
+
+  currentChoiceHandlers = [
+    () => chapter6_aceptar_fer(),
+    () => chapter6_rechazar_fer(),
+    () => chapter6_contraoferta_fer()
+  ];
+
+  renderChoices([
+    {
+      text: '🤝 Aceptar la alianza con Los Payos Renovados. La modernidad no está reñida con la tradición.',
+      hint: '+Recursos, +Relación con Payos. Algunos clanes te criticarán.',
+    },
+    {
+      text: '🚫 Rechazar la oferta. Esto es cosa nuestra.',
+      hint: 'Mantienes la tradición, pero pierdes una oportunidad de negocio.',
+      danger: true
+    },
+    {
+      text: '🔄 Proponer una colaboración parcial: un solo puesto experimental.',
+      hint: 'Equilibrio. Mides cómo funciona antes de comprometerte.',
+      good: true
+    }
+  ]);
+}
+
+function chapter6_aceptar_fer() {
+  addHistory('Aceptaste la alianza con Los Payos Renovados. El mercadillo se moderniza.');
+  modStat('recursos', 30);
+  modFaction('payos', 20);
+  modFaction('clanes', -10);
+  GameState.flags.alianzaPayosRenovados = true;
+
+  renderNarrative(`
+    <p class="narrative-text">
+      Le das la mano a Fer. <em>"Trato hecho, pero como me vendas kombucha caducada te meto el puesto por donde no brilla el sol."</em>
+    </p>
+    <p class="narrative-text">
+      Fer se ríe nervioso. A la semana siguiente, los puestos de Los Renovados están llenos de jóvenes con patinete comprando camisetas con frases motivacionales. El mercadillo ahora es una mezcla rara de tradición y modernidad.
+    </p>
+    <p class="narrative-text">
+      La Abuela Flor te llama: <em>"Muchacho, ¿qué es eso de los puestos con luces de colores? No me gusta, pero si da dinero, bien."</em>
+    </p>
+    <p class="narrative-text">
+      <span class="stat-change stat-up">💶 +30 Parné</span>
+      <span class="stat-change stat-up">😤 +20 Payos</span>
+      <span class="stat-change stat-down">🔥 -10 con Otros Clanes</span>
+    </p>
+  `);
+
+  GameState.inventory.push('🛴 Alianza con Los Payos Renovados');
+  renderContinue('▶ Continuar con la campaña electoral', 'chapter6_campana_electoral');
+}
+
+function chapter6_rechazar_fer() {
+  addHistory('Rechazaste a Los Payos Renovados. La tradición se mantiene intacta.');
+  modStat('honra', 5);
+  modFaction('payos', -10);
+
+  renderNarrative(`
+    <p class="narrative-text">
+      <em>"Gracias, Fer, pero esto es un mercadillo de toda la vida. Aquí no vendemos camisetas de 'good vibes'."</em>
+    </p>
+    <p class="narrative-text">
+      Fer encaja la negativa con deportividad, pero sus seguidores tuitean en contra del clan. Aun así, los viejos del barrio te aplauden.
+    </p>
+    <p class="narrative-text">
+      <span class="stat-change stat-up">⭐ +5 Honra</span>
+      <span class="stat-change stat-down">😤 -10 Payos</span>
+    </p>
+  `);
+
+  renderContinue('▶ Continuar con la campaña electoral', 'chapter6_campana_electoral');
+}
+
+function chapter6_contraoferta_fer() {
+  addHistory('Propusiste una colaboración parcial con Los Payos Renovados. Equilibrio.');
+  modStat('recursos', 10);
+  modStat('diplomacia', 5);
+  modFaction('payos', 10);
+
+  renderNarrative(`
+    <p class="narrative-text">
+      <em>"Mira, Fer, te dejo un puesto durante tres meses. Si funciona, hablamos de más. Si no, recoges tus luces de neón y a otro barrio."</em>
+    </p>
+    <p class="narrative-text">
+      Fer acepta encantado. El puesto experimental tiene éxito moderado. Los clanes tradicionales no se enfadan demasiado y tú consigues una nueva fuente de ingresos sin vender tu alma.
+    </p>
+    <p class="narrative-text">
+      <span class="stat-change stat-up">💶 +10 Parné</span>
+      <span class="stat-change stat-up">🧠 +5 Diplomacia</span>
+      <span class="stat-change stat-up">😤 +10 Payos</span>
+    </p>
+  `);
+
+  renderContinue('▶ Continuar con la campaña electoral', 'chapter6_campana_electoral');
 }
 
 function chapter6_campana_electoral() {
