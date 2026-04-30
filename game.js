@@ -67,47 +67,47 @@ const GameState = {
     viejoCurro: {
       nombre: 'Viejo Curro',
       rol: 'Patriarca',
-      img: 'https://upload.wikimedia.org/wikipedia/commons/7/79/Camaron_de_la_Isla.jpg'
+      img: 'https://www.periodicoelnazareno.es/wp-content/uploads/2025/07/camaron-FOTO-1.jpg'
     },
     miguelito: {
       nombre: 'Miguelito',
       rol: 'Guerrero',
-      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Joaqu%C3%ADn_Cort%C3%A9s.jpg/220px-Joaqu%C3%ADn_Cort%C3%A9s.jpg'
+      img: 'https://ferpectamente.com/wp-content/uploads/2025/06/Captura-de-pantalla-2025-06-16-121715.jpg'
     },
     tioAntonio: {
       nombre: 'Tío Antonio',
       rol: 'Consejero',
-      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Antonio_Orozco.jpg/220px-Antonio_Orozco.jpg'
+      img: 'https://imagenes.20minutos.es/files/image_640_360/uploads/imagenes/2019/05/14/949984.jpg'
     },
     laLola: {
       nombre: 'La Lola',
       rol: 'Prima',
-      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Lola_Flores_%281958%29.jpg/220px-Lola_Flores_%281958%29.jpg'
+      img: 'https://www.ifema.es/img/l/fotografia-isabel-diaz-ayuso/ayuso.webp'
     },
     laEncarna: {
       nombre: 'La Encarna',
       rol: 'Abogada',
-      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Rosario_Flores.jpg/220px-Rosario_Flores.jpg'
+      img: 'https://album.mediaset.es/cimg/1010/2017/03/22/Rosario2_534c.jpg'
     },
     tomas: {
       nombre: 'Tomás',
       rol: 'Hermano',
-      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Farruquito_%28cropped%29.jpg/220px-Farruquito_%28cropped%29.jpg'
+      img: 'https://images.genius.com/3eaf38d4aa5f7714451185757c596b93.320x320x1.jpg'
     },
     agenteTorres: {
       nombre: 'Agente Torres',
       rol: 'Policía',
-      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/El_Cordob%C3%A9s_%28cropped%29.jpg/220px-El_Cordob%C3%A9s_%28cropped%29.jpg'
+      img: 'https://e01-elmundo.uecdn.es/assets/multimedia/imagenes/2013/11/14/13844515646701.jpg'
     },
     chatoRuiz: {
       nombre: 'El Chato Ruiz',
       rol: 'Rival',
-      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Pablo_Motos.jpg/220px-Pablo_Motos.jpg'
+      img: 'https://upload.wikimedia.org/wikipedia/commons/b/b5/Pablo_Motos.jpg'
     },
     viejoSebastian: {
       nombre: 'Viejo Sebastián',
       rol: 'Mediador',
-      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Manuel_Molina_%28poeta%29.jpg/220px-Manuel_Molina_%28poeta%29.jpg'
+      img: 'https://concertmusicfestival.com/wp-content/uploads/2023/03/cigala-1000x1000-1.jpg
     }
   }
 };
