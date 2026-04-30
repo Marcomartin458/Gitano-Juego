@@ -156,7 +156,17 @@ const GameState = {
       nombre: 'La Pelirroja',
       rol: 'Nieta de la Abuela Flor',
       img: 'https://es.web.img3.acsta.net/medias/nmedia/18/89/58/30/20056357.jpg'
-    }
+    },
+   inspectorMorales: {
+     nombre: 'Inspector Morales',
+     rol: 'Enemigo',
+     img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Miguel_%C3%81ngel_Revilla_2019_%28cropped%29.jpg/250px-Miguel_%C3%81ngel_Revilla_2019_%28cropped%29.jpg'
+},
+   hermanosCardenas: {
+     nombre: 'Los Hermanos Cárdenas',
+     rol: 'Enemigos',
+     img: 'https://cloudfront-eu-central-1.images.arcpublishing.com/prisaradio/YX7BXEWYWFF3TMYLZ6Y2IDFO64.jpg'  // Imagen genérica, cámbiala si encuentras una real
+   }
   }
 };
 
@@ -201,6 +211,22 @@ const CLANES = {
     enemigoDesc: 'Una familia paya que reclama el solar donde tenéis la chatarrería.'
   }
 };
+// Mapa de nombre de enemigo principal a clave de personaje
+const ENEMY_KEY_MAP = {
+  'El Chato Ruiz': 'chatoRuiz',
+  'El Inspector Morales': 'inspectorMorales',
+  'Los Hermanos Cárdenas': 'hermanosCardenas'
+};
+
+// Devuelve la URL de la imagen del enemigo según su nombre
+function getEnemyImgUrl(enemyName) {
+  const key = ENEMY_KEY_MAP[enemyName];
+  if (key && GameState.personajes[key]) {
+    return GameState.personajes[key].img;
+  }
+  // Fallback por si algo falla (no debería)
+  return 'https://i.pravatar.cc/150?u=enemy';
+}
 
 // ════════════════════════════════════════
 // DATOS DE CLANES SECUNDARIOS (Capítulo 6+)
