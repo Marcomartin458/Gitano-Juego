@@ -6,6 +6,7 @@
 'use strict';
 
 console.log('Cargando chapter6...');
+console.log('Funciones disponibles:', typeof chapter6_visita_tomas);
 
 // ════════════════════════════════════════
 // CAPÍTULO 6: MADRID SE REARMA
@@ -132,7 +133,7 @@ function chapter6_apoyar_flores() {
       La ${personajeImg('abuelaFlor')} <span class="narrative-char">Abuela Flor</span> es elegida mediadora por aclamación. Cuando se levanta, el loro Sultán grita: "¡Viva la gitana!" y la nave se viene abajo de risas.
     </p>
     <p class="narrative-text">
-      Antes de irse, la Abuela Flor te agarra del brazo: <em>"Tú has sido leal, muchacho. Cuando necesites algo, las Flores estamos contigo. Y por cierto, mi nieta ${personajeImg('laPelirroja')} <span class="narrative-char">La Pelirroja</span> te ha echado el ojo. No me hagas quedar mal."</em>
+      Antes de irse, la Abuela Flor te agarra del brazo: <em>"Tú has sido leal, muchacho. Cuando necesites algo, las Flores estamos contigo. Y por cierto, mi nieta La Pelirroja te ha echado el ojo. No me hagas quedar mal."</em>
     </p>
     <p class="narrative-text">
       La Pelirroja se acerca con una sonrisa descarada. Es guapa, lista y tiene más arte que un tablao. <em>"¿Eres tú el que se ha ganado a mi abuela? Pues ya estás tardando en invitarme a un café."</em>
@@ -250,6 +251,7 @@ function chapter6_ignorar_eleccion() {
 }
 
 function chapter6_visita_tomas() {
+  console.log('Entrando en visita_tomas');
   const name = GameState.playerName;
 
   renderNarrative(`
