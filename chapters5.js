@@ -214,8 +214,9 @@ function chapter5_duelo_final() {
 
   const c = GameState.combat;
   document.getElementById('playerFighterName').textContent = GameState.playerName;
-   document.getElementById('playerFighterImg').src = GameState.personajes.jugador.img;
   document.getElementById('enemyFighterName').textContent = c.enemyName;
+  document.getElementById('playerFighterImg').src = GameState.personajes.jugador.img;
+  document.getElementById('enemyFighterImg').src = getEnemyImgUrl(c.enemyName);
   document.getElementById('playerHP').textContent = c.playerHP;
   document.getElementById('enemyHP').textContent = c.enemyHP;
   document.getElementById('roundNum').textContent = c.round;
