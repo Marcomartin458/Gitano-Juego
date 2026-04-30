@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════
    EL GITANO JUEGO — CAPÍTULOS 1 y 2 v5.0 (San Blas Edition)
+   Extendidos con más decisiones
    ═══════════════════════════════════════════════════════════ */
 
 'use strict';
@@ -14,7 +15,7 @@ function startChapter1() {
 
   const clan = GameState.clanData;
   const name = GameState.playerName;
-  const barrio = clan.barrio; // ya es 'San Blas-Canillejas' para Heredia, etc.
+  const barrio = clan.barrio;
 
   renderNarrative(`
     <div class="event-date">Capítulo I — El Barrio</div>
@@ -125,7 +126,7 @@ function chapter1_pelea_mercadillo() {
   const name = GameState.playerName;
   const clan = GameState.clanData;
 
-    // REINICIO CAPÍTULO 1
+  // REINICIO CAPÍTULO 1
   if (GameState.factions.policia < 20) {
     renderNarrative(`
       <div class="event-date">Capítulo I — Consecuencias</div>
@@ -160,8 +161,56 @@ function chapter1_pelea_mercadillo() {
     </p>
   `);
 
-  renderContinue('▶ Continuar — Esa tarde en casa...', 'chapter1_tarde_en_casa()');
+  // NUEVO: Tercera decisión tras la pelea
+  renderNarrative(`
+    <p class="narrative-text">
+      De vuelta al barrio, ${personajeImg('tioAntonio')} <span class="narrative-char">el tío Antonio</span> te espera en la puerta. <em>"He oído lo del mercadillo. Unos dicen que eres un valiente, otros que estás chalado. ¿Qué piensas hacer ahora? El Toni sigue sin puesto, los vecinos están asustados, y la pasma nos va a tener entre ceja y ceja."</em>
+    </p>
+  `);
+
+  currentChoiceHandlers = [
+    () => chapter1_postpelea_celebrar(),
+    () => chapter1_postpelea_calmar(),
+    () => chapter1_postpelea_planificar()
+  ];
+
+  renderChoices([
+    {
+      text: '🎉 Celebrar la victoria en el bar con los colegas. Que nos vean fuertes.',
+      hint: 'Sube la moral del clan, pero la pasma nos vigilará más.',
+    },
+    {
+      text: '🧘 Ir a hablar con los vecinos payos para calmar los ánimos.',
+      hint: 'Mejora la relación con los payos del barrio.',
+      good: true
+    },
+    {
+      text: '📋 Reunir al clan para planificar los próximos pasos.',
+      hint: 'Preparas mejor el siguiente movimiento.',
+    }
+  ]);
 }
+
+function chapter1_postpelea_celebrar() {
+  addHistory('Celebraste la pelea en el bar. La moral está alta.');
+  modStat('honra', 5);
+  modFaction('policia', -5);
+  chapter1_tarde_en_casa();
+}
+
+function chapter1_postpelea_calmar() {
+  addHistory('Hablaste con los vecinos payos para calmar los ánimos tras la pelea.');
+  modFaction('payos', 10);
+  modStat('diplomacia', 3);
+  chapter1_tarde_en_casa();
+}
+
+function chapter1_postpelea_planificar() {
+  addHistory('Planificaste con el clan los siguientes pasos.');
+  modStat('diplomacia', 5);
+  chapter1_tarde_en_casa();
+}
+
 
 function chapter1_intimidar_sin_pegar() {
   addHistory('Miedo le metiste al payo sin tocarle un pelo. Eres un máquina faroleando.');
@@ -193,8 +242,56 @@ function chapter1_intimidar_sin_pegar() {
     </p>
   `);
 
-  renderContinue('▶ Continuar — Esa tarde en casa...', 'chapter1_tarde_en_casa()');
+  // Tercera decisión: ¿cómo manejamos la información del farol?
+  renderNarrative(`
+    <p class="narrative-text">
+      De vuelta en el barrio, ${personajeImg('laEncarna')} <span class="narrative-char">La Encarna</span> te comenta: <em>"Has asustado al Chato, pero ahora hay que mover ficha. Podemos aprovechar el miedo para negociar o para atacar."</em>
+    </p>
+  `);
+
+  currentChoiceHandlers = [
+    () => chapter1_postfarol_seguir_presion(),
+    () => chapter1_postfarol_tregua(),
+    () => chapter1_postfarol_esperar()
+  ];
+
+  renderChoices([
+    {
+      text: '😤 Seguir presionando al Chato. Que sepa que no hemos terminado.',
+      hint: 'Aumenta la intimidación, riesgo de represalias.',
+      danger: true
+    },
+    {
+      text: '🤝 Proponer una tregua temporal al Chato para ganar tiempo.',
+      hint: 'Mejora relaciones con payos, pierdes un poco de respeto callejero.',
+      good: true
+    },
+    {
+      text: '⏳ No hacer nada de momento y ver cómo reacciona.',
+      hint: 'Ni ganas ni pierdes, pero el Chato podría reorganizarse.',
+    }
+  ]);
 }
+
+function chapter1_postfarol_seguir_presion() {
+  addHistory('Seguiste presionando al Chato tras el farol.');
+  modStat('intimidacion', 5);
+  modFaction('payos', -10);
+  chapter1_tarde_en_casa();
+}
+
+function chapter1_postfarol_tregua() {
+  addHistory('Propusiste una tregua al Chato. Tiempo ganado.');
+  modStat('diplomacia', 5);
+  modFaction('payos', 10);
+  chapter1_tarde_en_casa();
+}
+
+function chapter1_postfarol_esperar() {
+  addHistory('Decidiste esperar a ver cómo reacciona el Chato.');
+  chapter1_tarde_en_casa();
+}
+
 
 function chapter1_retroceder_mercadillo() {
   addHistory('Te rajaste en el mercadillo. El clan se decepcionó.');
@@ -216,8 +313,56 @@ function chapter1_retroceder_mercadillo() {
     </p>
   `);
 
-  renderContinue('▶ Continuar — Esa tarde en casa...', 'chapter1_tarde_en_casa()');
+  // Tercera decisión: ¿cómo recuperas la confianza?
+  renderNarrative(`
+    <p class="narrative-text">
+      ${personajeImg('miguelito')} <span class="narrative-char">Miguelito</span> se te acerca: <em>"La gente está mosqueada, primo. ¿Qué les digo? ¿Que nos vamos a quedar de brazos cruzados o que esto va en serio?"</em>
+    </p>
+  `);
+
+  currentChoiceHandlers = [
+    () => chapter1_postretirada_promesa(),
+    () => chapter1_postretirada_disculpa(),
+    () => chapter1_postretirada_autoridad()
+  ];
+
+  renderChoices([
+    {
+      text: '💪 Prometer que la próxima vez no nos rajamos.',
+      hint: 'Recuperas algo de Honra, pero quedas en deuda.',
+      good: true
+    },
+    {
+      text: '😔 Disculparte con el clan. La cagaste.',
+      hint: 'Ganas respeto por humildad, aunque la Honra tarda en volver.',
+    },
+    {
+      text: '👑 Imponerte por autoridad. Aquí mandas tú, aunque no te sigan.',
+      hint: 'Arriesgas que te ignoren aún más.',
+      danger: true
+    }
+  ]);
 }
+
+function chapter1_postretirada_promesa() {
+  addHistory('Prometiste al clan que la próxima vez no te rajarías.');
+  modStat('honra', 5);
+  chapter1_tarde_en_casa();
+}
+
+function chapter1_postretirada_disculpa() {
+  addHistory('Te disculpaste con el clan por haberte rajado.');
+  modStat('diplomacia', 5);
+  chapter1_tarde_en_casa();
+}
+
+function chapter1_postretirada_autoridad() {
+  addHistory('Intentaste imponerte por autoridad tras la retirada.');
+  modStat('intimidacion', 5);
+  modFaction('clanes', -3);
+  chapter1_tarde_en_casa();
+}
+
 
 function chapter1_b_informacion() {
   addHistory('Investigaste antes de actuar. Listo, muy listo.');
@@ -278,7 +423,7 @@ function chapter1_c_ignorar() {
   modStat('honra', -15);
   modFaction('clanes', -10);
 
-     // REINICIO CAPÍTULO 1
+  // REINICIO CAPÍTULO 1
   if (GameState.stats.honra < 20) {
     renderNarrative(`
       <div class="event-date">Capítulo I — El Silencio</div>
@@ -313,8 +458,56 @@ function chapter1_c_ignorar() {
     </p>
   `);
 
-  renderContinue('▶ Continuar — Una semana después...', 'chapter1_tarde_en_casa()');
+  // Tercera decisión: ¿cómo recuperas la situación?
+  renderNarrative(`
+    <p class="narrative-text">
+      Esa noche, la abuela te llama al cuarto. <em>"He oído lo del Toni. La gente está disgustada. ¿Vas a quedarte mirando o vas a hacer algo?"</em>
+    </p>
+  `);
+
+  currentChoiceHandlers = [
+    () => chapter1_postignorar_ayudar_toni(),
+    () => chapter1_postignorar_reunion(),
+    () => chapter1_postignorar_pasotismo()
+  ];
+
+  renderChoices([
+    {
+      text: '🤲 Ir a ver al Toni y ofrecerle ayuda personalmente.',
+      hint: 'Recuperas Honra, pero requiere tiempo y recursos.',
+      good: true
+    },
+    {
+      text: '📢 Convocar una reunión de emergencia para calmar al clan.',
+      hint: 'Mejora la diplomacia y la moral.',
+    },
+    {
+      text: '🙄 Seguir ignorando el problema. Ya se calmarán.',
+      hint: 'Riesgo de que la Honra baje aún más.',
+      danger: true
+    }
+  ]);
 }
+
+function chapter1_postignorar_ayudar_toni() {
+  addHistory('Fuiste personalmente a ayudar al Toni.');
+  modStat('honra', 5);
+  modStat('recursos', -5);
+  chapter1_tarde_en_casa();
+}
+
+function chapter1_postignorar_reunion() {
+  addHistory('Convocaste una reunión de emergencia para calmar al clan.');
+  modStat('diplomacia', 5);
+  chapter1_tarde_en_casa();
+}
+
+function chapter1_postignorar_pasotismo() {
+  addHistory('Seguiste ignorando los problemas del clan.');
+  modStat('honra', -5);
+  chapter1_tarde_en_casa();
+}
+
 
 function chapter1_tarde_en_casa() {
   updateStats();
@@ -492,8 +685,53 @@ function chapter2_negociar() {
     `);
   }
 
-  renderContinue('▶ Continuar — El conflicto se calienta', 'chapter2_escala_conflicto()');
+  // Nueva decisión después de la negociación
+  renderNarrative(`
+    <p class="narrative-text">
+      ${personajeImg('tioAntonio')} <span class="narrative-char">El tío Antonio</span> te espera en la puerta de la Junta. <em>"He visto al Chato salir con cara de pocos amigos. ¿Qué ha pasado ahí dentro? ¿Hay que prepararse para algo gordo?"</em>
+    </p>
+  `);
+
+  currentChoiceHandlers = [
+    () => chapter2_postnegociacion_tranquilizar(),
+    () => chapter2_postnegociacion_alerta(),
+    () => chapter2_postnegociacion_indiferencia()
+  ];
+
+  renderChoices([
+    {
+      text: '😌 Tranquilizar al tío Antonio. Todo está bajo control.',
+      hint: 'Mantienes la calma en el clan.',
+    },
+    {
+      text: '⚠️ Advertir que hay que estar preparados por si acaso.',
+      hint: 'El clan se pone en alerta, posible mejora de combate.',
+      danger: true
+    },
+    {
+      text: '🤷 Quitarle importancia. No es para tanto.',
+      hint: 'Puede que el clan se confíe demasiado.',
+    }
+  ]);
 }
+
+function chapter2_postnegociacion_tranquilizar() {
+  addHistory('Tranquilizaste al tío Antonio tras la reunión.');
+  modStat('diplomacia', 3);
+  chapter2_escala_conflicto();
+}
+
+function chapter2_postnegociacion_alerta() {
+  addHistory('Pusiste al clan en alerta tras la reunión.');
+  modStat('combate', 3);
+  chapter2_escala_conflicto();
+}
+
+function chapter2_postnegociacion_indiferencia() {
+  addHistory('Quitas importancia a la reunión delante del tío Antonio.');
+  chapter2_escala_conflicto();
+}
+
 
 function chapter2_usar_informacion() {
   addHistory('Soltaste los trapos sucios del Chato en la reunión. ¡Bomba!');
@@ -588,8 +826,43 @@ function chapter2_alianza_montoya() {
     </p>
   `);
 
+  // Nueva escena: el Montoya te invita a una celebración
+  renderNarrative(`
+    <p class="narrative-text">
+      El Rafaelillo Montoya te invita a una pequeña fiesta en su barrio para celebrar la alianza. <em>"Ven con los tuyos, así nos conocemos mejor."</em>
+    </p>
+  `);
+
+  currentChoiceHandlers = [
+    () => chapter2_postmontoya_aceptar(),
+    () => chapter2_postmontoya_rechazar()
+  ];
+
+  renderChoices([
+    {
+      text: '🎉 Aceptar la invitación. Es bueno estrechar lazos.',
+      hint: 'Refuerzas la alianza con los Montoya.',
+      good: true
+    },
+    {
+      text: '🙅 Rechazar amablemente. Prefiero mantenerme neutral.',
+      hint: 'Evitas compromisos, pero la alianza se enfría un poco.',
+    }
+  ]);
+}
+
+function chapter2_postmontoya_aceptar() {
+  addHistory('Aceptaste la invitación del Clan Montoya. La alianza se fortalece.');
+  modFaction('clanes', 5);
   renderContinue('▶ Continuar — El Chato trama algo', 'chapter2_escala_conflicto()');
 }
+
+function chapter2_postmontoya_rechazar() {
+  addHistory('Rechazaste la invitación del Clan Montoya.');
+  modFaction('clanes', -2);
+  renderContinue('▶ Continuar — El Chato trama algo', 'chapter2_escala_conflicto()');
+}
+
 
 function chapter2_soborno_legal() {
   if (GameState.stats.recursos < 40) {
@@ -618,7 +891,22 @@ function chapter2_soborno_legal() {
   modFaction('ayuntamiento', 25);
   GameState.flags.sobornoPagado = true;
 
-  renderNarrative(`...`); // (el resto igual)
+  renderNarrative(`
+    <div class="event-date">Capítulo II — El Acuerdo</div>
+    <h2 class="event-title">El Parné Habla</h2>
+    <p class="narrative-text">
+      Al acabar la parte oficial, pides hablar a solas con el concejal. Le deslizas un sobre con la propuesta: pago adelantado de seis meses de tasa, más un diez por ciento extra.
+    </p>
+    <p class="narrative-text">
+      El concejal mira el sobre, lo guarda, y dice: <em>"Revisaremos su caso con mucha atención."</em>
+    </p>
+    <p class="narrative-text">
+      Una semana después: los puestos se mantienen. Sin dar explicaciones.
+      <span class="stat-change stat-down">💶 -40 Parné</span>
+      <span class="stat-change stat-up">🏛️ +25 Ayuntamiento</span>
+    </p>
+  `);
+
   renderContinue('▶ Continuar — El Chato no se rinde', 'chapter2_escala_conflicto()');
 }
 
@@ -655,6 +943,8 @@ function chapter2_escala_conflicto() {
   GameState.flags.clanRivalActivo = true;
   renderContinue('▶ Fase 1: El Aviso', 'startPhase1ConflictoRival()');
 }
+
+
 
 // ════════════════════════════════════════
 // EL CONFLICTO CON EL RIVAL — 3 FASES
