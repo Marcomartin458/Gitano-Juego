@@ -107,7 +107,7 @@ const GameState = {
     viejoSebastian: {
       nombre: 'Viejo Sebastián',
       rol: 'Mediador',
-      img: 'https://concertmusicfestival.com/wp-content/uploads/2023/03/cigala-1000x1000-1.jpg
+      img: 'https://concertmusicfestival.com/wp-content/uploads/2023/03/cigala-1000x1000-1.jpg'
     }
   }
 };
