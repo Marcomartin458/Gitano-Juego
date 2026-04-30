@@ -77,6 +77,11 @@ const GameState = {
   clanData: null,
 
   personajes: {
+  jugador: {
+  nombre: 'Tú',
+  rol: 'Protagonista',
+  img: 'https://cdn.memegenerator.es/imagenes/memes/full/31/51/31510636.jpg'
+},
     viejoCurro: {
       nombre: 'Viejo Curro',
       rol: 'Patriarca',
