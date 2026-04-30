@@ -592,9 +592,16 @@ function renderChoices(choices) {
   area.innerHTML = html;
 }
 
-function renderContinue(text, callback) {
+function renderContinue(text, handler) {
   const area = document.getElementById('choicesInner');
-  area.innerHTML = `<button class="btn btn-danger w-100 mt-2 animate__animated animate__pulse animate__infinite btn-continue" onclick="${callback}">${text || '▶ Dale caña...'}</button>`;
+  // Si handler es una función, la usamos directamente; si es string (compatibilidad), la envolvemos
+  if (typeof handler === 'function') {
+    currentChoiceHandlers = [handler];
+  } else {
+    // Compatibilidad con llamadas antiguas que pasan string
+    currentChoiceHandlers = [function() { eval(handler); }];
+  }
+  area.innerHTML = `<button class="btn btn-danger w-100 mt-2 animate__animated animate__pulse animate__infinite btn-continue" onclick="handleChoice(0)">${text || '▶ Dale caña...'}</button>`;
 }
 
 function handleChoice(index) {
