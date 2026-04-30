@@ -108,6 +108,36 @@ const GameState = {
       nombre: 'Viejo Sebastián',
       rol: 'Mediador',
       img: 'https://concertmusicfestival.com/wp-content/uploads/2023/03/cigala-1000x1000-1.jpg'
+    },
+      rizos: {
+      nombre: 'La Rizos',
+      rol: 'Abogada y nueva mediadora',
+      img: 'https://estaticos-cdn.prensaiberica.es/clip/fba57810-1cf9-462d-bf7e-f0d91e0ae1e2_alta-libre-aspect-ratio_default_0.jpg'
+    },
+    donFederico: {
+      nombre: 'Don Federico',
+      rol: 'Concejal del Ayuntamiento',
+      img: 'https://e01-elmundo.uecdn.es/assets/multimedia/imagenes/2015/11/01/14463690662548.jpg'
+    },
+    elIngeniero: {
+      nombre: 'El Ingeniero',
+      rol: 'Jefe de la inmobiliaria corrupta',
+      img: 'https://sevillasecreta.co/wp-content/uploads/2021/04/Captura-de-pantalla-2021-04-29-a-las-9.43.10-1024x764.jpg'
+    },
+    elWifi: {
+      nombre: 'El WiFi',
+      rol: 'Líder de Los Gatos (cibercrimen gitano)',
+      img: 'https://d1kvlp4er3agpe.cloudfront.net/resources/images/users/0/5/4/3/0/awg8vovpi9.jpg'
+    },
+    abuelaFlor: {
+      nombre: 'La Abuela Flor',
+      rol: 'Matriarca de Las Flores',
+      img: 'https://media.revistavanityfair.es/photos/67ac8f11b2ebc66447043f19/16:9/w_2560%2Cc_limit/DL_u442389_009.jpg'
+    },
+    laPelirroja: {
+      nombre: 'La Pelirroja',
+      rol: 'Nieta de la Abuela Flor',
+      img: 'https://es.web.img3.acsta.net/medias/nmedia/18/89/58/30/20056357.jpg'
     }
   }
 };
