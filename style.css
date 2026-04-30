@@ -207,6 +207,21 @@ body::before {
   display: block;
 }
 
+/* Igualar tipografía en todos los botones de elección */
+.btn-outline-danger,
+.btn-outline-success,
+.btn-outline-warning {
+  font-family: var(--font-display);
+  letter-spacing: 1px;
+  font-size: 1.05rem;
+}
+
+/* Asegurar que los botones con fondo peligroso también sigan la misma fuente */
+.btn-danger {
+  font-family: var(--font-display);
+  letter-spacing: 1px;
+}
+
 .toast { background: rgba(20,15,10,0.95) !important; backdrop-filter: blur(10px); }
 
 @media (max-width: 600px) {
