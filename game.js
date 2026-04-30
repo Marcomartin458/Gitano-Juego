@@ -119,9 +119,9 @@ const GameState = {
     viejoSebastian: {
       nombre: 'Viejo Sebastián',
       rol: 'Mediador',
-      img: 'https://concertmusicfestival.com/wp-content/uploads/2023/03/cigala-1000x1000-1.jpg'
+      img: 'https://concertmusicfestival.com/wp-content/uploads/2023/03/cigala-1000x1000-1.jpg'  // <-- cierre corregido
     },
-      rizos: {
+    rizos: {
       nombre: 'La Rizos',
       rol: 'Abogada y nueva mediadora',
       img: 'https://estaticos-cdn.prensaiberica.es/clip/fba57810-1cf9-462d-bf7e-f0d91e0ae1e2_alta-libre-aspect-ratio_default_0.jpg'
@@ -155,7 +155,7 @@ const GameState = {
 };
 
 // ════════════════════════════════════════
-// DATOS DE CLANES (adaptados a Madrid)
+// DATOS DE CLANES ORIGINALES (Selección del jugador)
 // ════════════════════════════════════════
 const CLANES = {
   heredia: {
@@ -193,8 +193,14 @@ const CLANES = {
     barrio: 'Vallecas, Madrid',
     enemigoPrincipal: 'Los Hermanos Cárdenas',
     enemigoDesc: 'Una familia paya que reclama el solar donde tenéis la chatarrería.'
-  },
-     gatos: {
+  }
+};
+
+// ════════════════════════════════════════
+// DATOS DE CLANES SECUNDARIOS (Capítulo 6+)
+// ════════════════════════════════════════
+const CLANES_SECUNDARIOS = {
+  gatos: {
     nombre: 'Los Gatos',
     icono: '🐱',
     tagline: 'Cibergitanos del siglo XXI',
@@ -595,6 +601,7 @@ function handleChoice(index) {
     currentChoiceHandlers[index]();
   }
 }
+
 // ════════════════════════════════════════
 // GUARDADO DE ESTADO PARA REINICIO DE CAPÍTULO
 // ════════════════════════════════════════
@@ -634,6 +641,7 @@ function restoreCurrentState() {
     showScreen('game');
   }
 }
+
 // ════════════════════════════════════════
 // ARRANQUE
 // ════════════════════════════════════════
@@ -641,5 +649,3 @@ window.addEventListener('DOMContentLoaded', () => {
   initParticles();
   initLoading();
 });
-
-
