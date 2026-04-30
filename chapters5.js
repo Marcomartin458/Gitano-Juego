@@ -568,12 +568,17 @@ function showEnding() {
 
   showScreen('game');
   renderNarrative(endingHTML);
-  document.getElementById('choicesInner').innerHTML = '';
-
-  // Evento final Batalla de San Blas
-  setTimeout(() => {
-    startFinalBattleEvent();
-  }, 5000);
+    // Mostrar botón para continuar hacia la batalla final en lugar de un setTimeout silencioso
+  document.getElementById('choicesInner').innerHTML = `
+    <div class="text-center mt-3">
+      <p class="narrative-text text-gold fw-bold animate__animated animate__pulse animate__infinite">
+        ⚡ La historia no ha terminado...
+      </p>
+      <button class="btn btn-danger btn-lg animate__animated animate__fadeInUp" onclick="startFinalBattleEvent()">
+        🔥 Continuar hacia la batalla final
+      </button>
+    </div>
+  `;
 }
 
 // ════════════════════════════════════════
