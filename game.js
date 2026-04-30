@@ -181,6 +181,42 @@ const CLANES = {
     barrio: 'Vallecas, Madrid',
     enemigoPrincipal: 'Los Hermanos Cárdenas',
     enemigoDesc: 'Una familia paya que reclama el solar donde tenéis la chatarrería.'
+  },
+     gatos: {
+    nombre: 'Los Gatos',
+    icono: '🐱',
+    tagline: 'Cibergitanos del siglo XXI',
+    desc: 'Trafican con criptomonedas, tarjetas clonadas y móviles robados. Su líder es "El WiFi", un chaval de 20 años con gafas de sol y camiseta de Naruto.',
+    bonos: { recursos: 20, diplomacia: 5 },
+    legado: 'Crear la primera criptomoneda gitana',
+    color: '#00FF00',
+    barrio: 'Usera, Madrid',
+    enemigoPrincipal: 'La Policía Nacional',
+    enemigoDesc: 'La brigada de delitos informáticos les sigue la pista.'
+  },
+  flores: {
+    nombre: 'Las Flores',
+    icono: '🌸',
+    tagline: 'Las Reinas del Rastro',
+    desc: 'Matriarcado de venta ambulante que controla el Rastro y la Plaza Mayor. Liderado por "La Abuela Flor", una mujer de 80 años que fuma puros y habla con un loro llamado "Sultán".',
+    bonos: { honra: 30, miembros: 5 },
+    legado: 'Unificar a todos los clanes de Madrid bajo una sola voz',
+    color: '#FF69B4',
+    barrio: 'La Latina, Madrid',
+    enemigoPrincipal: 'Los Payos Renovados',
+    enemigoDesc: 'Jóvenes emprendedores que quieren modernizar los mercadillos y echar a las vendedoras tradicionales.'
+  },
+  payosRenovados: {
+    nombre: 'Los Payos Renovados',
+    icono: '🛴',
+    tagline: 'Emprendedores con kombucha y patinete',
+    desc: 'Jóvenes emprendedores que venden kombucha artesanal, camisetas de diseños y café de especialidad. Su líder es "Fer", un rubio con coleta que dice frases como "esto es disruptivo".',
+    bonos: { recursos: 40, diplomacia: 20 },
+    legado: 'Modernizar los mercadillos y convertirlos en "espacios de co-creación"',
+    color: '#00BFFF',
+    barrio: 'Malasaña, Madrid',
+    enemigoPrincipal: 'Las Flores',
+    enemigoDesc: 'Las vendedoras tradicionales se niegan a vender sus productos y perder su forma de vida.'
   }
 };
 
