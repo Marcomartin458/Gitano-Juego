@@ -67,7 +67,8 @@ const GameState = {
     alianzaFlores: false,
     alianzaPayosRenovados: false,
     eleccionesGanadas: false,
-    capitanChapter6: false
+    capitanChapter6: false,
+    romancePelirroja: false
   },
 
   inventory: [],
