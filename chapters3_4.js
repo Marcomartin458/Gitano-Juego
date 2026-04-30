@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════
    EL GITANO JUEGO — CAPÍTULOS 3 y 4 v5.0 (San Blas Edition)
+   Extendidos con más decisiones
    ═══════════════════════════════════════════════════════════ */
 
 'use strict';
@@ -84,7 +85,6 @@ function chapter3_apoyar_tomas() {
     return;
   }
 
-  // Solo si los recursos son suficientes se muestra el éxito
   renderNarrative(`
     <div class="event-date">Capítulo III — La Apuesta</div>
     <h2 class="event-title">La Sangre Tira</h2>
@@ -105,7 +105,8 @@ function chapter3_apoyar_tomas() {
     </p>
   `);
 
-  renderContinue('▶ Continuar — La Lola y su amor prohibido', 'startRomanceLola()');
+  // Nueva escena: discusión con el tío Antonio
+  chapter3_discusion_familiar();
 }
 
 function chapter3_negar_tomas() {
@@ -132,7 +133,7 @@ function chapter3_negar_tomas() {
   `);
 
   GameState.flags.tomasEstaPreso = false;
-  renderContinue('▶ Continuar — La Lola y su amor prohibido', 'startRomanceLola()');
+  chapter3_discusion_familiar();
 }
 
 function chapter3_mitad_tomas() {
@@ -156,7 +157,198 @@ function chapter3_mitad_tomas() {
     </p>
   `);
 
-  renderContinue('▶ Continuar — La Lola y su amor prohibido', 'startRomanceLola()');
+  chapter3_discusion_familiar();
+}
+
+// ═══ NUEVA ESCENA: DISCUSIÓN CON EL TÍO ANTONIO ═══
+function chapter3_discusion_familiar() {
+  renderNarrative(`
+    <div class="event-date">San Blas — Esa misma noche</div>
+    <h2 class="event-title">Las Grietas del Clan</h2>
+    <p class="narrative-text">
+      ${personajeImg('tioAntonio')} <span class="narrative-char">El tío Antonio</span> se te planta delante en la cocina, con el cigarro en la mano y la mirada encendida. <em>"Llevo cuarenta años en este barrio y he visto cómo tu padre levantó este clan. No voy a dejar que lo tires por la borda con decisiones de chiquillo."</em>
+    </p>
+    <p class="narrative-text">
+      Algunos familiares se han reunido alrededor. Unos apoyan al tío Antonio, otros te miran a ti esperando una respuesta. La tensión se masca.
+    </p>
+  `);
+
+  currentChoiceHandlers = [
+    () => chapter3_calar_antonio(),
+    () => chapter3_enfrentar_antonio(),
+    () => chapter3_ignorar_antonio()
+  ];
+
+  renderChoices([
+    {
+      text: '🤲 Calmar al tío Antonio. Recordarle que todos remamos en la misma dirección.',
+      hint: 'Mejora la diplomacia y la unidad del clan.',
+      good: true
+    },
+    {
+      text: '😤 Plantarle cara. Aquí el que manda eres tú.',
+      hint: 'Ganas respeto por autoridad, pero el tío se resiente.',
+      danger: true
+    },
+    {
+      text: '🙄 Ignorarle. Bastante tengo yo con mis problemas.',
+      hint: 'El tío Antonio se siente despreciado. Puede causar problemas más adelante.',
+    }
+  ]);
+}
+
+function chapter3_calar_antonio() {
+  addHistory('Calmaste al tío Antonio con palabras sabias.');
+  modStat('diplomacia', 5);
+  modStat('honra', 3);
+
+  renderNarrative(`
+    <p class="narrative-text">
+      Le pones la mano en el hombro. <em>"Tío, yo respeto todo lo que has hecho por este clan. Pero los tiempos cambian, y las decisiones no siempre son fáciles. Confía en mí, como confiaste en mi padre."</em>
+    </p>
+    <p class="narrative-text">
+      El tío Antonio resopla, apaga el cigarro y te da un abrazo torpe. <em>"Está bien, muchacho. Pero no me la juegues."</em>
+    </p>
+    <p class="narrative-text">
+      <span class="stat-change stat-up">🧠 +5 Diplomacia</span>
+    </p>
+  `);
+
+  renderContinue('▶ Continuar — La Lola y su amor prohibido', 'startRomanceLola');
+}
+
+function chapter3_enfrentar_antonio() {
+  addHistory('Te enfrentaste al tío Antonio. Tensión familiar.');
+  modStat('intimidacion', 5);
+  modFaction('clanes', -3);
+
+  renderNarrative(`
+    <p class="narrative-text">
+      <em>"Tío, te respeto, pero las decisiones las tomo yo. Si no te gusta, ya sabes dónde está la puerta."</em>
+    </p>
+    <p class="narrative-text">
+      El tío Antonio se queda mudo. La familia murmura. Él se va dando un portazo. Sigue en el clan, pero la herida queda abierta.
+    </p>
+    <p class="narrative-text">
+      <span class="stat-change stat-up">😈 +5 Intimidación</span>
+      <span class="stat-change stat-down">🔥 -3 con Otros Clanes</span>
+    </p>
+  `);
+
+  renderContinue('▶ Continuar — La Lola y su amor prohibido', 'startRomanceLola');
+}
+
+function chapter3_ignorar_antonio() {
+  addHistory('Ignoraste al tío Antonio. Se sintió despreciado.');
+  modStat('honra', -3);
+
+  renderNarrative(`
+    <p class="narrative-text">
+      Pasas de largo sin decir nada. El tío Antonio se queda con la palabra en la boca. Esa noche no cena con el resto de la familia.
+    </p>
+    <p class="narrative-text">
+      <span class="stat-change stat-down">⭐ -3 Honra</span>
+    </p>
+  `);
+
+  renderContinue('▶ Continuar — La Lola y su amor prohibido', 'startRomanceLola');
+}
+
+// ═══ NUEVA ESCENA: CONFLICTO VECINAL ═══
+function chapter3_conflicto_vecinal() {
+  renderNarrative(`
+    <div class="event-date">San Blas — Una semana después</div>
+    <h2 class="event-title">Fiesta y quejas</h2>
+    <p class="narrative-text">
+      Celebráis una fiesta en el barrio por el cumpleaños de la abuela. Cante, baile y una paella enorme. Pero a las dos de la mañana, un vecino nuevo, un payo que se ha mudado hace poco al bloque de al lado, llama a la policía por ruidos.
+    </p>
+    <p class="narrative-text">
+      ${personajeImg('miguelito')} <span class="narrative-char">Miguelito</span> está que trina: <em>"¡Pero si llevamos toda la vida haciendo fiestas! ¡Este payo no tiene sangre!"</em>
+    </p>
+    <p class="narrative-text">
+      La policía no ha llegado todavía, pero sabes que el agente Torres no tardará si el vecino insiste. ¿Cómo manejas la situación?
+    </p>
+  `);
+
+  currentChoiceHandlers = [
+    () => chapter3_fiesta_disculparse(),
+    () => chapter3_fiesta_plantarcara(),
+    () => chapter3_fiesta_invitar()
+  ];
+
+  renderChoices([
+    {
+      text: '🙇 Ir a disculparte con el vecino antes de que llegue la pasma.',
+      hint: 'Diplomacia pura. Evitas problemas.',
+      good: true
+    },
+    {
+      text: '😤 Plantarle cara al vecino. Que aprenda cómo funcionan las cosas aquí.',
+      hint: 'Intimidación. Puede acabar mal.',
+      danger: true
+    },
+    {
+      text: '🍷 Invitar al vecino a la fiesta. Si no puedes con él, únetelo.',
+      hint: 'Original. Puede convertir un enemigo en aliado.',
+    }
+  ]);
+}
+
+function chapter3_fiesta_disculparse() {
+  addHistory('Te disculpaste con el vecino antes de que llamara a la policía.');
+  modStat('diplomacia', 3);
+  modFaction('payos', 5);
+
+  renderNarrative(`
+    <p class="narrative-text">
+      Llamas al interfono del vecino y le dices que lamentáis el ruido, que la fiesta terminará en media hora. El vecino, descolocado, acepta.
+    </p>
+    <p class="narrative-text">
+      <span class="stat-change stat-up">🧠 +3 Diplomacia</span>
+      <span class="stat-change stat-up">😤 +5 Payos</span>
+    </p>
+  `);
+
+  renderContinue('▶ Continuar — El barrio se caldea', 'chapter3_barrio_tenso');
+}
+
+function chapter3_fiesta_plantarcara() {
+  addHistory('Le plantaste cara al vecino. Casi acaba en pelea.');
+  modStat('intimidacion', 5);
+  modFaction('payos', -10);
+
+  renderNarrative(`
+    <p class="narrative-text">
+      Subes al piso del vecino y le dejas claro que las fiestas son parte del barrio. El vecino se acojona y cierra la puerta. Pero sabes que esto no va a quedar así.
+    </p>
+    <p class="narrative-text">
+      <span class="stat-change stat-up">😈 +5 Intimidación</span>
+      <span class="stat-change stat-down">😤 -10 Payos</span>
+    </p>
+  `);
+
+  renderContinue('▶ Continuar — El barrio se caldea', 'chapter3_barrio_tenso');
+}
+
+function chapter3_fiesta_invitar() {
+  addHistory('Invitaste al vecino a la fiesta. Un payo menos amargado.');
+  modStat('diplomacia', 5);
+  modFaction('payos', 10);
+
+  renderNarrative(`
+    <p class="narrative-text">
+      Le subes un plato de paella y una botella de vino. <em>"Vecino, si no puedes con el ruido, únete. Esto es San Blas, y aquí compartimos hasta las quejas."</em>
+    </p>
+    <p class="narrative-text">
+      El vecino, entre sorprendido y abrumado, baja a la fiesta. Acaba bailando con la abuela. Al día siguiente, quita la denuncia.
+    </p>
+    <p class="narrative-text">
+      <span class="stat-change stat-up">🧠 +5 Diplomacia</span>
+      <span class="stat-change stat-up">😤 +10 Payos</span>
+    </p>
+  `);
+
+  renderContinue('▶ Continuar — El barrio se caldea', 'chapter3_barrio_tenso');
 }
 
 // ════════════════════════════════════════
@@ -246,14 +438,16 @@ function chapter3_cooperar_policia() {
     `}
   `);
 
-  renderContinue('▶ Continuar al Capítulo IV', 'startChapter4()');
+  // Nueva escena: solidaridad o conflicto tras la redada
+  chapter3_postpolicia();
 }
 
 function chapter3_resistir_policia() {
   addHistory('Te negaste al registro sin orden judicial completa.');
   modFaction('policia', -20);
   modStat('honra', 8);
-     // REINICIO CAPÍTULO 3: si la pasma te declara enemigo, vienen a por ti
+
+  // REINICIO CAPÍTULO 3: si la pasma te declara enemigo, vienen a por ti
   if (GameState.factions.policia < 10) {
     renderNarrative(`
       <div class="event-date">Capítulo III — Redada</div>
@@ -288,7 +482,7 @@ function chapter3_resistir_policia() {
     </p>
   `);
 
-  renderContinue('▶ Continuar al Capítulo IV', 'startChapter4()');
+  chapter3_postpolicia();
 }
 
 function chapter3_abogado() {
@@ -318,7 +512,93 @@ function chapter3_abogado() {
     </p>
   `);
 
-  renderContinue('▶ Continuar al Capítulo IV', 'startChapter4()');
+  chapter3_postpolicia();
+}
+
+// ═══ NUEVA ESCENA: SOLIDARIDAD O CONFLICTO POST-POLICIAL ═══
+function chapter3_postpolicia() {
+  renderNarrative(`
+    <div class="event-date">San Blas — Días después</div>
+    <h2 class="event-title">El Barrio se Mueve</h2>
+    <p class="narrative-text">
+      La noticia de la investigación corre por el barrio. Algunos clanes vecinos se solidarizan, otros te culpan por atraer a la pasma. El Clan Montoya te envía un mensaje de apoyo.
+    </p>
+    <p class="narrative-text">
+      ${personajeImg('laEncarna')} <span class="narrative-char">La Encarna</span> te sugiere organizar una reunión con los clanes para limar asperezas. Pero también podrías centrarte solo en los tuyos.
+    </p>
+  `);
+
+  currentChoiceHandlers = [
+    () => chapter3_postpolicia_reunion(),
+    () => chapter3_postpolicia_ignorar(),
+    () => chapter3_postpolicia_agradecer()
+  ];
+
+  renderChoices([
+    {
+      text: '🤝 Organizar una reunión de clanes para fortalecer lazos.',
+      hint: 'Mejora las relaciones con otros clanes.',
+      good: true
+    },
+    {
+      text: '🙄 Pasar del tema. No necesito la opinión de nadie.',
+      hint: 'Te aíslas un poco, pero evitas conflictos.',
+    },
+    {
+      text: '💌 Agradecer el apoyo y seguir con lo nuestro.',
+      hint: 'Refuerzas la alianza con los Montoya, sin grandes movimientos.',
+    }
+  ]);
+}
+
+function chapter3_postpolicia_reunion() {
+  addHistory('Organizaste una reunión de clanes tras el incidente policial.');
+  modStat('diplomacia', 5);
+  modFaction('clanes', 10);
+
+  renderNarrative(`
+    <p class="narrative-text">
+      Convidas a representantes de tres clanes a una comida en la plaza. Se habla, se comparte y se acuerda apoyarse mutuamente frente a la pasma.
+    </p>
+    <p class="narrative-text">
+      <span class="stat-change stat-up">🧠 +5 Diplomacia</span>
+      <span class="stat-change stat-up">🔥 +10 con Otros Clanes</span>
+    </p>
+  `);
+
+  renderContinue('▶ Continuar al Capítulo IV', 'startChapter4');
+}
+
+function chapter3_postpolicia_ignorar() {
+  addHistory('Ignoraste las reacciones del barrio tras el incidente.');
+  modFaction('clanes', -5);
+
+  renderNarrative(`
+    <p class="narrative-text">
+      No dices nada. La gente murmura, pero tú sigues a lo tuyo. Algunos clanes se distancian un poco.
+    </p>
+    <p class="narrative-text">
+      <span class="stat-change stat-down">🔥 -5 con Otros Clanes</span>
+    </p>
+  `);
+
+  renderContinue('▶ Continuar al Capítulo IV', 'startChapter4');
+}
+
+function chapter3_postpolicia_agradecer() {
+  addHistory('Agradeciste el apoyo del Clan Montoya.');
+  modFaction('clanes', 5);
+
+  renderNarrative(`
+    <p class="narrative-text">
+      Mandas un mensaje al Rafaelillo Montoya dándole las gracias. El gesto refuerza la alianza.
+    </p>
+    <p class="narrative-text">
+      <span class="stat-change stat-up">🔥 +5 con Otros Clanes</span>
+    </p>
+  `);
+
+  renderContinue('▶ Continuar al Capítulo IV', 'startChapter4');
 }
 
 // ════════════════════════════════════════
@@ -361,9 +641,117 @@ function startChapter4() {
     `}
   `);
 
-  renderContinue('▶ Continuar — La Gran Decisión', 'chapter4_gran_decision()');
+  // Fase de preparación antes de la decisión principal
+  chapter4_preparacion();
 }
 
+// ═══ NUEVA ESCENA: PREPARACIÓN DE RECURSOS ═══
+function chapter4_preparacion() {
+  renderNarrative(`
+    <div class="event-date">San Blas — La planificación</div>
+    <h2 class="event-title">Preparando la Defensa</h2>
+    <p class="narrative-text">
+      Tenéis treinta días, pero los recursos son limitados. ${personajeImg('laEncarna')} <span class="narrative-char">La Encarna</span> te presenta tres opciones para empezar a preparar el terreno antes de la batalla legal o social.
+    </p>
+  `);
+
+  currentChoiceHandlers = [
+    () => chapter4_prep_abogado(),
+    () => chapter4_prep_soborno(),
+    () => chapter4_prep_medios()
+  ];
+
+  renderChoices([
+    {
+      text: '⚖️ Contratar a un abogado especializado en desahucios.',
+      hint: 'Cuesta 25 pavos. Mejora las probabilidades de victoria legal.',
+    },
+    {
+      text: '💰 Intentar sobornar a un funcionario de la Junta para retrasar la orden.',
+      hint: 'Cuesta 30 pavos. Arriesgado si tienes mala relación con la pasma.',
+      danger: GameState.flags.pegastePolicia
+    },
+    {
+      text: '📢 Filtrar el caso a un periódico digital para generar presión mediática.',
+      hint: 'Gratis. Puede ayudar si luego usas la vía mediática.',
+      good: true
+    }
+  ]);
+}
+
+function chapter4_prep_abogado() {
+  if (GameState.stats.recursos < 25) {
+    showNotification('No tienes suficiente parné para el abogado.', 'bad');
+    chapter4_gran_decision(); // sigue sin bonus
+    return;
+  }
+  addHistory('Contrataste un abogado especializado.');
+  modStat('recursos', -25);
+  GameState.flags.abogadoContratado = true;
+
+  renderNarrative(`
+    <p class="narrative-text">
+      El abogado, un tipo de Almería con experiencia en desahucios, acepta el caso. Te dice que las probabilidades son mejores si el Ayuntamiento no está muy en contra.
+    </p>
+    <p class="narrative-text">
+      <span class="stat-change stat-down">💶 -25 Parné</span>
+    </p>
+  `);
+
+  renderContinue('▶ Continuar con la estrategia principal', 'chapter4_gran_decision');
+}
+
+function chapter4_prep_soborno() {
+  if (GameState.stats.recursos < 30) {
+    showNotification('No tienes suficiente parné para el soborno.', 'bad');
+    chapter4_gran_decision();
+    return;
+  }
+  if (GameState.flags.pegastePolicia && rand(1, 10) <= 5) {
+    renderNarrative(`
+      <p class="narrative-text">
+        Intentas contactar con el funcionario, pero la pasma se entera. El agente Torres te para antes de que llegues. <em>"Ni se te ocurra."</em>
+      </p>
+      <p class="narrative-text">
+        <span class="narrative-danger">El intento de soborno fracasa por tu historial policial.</span>
+      </p>
+    `);
+    modFaction('policia', -10);
+    renderContinue('▶ Continuar con la estrategia principal', 'chapter4_gran_decision');
+    return;
+  }
+  addHistory('Sobornaste a un funcionario para retrasar la orden.');
+  modStat('recursos', -30);
+  GameState.flags.sobornoFuncionario = true;
+  modFaction('ayuntamiento', 10);
+
+  renderNarrative(`
+    <p class="narrative-text">
+      El funcionario acepta el sobre. La orden se retrasará un par de semanas, ganando tiempo.
+    </p>
+    <p class="narrative-text">
+      <span class="stat-change stat-down">💶 -30 Parné</span>
+      <span class="stat-change stat-up">🏛️ +10 Ayuntamiento</span>
+    </p>
+  `);
+
+  renderContinue('▶ Continuar con la estrategia principal', 'chapter4_gran_decision');
+}
+
+function chapter4_prep_medios() {
+  addHistory('Filtraste el caso a un periódico digital.');
+  GameState.flags.filtracionMedios = true;
+
+  renderNarrative(`
+    <p class="narrative-text">
+      Un redactor de un medio digital se interesa por la historia. Te entrevista y promete publicar un artículo en los próximos días.
+    </p>
+  `);
+
+  renderContinue('▶ Continuar con la estrategia principal', 'chapter4_gran_decision');
+}
+
+// ═══ DECISIÓN PRINCIPAL DEL CAPÍTULO 4 ═══
 function chapter4_gran_decision() {
   const tieneAliados = GameState.stats.alianzas > 0;
   const tieneParné = GameState.stats.recursos >= 50;
@@ -424,7 +812,11 @@ function chapter4_lucha_legal() {
   addHistory('Luchaste legalmente contra el desalojo del mercadillo.');
   modStat('recursos', -40);
 
-  const exito = rand(1, 10) <= (GameState.factions.ayuntamiento > 50 ? 8 : 5);
+  // Ajuste de probabilidad por preparación
+  let probExito = GameState.factions.ayuntamiento > 50 ? 8 : 5;
+  if (GameState.flags.abogadoContratado) probExito += 2;
+  if (GameState.flags.filtracionMedios) probExito += 1;
+  const exito = rand(1, 10) <= probExito;
 
   if (exito) {
     modStat('honra', 20);
@@ -466,6 +858,7 @@ function chapter4_lucha_legal() {
       </p>
     `);
   }
+
   // REINICIO CAPÍTULO 4: si el clan se desmorona por baja Honra o falta de miembros
   if (GameState.stats.honra <= 0 || GameState.stats.miembros < 5) {
     renderNarrative(`
@@ -481,7 +874,9 @@ function chapter4_lucha_legal() {
     renderContinue('🔄 Reiniciar Capítulo IV', 'restartChapter4()');
     return;
   }
-  renderContinue('▶ Continuar al Capítulo V — El Desenlace', 'startChapter5()');
+
+  // Nueva escena: traición o lealtad
+  chapter4_postcrisis();
 }
 
 function chapter4_movilizacion_clanes() {
@@ -514,7 +909,7 @@ function chapter4_movilizacion_clanes() {
       <span class="stat-change stat-up">🏛️ +10 Ayuntamiento</span>
     </p>
   `);
-  // REINICIO CAPÍTULO 4: si el clan se desmorona por baja Honra o falta de miembros
+
   if (GameState.stats.honra <= 0 || GameState.stats.miembros < 5) {
     renderNarrative(`
       <div class="event-date">Capítulo IV — Desintegración</div>
@@ -529,12 +924,15 @@ function chapter4_movilizacion_clanes() {
     renderContinue('🔄 Reiniciar Capítulo IV', 'restartChapter4()');
     return;
   }
-  renderContinue('▶ Continuar al Capítulo V — El Desenlace', 'startChapter5()');
+
+  chapter4_postcrisis();
 }
 
 function chapter4_medios() {
   addHistory('Llamaste a los medios para hacer viral el caso del desalojo.');
-  const exito = rand(1, 10) <= 6;
+  let probExito = 6;
+  if (GameState.flags.filtracionMedios) probExito += 2;
+  const exito = rand(1, 10) <= probExito;
 
   if (exito) {
     modStat('honra', 15);
@@ -573,7 +971,7 @@ function chapter4_medios() {
       </p>
     `);
   }
-  // REINICIO CAPÍTULO 4: si el clan se desmorona por baja Honra o falta de miembros
+
   if (GameState.stats.honra <= 0 || GameState.stats.miembros < 5) {
     renderNarrative(`
       <div class="event-date">Capítulo IV — Desintegración</div>
@@ -588,7 +986,8 @@ function chapter4_medios() {
     renderContinue('🔄 Reiniciar Capítulo IV', 'restartChapter4()');
     return;
   }
-  renderContinue('▶ Continuar al Capítulo V — El Desenlace', 'startChapter5()');
+
+  chapter4_postcrisis();
 }
 
 function chapter4_resistencia() {
@@ -622,7 +1021,7 @@ function chapter4_resistencia() {
       Pero todo el barrio lo ha visto. Y nadie lo va a olvidar.
     </p>
   `);
-  // REINICIO CAPÍTULO 4: si el clan se desmorona por baja Honra o falta de miembros
+
   if (GameState.stats.honra <= 0 || GameState.stats.miembros < 5) {
     renderNarrative(`
       <div class="event-date">Capítulo IV — Desintegración</div>
@@ -637,8 +1036,99 @@ function chapter4_resistencia() {
     renderContinue('🔄 Reiniciar Capítulo IV', 'restartChapter4()');
     return;
   }
-  renderContinue('▶ Continuar al Capítulo V — El Desenlace', 'startChapter5()');
+
+  chapter4_postcrisis();
 }
+
+// ═══ NUEVA ESCENA: TRAICIÓN O LEALTAD ═══
+function chapter4_postcrisis() {
+  const name = GameState.playerName;
+
+  renderNarrative(`
+    <div class="event-date">San Blas — Consecuencias</div>
+    <h2 class="event-title">La Lealtad Puesta a Prueba</h2>
+    <p class="narrative-text">
+      Tras la crisis, uno de los miembros del clan, un primo lejano llamado <span class="narrative-char">El Chico</span>, ha estado recibiendo ofertas del Chato para traicionaros. Te lo cuenta porque tiene miedo, pero también dudas.
+    </p>
+  `);
+
+  currentChoiceHandlers = [
+    () => chapter4_traidor_perdonar(),
+    () => chapter4_traidor_expulsar(),
+    () => chapter4_traidor_vigilar()
+  ];
+
+  renderChoices([
+    {
+      text: '🤝 Perdonarlo. Es familia y ha sido honesto al confesarlo.',
+      hint: '+Honra, refuerzas la unidad.',
+      good: true
+    },
+    {
+      text: '🚫 Expulsarlo del clan. La traición no se tolera.',
+      hint: '-Miembro, pero das un escarmiento.',
+      danger: true
+    },
+    {
+      text: '👀 Hacerle vigilar al Chato. Que nos dé información a cambio.',
+      hint: 'Conviertes la debilidad en ventaja.',
+    }
+  ]);
+}
+
+function chapter4_traidor_perdonar() {
+  addHistory('Perdonaste al Chico por su honestidad.');
+  modStat('honra', 8);
+
+  renderNarrative(`
+    <p class="narrative-text">
+      Le das un abrazo. <em>"Gracias por decírmelo. Eso es más de lo que muchos harían."</em> El Chico se queda en el clan y se convierte en uno de los más leales.
+    </p>
+    <p class="narrative-text">
+      <span class="stat-change stat-up">⭐ +8 Honra</span>
+    </p>
+  `);
+
+  renderContinue('▶ Continuar al Capítulo V — El Desenlace', 'startChapter5');
+}
+
+function chapter4_traidor_expulsar() {
+  addHistory('Expulsaste al Chico del clan.');
+  modStat('miembros', -1);
+  modStat('honra', -5);
+
+  renderNarrative(`
+    <p class="narrative-text">
+      Le señalas la puerta. El Chico se va cabizbajo. El clan guarda silencio. La seguridad manda.
+    </p>
+    <p class="narrative-text">
+      <span class="stat-change stat-down">👥 -1 Miembro</span>
+      <span class="stat-change stat-down">⭐ -5 Honra</span>
+    </p>
+  `);
+
+  renderContinue('▶ Continuar al Capítulo V — El Desenlace', 'startChapter5');
+}
+
+function chapter4_traidor_vigilar() {
+  addHistory('Convertiste al Chico en un infiltrado.');
+  modStat('intimidacion', 5);
+  modFaction('clanes', -3);
+
+  renderNarrative(`
+    <p class="narrative-text">
+      <em>"Te quedas, pero a partir de ahora me cuentas todo lo que veas. Y si me la juegas..."</em> El Chico asiente nervioso. Tendrás información de primera mano.
+    </p>
+    <p class="narrative-text">
+      <span class="stat-change stat-up">😈 +5 Intimidación</span>
+      <span class="stat-change stat-down">🔥 -3 con Otros Clanes</span>
+    </p>
+  `);
+
+  renderContinue('▶ Continuar al Capítulo V — El Desenlace', 'startChapter5');
+}
+
+// ═══ FUNCIONES DE REINICIO ═══
 function restartChapter3() {
   restoreCurrentState();
   startChapter3();
