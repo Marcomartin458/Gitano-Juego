@@ -8,6 +8,7 @@
 // CAPÍTULO 1: LOS COMIENZOS
 // ════════════════════════════════════════
 function startChapter1() {
+  saveCurrentState();
   GameState.chapter = 1;
   updateStats();
 
@@ -123,6 +124,22 @@ function chapter1_pelea_mercadillo() {
 
   const name = GameState.playerName;
   const clan = GameState.clanData;
+
+    // REINICIO CAPÍTULO 1
+  if (GameState.factions.policia < 20) {
+    renderNarrative(`
+      <div class="event-date">Capítulo I — Consecuencias</div>
+      <h2 class="event-title">Arrestado</h2>
+      <p class="narrative-text">
+        La bronca ha sido demasiado. Los agentes te tiran al suelo y te ponen las esposas. Torres te lee los derechos. El clan queda descabezado.
+      </p>
+      <p class="narrative-text">
+        <span class="narrative-danger">EL CLAN SE HA DISUELTO. Debes reiniciar el capítulo.</span>
+      </p>
+    `);
+    renderContinue('🔄 Reiniciar Capítulo I', 'restartChapter1()');
+    return;
+  }
 
   renderNarrative(`
     <div class="event-date">Capítulo I — Consecuencias</div>
@@ -261,6 +278,22 @@ function chapter1_c_ignorar() {
   modStat('honra', -15);
   modFaction('clanes', -10);
 
+     // REINICIO CAPÍTULO 1
+  if (GameState.stats.honra < 20) {
+    renderNarrative(`
+      <div class="event-date">Capítulo I — El Silencio</div>
+      <h2 class="event-title">El clan se desmorona</h2>
+      <p class="narrative-text">
+        Después de ignorar al Toni, la gente empieza a marcharse. Primero fue tu tío Antonio, luego los primos. Ya no confían en ti.
+      </p>
+      <p class="narrative-text">
+        <span class="narrative-danger">EL CLAN SE HA DISUELTO. Debes reiniciar el capítulo.</span>
+      </p>
+    `);
+    renderContinue('🔄 Reiniciar Capítulo I', 'restartChapter1()');
+    return;
+  }
+
   renderNarrative(`
     <div class="event-date">Capítulo I — El Silencio</div>
     <h2 class="event-title">La Decepción</h2>
@@ -318,6 +351,7 @@ function chapter1_tarde_en_casa() {
 // CAPÍTULO 2: LA REUNIÓN
 // ════════════════════════════════════════
 function startChapter2() {
+  saveCurrentState();
   GameState.chapter = 2;
   updateStats();
   const clan = GameState.clanData;
@@ -561,6 +595,21 @@ function chapter2_soborno_legal() {
   if (GameState.stats.recursos < 40) {
     showNotification('No tienes suficiente parné, makina.', 'bad');
     return;
+     // REINICIO CAPÍTULO 2
+  if (GameState.flags.pegastePolicia && rand(1, 10) <= 4) {
+    renderNarrative(`
+      <div class="event-date">Capítulo II — El Acuerdo</div>
+      <h2 class="event-title">Te han pillao</h2>
+      <p class="narrative-text">
+        Intentas sobornar al concejal, pero el agente Torres estaba vigilando. Te pilla con las manos en la masa.
+      </p>
+      <p class="narrative-text">
+        <span class="narrative-danger">Te arrestan por soborno. El clan se desmorona. Debes reiniciar el capítulo.</span>
+      </p>
+    `);
+    renderContinue('🔄 Reiniciar Capítulo II', 'restartChapter2()');
+    return;
+  }
   }
   addHistory('Pagaste un trato al Ayuntamiento. El dinero abre puertas.');
   modStat('recursos', -40);
@@ -1214,4 +1263,13 @@ function resolveCombat(playerWon, type) {
       renderContinue('▶ Continuar al Capítulo III', 'startChapter3()');
     }, 1500);
   }
+}
+function restartChapter1() {
+  restoreCurrentState();
+  startChapter1();
+}
+
+function restartChapter2() {
+  restoreCurrentState();
+  startChapter2();
 }
