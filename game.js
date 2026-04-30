@@ -68,7 +68,11 @@ const GameState = {
     alianzaPayosRenovados: false,
     eleccionesGanadas: false,
     capitanChapter6: false,
-    romancePelirroja: false
+    romancePelirroja: false,
+    sacrificioRealizado: false,   // Capítulo 5
+    abogadoContratado: false,     // Capítulo 4
+    sobornoFuncionario: false,    // Capítulo 4
+    filtracionMedios: false       // Capítulo 4
   },
 
   inventory: [],
