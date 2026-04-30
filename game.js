@@ -270,7 +270,7 @@ function personajeImg(key) {
 // MODALES
 // ════════════════════════════════════════
 function showCulturalModal(title, text) {
-  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalTitle').innerHTML = title;
   document.getElementById('modalBody').innerHTML = text;
   new bootstrap.Modal(document.getElementById('genericModal')).show();
 }
@@ -278,7 +278,7 @@ function showInventory() {
   const inv = GameState.inventory.length === 0
     ? '<p class="text-muted fst-italic">El inventario está vacío, makina.</p>'
     : '<ul class="list-unstyled">' + GameState.inventory.map(i => `<li class="text-light"><i class="fas fa-circle-notch text-gold me-2"></i> ${i}</li>`).join('') + '</ul>';
-  document.getElementById('modalTitle').textContent = '<i class="fas fa-backpack"></i> Inventario';
+  document.getElementById('modalTitle').innerHTML = '<i class="fas fa-backpack"></i> Inventario';
   document.getElementById('modalBody').innerHTML = inv;
   new bootstrap.Modal(document.getElementById('genericModal')).show();
 }
@@ -311,7 +311,7 @@ function showRelations() {
       `).join('')}
     </div>
   `;
-  document.getElementById('modalTitle').textContent = '<i class="fas fa-handshake"></i> Relaciones';
+  document.getElementById('modalTitle').innerHTML = '<i class="fas fa-handshake"></i> Relaciones';
   document.getElementById('modalBody').innerHTML = relHTML;
   new bootstrap.Modal(document.getElementById('genericModal')).show();
 }
@@ -319,7 +319,7 @@ function showHistory() {
   const hist = GameState.history.length === 0
     ? '<p class="text-muted fst-italic">Aún no has hecho nada, gitanico...</p>'
     : GameState.history.map(h => `<div class="mb-2"><span class="text-gold fw-bold">Cap.${h.chapter}</span> ${h.text}</div>`).join('');
-  document.getElementById('modalTitle').textContent = '<i class="fas fa-scroll"></i> Historial';
+  document.getElementById('modalTitle').innerHTML = '<i class="fas fa-scroll"></i> Historial';
   document.getElementById('modalBody').innerHTML = hist;
   new bootstrap.Modal(document.getElementById('genericModal')).show();
 }
@@ -509,7 +509,7 @@ function renderChoices(choices) {
 
 function renderContinue(text, callback) {
   const area = document.getElementById('choicesInner');
-  area.innerHTML = `<button class="btn btn-danger w-100 mt-2 animate__animated animate__pulse animate__infinite" onclick="${callback}">${text || '▶ Dale caña...'}</button>`;
+  area.innerHTML = `<button class="btn btn-danger w-100 mt-2 animate__animated animate__pulse animate__infinite btn-continue" onclick="${callback}">${text || '▶ Dale caña...'}</button>`;
 }
 
 function handleChoice(index) {
