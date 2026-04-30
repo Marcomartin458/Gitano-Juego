@@ -79,7 +79,7 @@ function chapter6_presentarse_mediador() {
         <span class="narrative-danger">No tienes suficiente Honra para ser mediador. Debes ganarte el respeto antes.</span>
       </p>
     `);
-    renderContinue('▶ Volver a intentarlo', 'startChapter6()');
+    renderContinue('▶ Volver a intentarlo', startChapter6);
     return;
   }
 
@@ -116,7 +116,7 @@ function chapter6_presentarse_mediador() {
   `);
 
   GameState.inventory.push('🏅 Medallón de Mediador de Madrid');
-  renderContinue('▶ Continuar — Una visita inesperada', 'chapter6_visita_tomas');
+  renderContinue('▶ Continuar — Una visita inesperada', chapter6_visita_tomas);
 }
 
 function chapter6_apoyar_flores() {
@@ -190,7 +190,7 @@ function romance_pelirroja_aceptar() {
   `);
 
   GameState.inventory.push('💘 Romance con La Pelirroja');
-  renderContinue('▶ Continuar — Una visita inesperada', 'chapter6_visita_tomas');
+  renderContinue('▶ Continuar — Una visita inesperada', chapter6_visita_tomas);
 }
 
 function romance_pelirroja_rechazar() {
@@ -206,7 +206,7 @@ function romance_pelirroja_rechazar() {
     </p>
   `);
 
-  renderContinue('▶ Continuar — Una visita inesperada', 'chapter6_visita_tomas');
+  renderContinue('▶ Continuar — Una visita inesperada', chapter6_visita_tomas);
 }
 
 function romance_pelirroja_amistad() {
@@ -226,7 +226,7 @@ function romance_pelirroja_amistad() {
     </p>
   `);
 
-  renderContinue('▶ Continuar — Una visita inesperada', 'chapter6_visita_tomas');
+  renderContinue('▶ Continuar — Una visita inesperada', chapter6_visita_tomas);
 }
 
 function chapter6_ignorar_eleccion() {
@@ -247,7 +247,7 @@ function chapter6_ignorar_eleccion() {
     </p>
   `);
 
-  renderContinue('▶ Continuar — Una visita inesperada', 'chapter6_visita_tomas');
+  renderContinue('▶ Continuar — Una visita inesperada', chapter6_visita_tomas);
 }
 
 function chapter6_visita_tomas() {
@@ -359,7 +359,7 @@ function chapter6_pagar_gatos() {
     </p>
   `);
 
-  renderContinue('▶ Decidir cómo actuar', 'chapter6_decidir_venganza');
+  renderContinue('▶ Decidir cómo actuar', chapter6_decidir_venganza);
 }
 
 function chapter6_amenazar_gatos() {
@@ -376,7 +376,7 @@ function chapter6_amenazar_gatos() {
     </p>
   `);
 
-  renderContinue('▶ Decidir cómo actuar', 'chapter6_decidir_venganza');
+  renderContinue('▶ Decidir cómo actuar', chapter6_decidir_venganza);
 }
 
 function chapter6_colaborar_policia() {
@@ -393,7 +393,7 @@ function chapter6_colaborar_policia() {
     </p>
   `);
 
-  renderContinue('▶ Continuar', 'chapter6_decidir_venganza');
+  renderContinue('▶ Continuar', chapter6_decidir_venganza);
 }
 
 function chapter6_investigar_ingeniero() {
@@ -412,7 +412,7 @@ function chapter6_investigar_ingeniero() {
     </p>
   `);
 
-  renderContinue('▶ Decidir cómo actuar', 'chapter6_decidir_venganza');
+  renderContinue('▶ Decidir cómo actuar', chapter6_decidir_venganza);
 }
 
 function chapter6_venganza_directa() {
@@ -432,7 +432,7 @@ function chapter6_venganza_directa() {
         <span class="narrative-danger">HAS PERDIDO TODA TU HONRA. EL CLAN SE DISUELVE. Debes reiniciar el capítulo.</span>
       </p>
     `);
-    renderContinue('🔄 Reiniciar Capítulo VI', 'restartChapter6()');
+    renderContinue('🔄 Reiniciar Capítulo VI', restartChapter6);
     return;
   }
 
@@ -448,7 +448,7 @@ function chapter6_venganza_directa() {
     </p>
   `);
 
-  renderContinue('▶ Continuar a pesar de todo', 'chapter6_elecciones_convocadas');
+  renderContinue('▶ Continuar a pesar de todo', chapter6_elecciones_convocadas);
 }
 
 function chapter6_decidir_venganza() {
@@ -504,7 +504,7 @@ function chapter6_venganza_legal() {
     </p>
   `);
 
-  renderContinue('▶ Continuar — Las elecciones se acercan', 'chapter6_elecciones_convocadas');
+  renderContinue('▶ Continuar — Las elecciones se acercan', chapter6_elecciones_convocadas);
 }
 
 function chapter6_venganza_sangre() {
@@ -526,7 +526,7 @@ function chapter6_venganza_sangre() {
     </p>
   `);
 
-  renderContinue('▶ Continuar — Las elecciones se acercan', 'chapter6_elecciones_convocadas');
+  renderContinue('▶ Continuar — Las elecciones se acercan', chapter6_elecciones_convocadas);
 }
 
 function chapter6_venganza_publica() {
@@ -547,7 +547,7 @@ function chapter6_venganza_publica() {
     </p>
   `);
 
-  renderContinue('▶ Continuar — Las elecciones se acercan', 'chapter6_elecciones_convocadas');
+  renderContinue('▶ Continuar — Las elecciones se acercan', chapter6_elecciones_convocadas);
 }
 
 function chapter6_elecciones_convocadas() {
@@ -612,7 +612,7 @@ function chapter6_aceptar_politica() {
     </p>
   `);
 
-  renderContinue('▶ Continuar — Los nuevos aliados', 'chapter6_fer_y_los_renovados');
+  renderContinue('▶ Continuar — Los nuevos aliados', chapter6_fer_y_los_renovados);
 }
 
 function chapter6_rechazar_politica() {
@@ -631,7 +631,7 @@ function chapter6_rechazar_politica() {
     </p>
   `);
 
-  renderContinue('▶ Continuar — Fin del Capítulo VI', 'chapter6_final');
+  renderContinue('▶ Continuar — Fin del Capítulo VI', chapter6_final);
 }
 
 function chapter6_romance_rizos() {
@@ -747,7 +747,7 @@ function chapter6_aceptar_fer() {
   `);
 
   GameState.inventory.push('🛴 Alianza con Los Payos Renovados');
-  renderContinue('▶ Continuar con la campaña electoral', 'chapter6_campana_electoral');
+  renderContinue('▶ Continuar con la campaña electoral', chapter6_campana_electoral);
 }
 
 function chapter6_rechazar_fer() {
@@ -768,7 +768,7 @@ function chapter6_rechazar_fer() {
     </p>
   `);
 
-  renderContinue('▶ Continuar con la campaña electoral', 'chapter6_campana_electoral');
+  renderContinue('▶ Continuar con la campaña electoral', chapter6_campana_electoral);
 }
 
 function chapter6_contraoferta_fer() {
@@ -791,7 +791,7 @@ function chapter6_contraoferta_fer() {
     </p>
   `);
 
-  renderContinue('▶ Continuar con la campaña electoral', 'chapter6_campana_electoral');
+  renderContinue('▶ Continuar con la campaña electoral', chapter6_campana_electoral);
 }
 
 function chapter6_campana_electoral() {
@@ -851,7 +851,7 @@ function chapter6_mitin_clanes() {
     </p>
   `);
 
-  renderContinue('▶ Día de las elecciones', 'chapter6_dia_elecciones');
+  renderContinue('▶ Día de las elecciones', chapter6_dia_elecciones);
 }
 
 function chapter6_desprestigiar_rival() {
@@ -872,7 +872,7 @@ function chapter6_desprestigiar_rival() {
     </p>
   `);
 
-  renderContinue('▶ Día de las elecciones', 'chapter6_dia_elecciones');
+  renderContinue('▶ Día de las elecciones', chapter6_dia_elecciones);
 }
 
 function chapter6_compra_votos() {
@@ -895,7 +895,7 @@ function chapter6_compra_votos() {
     </p>
   `);
 
-  renderContinue('▶ Día de las elecciones', 'chapter6_dia_elecciones');
+  renderContinue('▶ Día de las elecciones', chapter6_dia_elecciones);
 }
 
 function chapter6_dia_elecciones() {
