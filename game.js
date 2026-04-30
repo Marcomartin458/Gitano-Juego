@@ -517,7 +517,45 @@ function handleChoice(index) {
     currentChoiceHandlers[index]();
   }
 }
+// ════════════════════════════════════════
+// GUARDADO DE ESTADO PARA REINICIO DE CAPÍTULO
+// ════════════════════════════════════════
+GameState.savedState = null;
 
+function saveCurrentState() {
+  GameState.savedState = JSON.parse(JSON.stringify({
+    stats: GameState.stats,
+    factions: GameState.factions,
+    flags: GameState.flags,
+    inventory: GameState.inventory,
+    history: GameState.history,
+    clanData: GameState.clanData,
+    selectedClan: GameState.selectedClan,
+    playerName: GameState.playerName,
+    playerRole: GameState.playerRole,
+    chapter: GameState.chapter,
+    scene: GameState.scene
+  }));
+}
+
+function restoreCurrentState() {
+  if (GameState.savedState) {
+    const s = GameState.savedState;
+    GameState.stats = s.stats;
+    GameState.factions = s.factions;
+    GameState.flags = s.flags;
+    GameState.inventory = s.inventory;
+    GameState.history = s.history;
+    GameState.clanData = s.clanData;
+    GameState.selectedClan = s.selectedClan;
+    GameState.playerName = s.playerName;
+    GameState.playerRole = s.playerRole;
+    GameState.chapter = s.chapter;
+    GameState.scene = s.scene;
+    updateStats();
+    showScreen('game');
+  }
+}
 // ════════════════════════════════════════
 // ARRANQUE
 // ════════════════════════════════════════
@@ -525,3 +563,5 @@ window.addEventListener('DOMContentLoaded', () => {
   initParticles();
   initLoading();
 });
+
+
