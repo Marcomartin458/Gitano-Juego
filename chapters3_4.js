@@ -8,6 +8,7 @@
 // CAPÍTULO 3: LA FAMILIA
 // ════════════════════════════════════════
 function startChapter3() {
+  saveCurrentState();
   GameState.chapter = 3;
   updateStats();
   const clan = GameState.clanData;
@@ -86,7 +87,21 @@ function chapter3_apoyar_tomas() {
       <span class="stat-change stat-up">💶 +5 Parné (primer retorno)</span>
     </p>
   `);
-
+  // REINICIO CAPÍTULO 3: si la inversión te deja sin blanca, el clan colapsa
+  if (GameState.stats.recursos < 10) {
+    renderNarrative(`
+      <div class="event-date">Capítulo III — Inversión fallida</div>
+      <h2 class="event-title">Arruinados</h2>
+      <p class="narrative-text">
+        El negocio de Tomás ha sido un desastre. Te confirma por teléfono que lo ha perdido todo. El clan se queda sin recursos y sin capacidad de reacción.
+      </p>
+      <p class="narrative-text">
+        <span class="narrative-danger">EL CLAN SE HA DISUELTO POR BANCARROTA. Debes reiniciar el capítulo.</span>
+      </p>
+    `);
+    renderContinue('🔄 Reiniciar Capítulo III', 'restartChapter3()');
+    return;
+  }
   renderContinue('▶ Continuar — La Lola y su amor prohibido', 'startRomanceLola()');
 }
 
@@ -235,6 +250,21 @@ function chapter3_resistir_policia() {
   addHistory('Te negaste al registro sin orden judicial completa.');
   modFaction('policia', -20);
   modStat('honra', 8);
+     // REINICIO CAPÍTULO 3: si la pasma te declara enemigo, vienen a por ti
+  if (GameState.factions.policia < 10) {
+    renderNarrative(`
+      <div class="event-date">Capítulo III — Redada</div>
+      <h2 class="event-title">Todos detenidos</h2>
+      <p class="narrative-text">
+        Haber cerrado la puerta a Torres ha tenido consecuencias. Esa misma noche, un operativo especial entra en el bloque. Os detienen a todos por "asociación ilícita".
+      </p>
+      <p class="narrative-text">
+        <span class="narrative-danger">EL CLAN HA SIDO DESARTICULADO POR LA POLICÍA. Debes reiniciar el capítulo.</span>
+      </p>
+    `);
+    renderContinue('🔄 Reiniciar Capítulo III', 'restartChapter3()');
+    return;
+  }
 
   renderNarrative(`
     <div class="event-date">Capítulo III — La Resistencia Legal</div>
@@ -292,6 +322,7 @@ function chapter3_abogado() {
 // CAPÍTULO 4: LA CRISIS
 // ════════════════════════════════════════
 function startChapter4() {
+  saveCurrentState();
   GameState.chapter = 4;
   updateStats();
 
@@ -432,7 +463,21 @@ function chapter4_lucha_legal() {
       </p>
     `);
   }
-
+  // REINICIO CAPÍTULO 4: si el clan se desmorona por baja Honra o falta de miembros
+  if (GameState.stats.honra <= 0 || GameState.stats.miembros < 5) {
+    renderNarrative(`
+      <div class="event-date">Capítulo IV — Desintegración</div>
+      <h2 class="event-title">El fin del clan</h2>
+      <p class="narrative-text">
+        A pesar de tus esfuerzos, el clan ya no puede mantenerse en pie. Los miembros restantes se dispersan en otros clanes o simplemente desaparecen. La historia de los ${GameState.clanData.nombre} termina aquí.
+      </p>
+      <p class="narrative-text">
+        <span class="narrative-danger">EL CLAN SE HA EXTINGUIDO. Debes reiniciar el capítulo.</span>
+      </p>
+    `);
+    renderContinue('🔄 Reiniciar Capítulo IV', 'restartChapter4()');
+    return;
+  }
   renderContinue('▶ Continuar al Capítulo V — El Desenlace', 'startChapter5()');
 }
 
@@ -466,7 +511,21 @@ function chapter4_movilizacion_clanes() {
       <span class="stat-change stat-up">🏛️ +10 Ayuntamiento</span>
     </p>
   `);
-
+  // REINICIO CAPÍTULO 4: si el clan se desmorona por baja Honra o falta de miembros
+  if (GameState.stats.honra <= 0 || GameState.stats.miembros < 5) {
+    renderNarrative(`
+      <div class="event-date">Capítulo IV — Desintegración</div>
+      <h2 class="event-title">El fin del clan</h2>
+      <p class="narrative-text">
+        A pesar de tus esfuerzos, el clan ya no puede mantenerse en pie. Los miembros restantes se dispersan en otros clanes o simplemente desaparecen. La historia de los ${GameState.clanData.nombre} termina aquí.
+      </p>
+      <p class="narrative-text">
+        <span class="narrative-danger">EL CLAN SE HA EXTINGUIDO. Debes reiniciar el capítulo.</span>
+      </p>
+    `);
+    renderContinue('🔄 Reiniciar Capítulo IV', 'restartChapter4()');
+    return;
+  }
   renderContinue('▶ Continuar al Capítulo V — El Desenlace', 'startChapter5()');
 }
 
@@ -511,7 +570,21 @@ function chapter4_medios() {
       </p>
     `);
   }
-
+  // REINICIO CAPÍTULO 4: si el clan se desmorona por baja Honra o falta de miembros
+  if (GameState.stats.honra <= 0 || GameState.stats.miembros < 5) {
+    renderNarrative(`
+      <div class="event-date">Capítulo IV — Desintegración</div>
+      <h2 class="event-title">El fin del clan</h2>
+      <p class="narrative-text">
+        A pesar de tus esfuerzos, el clan ya no puede mantenerse en pie. Los miembros restantes se dispersan en otros clanes o simplemente desaparecen. La historia de los ${GameState.clanData.nombre} termina aquí.
+      </p>
+      <p class="narrative-text">
+        <span class="narrative-danger">EL CLAN SE HA EXTINGUIDO. Debes reiniciar el capítulo.</span>
+      </p>
+    `);
+    renderContinue('🔄 Reiniciar Capítulo IV', 'restartChapter4()');
+    return;
+  }
   renderContinue('▶ Continuar al Capítulo V — El Desenlace', 'startChapter5()');
 }
 
@@ -546,6 +619,20 @@ function chapter4_resistencia() {
       Pero todo el barrio lo ha visto. Y nadie lo va a olvidar.
     </p>
   `);
-
+  // REINICIO CAPÍTULO 4: si el clan se desmorona por baja Honra o falta de miembros
+  if (GameState.stats.honra <= 0 || GameState.stats.miembros < 5) {
+    renderNarrative(`
+      <div class="event-date">Capítulo IV — Desintegración</div>
+      <h2 class="event-title">El fin del clan</h2>
+      <p class="narrative-text">
+        A pesar de tus esfuerzos, el clan ya no puede mantenerse en pie. Los miembros restantes se dispersan en otros clanes o simplemente desaparecen. La historia de los ${GameState.clanData.nombre} termina aquí.
+      </p>
+      <p class="narrative-text">
+        <span class="narrative-danger">EL CLAN SE HA EXTINGUIDO. Debes reiniciar el capítulo.</span>
+      </p>
+    `);
+    renderContinue('🔄 Reiniciar Capítulo IV', 'restartChapter4()');
+    return;
+  }
   renderContinue('▶ Continuar al Capítulo V — El Desenlace', 'startChapter5()');
 }
