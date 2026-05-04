@@ -1,12 +1,11 @@
 /* ═══════════════════════════════════════════════════════════
    EL GITANO JUEGO — CAPÍTULO 6: MADRID SE REARMA v6.0
-   (versión extendida con Los Payos Renovados)
+   (Extendido con más escenas y decisiones)
    ═══════════════════════════════════════════════════════════ */
 
 'use strict';
 
-console.log('Cargando chapter6...');
-console.log('Funciones disponibles:', typeof chapter6_visita_tomas);
+console.log('Cargando chapter6 extendido...');
 
 // ════════════════════════════════════════
 // CAPÍTULO 6: MADRID SE REARMA
@@ -40,6 +39,50 @@ function startChapter6() {
     </p>
     <p class="narrative-text">
       La Rizos te mira con esos ojos que significan problemas: <em>"Todos los clanes están moviendo ficha. Si no te presentas, otro ocupará el puesto y nos dejará fuera."</em>
+    </p>
+  `);
+
+  // Nueva escena obligatoria: charla con la abuela antes de decidir
+  setTimeout(() => {
+    chapter6_charla_abuela();
+  }, 100);
+}
+
+function chapter6_charla_abuela() {
+  renderNarrative(`
+    <div class="event-date">San Blas — Cocina del clan</div>
+    <h2 class="event-title">Las palabras de la abuela</h2>
+    <p class="narrative-text">
+      Antes de ir a la reunión, te sientas un momento con la abuela. Está friendo torreznos y no te mira, pero sabes que te está escuchando.
+    </p>
+    <p class="narrative-text">
+      <em>"El Viejo Sebastián era un hombre justo. No se dejaba llevar por el orgullo ni por el miedo. Si tú quieres ser como él, recuerda: un mediador no es el que más grita, es el que mejor escucha. Y tú, desde lo del mercadillo, has aprendido a escuchar... un poco."</em>
+    </p>
+    <p class="narrative-text">
+      Te da un torrezno y te señala con la cuchara: <em>"Vete ya, que llegas tarde. Y no me hagas quedar mal."</em>
+    </p>
+    <p class="narrative-text">
+      <span class="stat-change stat-up">⭐ +2 Honra (la abuela confía en ti)</span>
+    </p>
+  `);
+  modStat('honra', 2);
+
+  // Ahora mostramos las opciones principales
+  setTimeout(() => {
+    chapter6_mostrar_opciones_mediador();
+  }, 100);
+}
+
+function chapter6_mostrar_opciones_mediador() {
+  const name = GameState.playerName;
+  const clan = GameState.clanData;
+
+  renderNarrative(`
+    <p class="narrative-text">
+      Llegas a la nave de Usera. El ambiente es tenso. Representantes de todos los clanes murmuran en corrillos. La ${personajeImg('abuelaFlor')} <span class="narrative-char">Abuela Flor</span> fuma su puro en una esquina. ${personajeImg('elWifi')} <span class="narrative-char">El WiFi</span> está con el portátil y un cartel de "CalóCoin" clavado en la mesa.
+    </p>
+    <p class="narrative-text">
+      La Rizos te da un codazo: <em>"Es ahora o nunca. ¿Qué hacemos?"</em>
     </p>
   `);
 
@@ -116,7 +159,9 @@ function chapter6_presentarse_mediador() {
   `);
 
   GameState.inventory.push('🏅 Medallón de Mediador de Madrid');
-  renderContinue('▶ Continuar — Una visita inesperada', chapter6_visita_tomas);
+  
+  // Escena intermedia obligatoria: celebración
+  chapter6_celebracion_mediador();
 }
 
 function chapter6_apoyar_flores() {
@@ -133,7 +178,7 @@ function chapter6_apoyar_flores() {
       La ${personajeImg('abuelaFlor')} <span class="narrative-char">Abuela Flor</span> es elegida mediadora por aclamación. Cuando se levanta, el loro Sultán grita: "¡Viva la gitana!" y la nave se viene abajo de risas.
     </p>
     <p class="narrative-text">
-      Antes de irse, la Abuela Flor te agarra del brazo: <em>"Tú has sido leal, muchacho. Cuando necesites algo, las Flores estamos contigo. Y por cierto, mi nieta La Pelirroja te ha echado el ojo. No me hagas quedar mal."</em>
+      Antes de irse, la Abuela Flor te agarra del brazo: <em>"Tú has sido leal, muchacho. Cuando necesites algo, las Flores estamos contigo. Y por cierto, mi nieta ${personajeImg('laPelirroja')} <span class="narrative-char">La Pelirroja</span> te ha echado el ojo. No me hagas quedar mal."</em>
     </p>
     <p class="narrative-text">
       La Pelirroja se acerca con una sonrisa descarada. Es guapa, lista y tiene más arte que un tablao. <em>"¿Eres tú el que se ha ganado a mi abuela? Pues ya estás tardando en invitarme a un café."</em>
@@ -190,7 +235,7 @@ function romance_pelirroja_aceptar() {
   `);
 
   GameState.inventory.push('💘 Romance con La Pelirroja');
-  renderContinue('▶ Continuar — Una visita inesperada', chapter6_visita_tomas);
+  chapter6_celebracion_mediador();
 }
 
 function romance_pelirroja_rechazar() {
@@ -206,7 +251,7 @@ function romance_pelirroja_rechazar() {
     </p>
   `);
 
-  renderContinue('▶ Continuar — Una visita inesperada', chapter6_visita_tomas);
+  chapter6_celebracion_mediador();
 }
 
 function romance_pelirroja_amistad() {
@@ -226,7 +271,7 @@ function romance_pelirroja_amistad() {
     </p>
   `);
 
-  renderContinue('▶ Continuar — Una visita inesperada', chapter6_visita_tomas);
+  chapter6_celebracion_mediador();
 }
 
 function chapter6_ignorar_eleccion() {
@@ -247,9 +292,35 @@ function chapter6_ignorar_eleccion() {
     </p>
   `);
 
+  // Escena intermedia también para esta rama
+  chapter6_celebracion_mediador();
+}
+
+// ═══ NUEVA ESCENA OBLIGATORIA: CELEBRACIÓN O REFLEXIÓN TRAS LA ELECCIÓN ═══
+function chapter6_celebracion_mediador() {
+  renderNarrative(`
+    <div class="event-date">San Blas — Esa noche</div>
+    <h2 class="event-title">Brindis y tensiones</h2>
+    <p class="narrative-text">
+      ${GameState.flags.mediadorElegido ? 
+        'En el bar de la plaza, los clanes aliados brindan por tu elección. El vino corre y las guitarras suenan hasta tarde. Pero no todos están contentos: algunos ancianos murmuran que eres demasiado joven para el cargo.' :
+        'En el bar de la plaza, tratas de olvidar la política con unas cañas. Pero la tensión se masca. Algunos clanes te miran con desconfianza, otros con lástima. Sabes que el nuevo mediador no te pondrá las cosas fáciles.'}
+    </p>
+    <p class="narrative-text">
+      ${personajeImg('miguelito')} <span class="narrative-char">Miguelito</span> se sube a la barra: <em>"¡Brindemos por mi primo, que no se calla ni debajo del agua!"</em> Al menos la familia siempre está ahí.
+    </p>
+    <p class="narrative-text">
+      <span class="stat-change stat-up">⭐ +2 Honra</span>
+    </p>
+  `);
+  modStat('honra', 2);
+  
   renderContinue('▶ Continuar — Una visita inesperada', chapter6_visita_tomas);
 }
 
+// ════════════════════════════════════════
+// VISITA DE TOMÁS Y EL ASESINATO
+// ════════════════════════════════════════
 function chapter6_visita_tomas() {
   console.log('Entrando en visita_tomas');
   const name = GameState.playerName;
@@ -273,6 +344,40 @@ function chapter6_visita_tomas() {
 
   GameState.flags.tioAntonioAsesinado = true;
   modStat('miembros', -1);
+
+  // Escena intermedia: el velatorio
+  setTimeout(() => {
+    chapter6_velatorio();
+  }, 100);
+}
+
+function chapter6_velatorio() {
+  renderNarrative(`
+    <div class="event-date">San Blas — Velatorio del Tío Antonio</div>
+    <h2 class="event-title">Lágrimas y promesas</h2>
+    <p class="narrative-text">
+      El velatorio se celebra en la cocina del clan. Las mujeres lloran, los hombres aprietan los puños. La abuela, sentada junto al féretro, no derrama ni una lágrima, pero sus ojos queman más que el fuego.
+    </p>
+    <p class="narrative-text">
+      <em>"Antonio era un bruto, pero era de los nuestros."</em> —dice la abuela—. <em>"Y el que ha hecho esto no va a salir de rositas. Tú, encuéntralo. Luego, ya veremos."</em>
+    </p>
+    <p class="narrative-text">
+      Todos te miran. Esperan que actúes. El duelo puede esperar; ahora toca investigar.
+    </p>
+  `);
+
+  // Opciones de investigación
+  setTimeout(() => {
+    chapter6_opciones_investigacion();
+  }, 100);
+}
+
+function chapter6_opciones_investigacion() {
+  renderNarrative(`
+    <p class="narrative-text">
+      Tienes que decidir por dónde empezar. ${personajeImg('laEncarna')} <span class="narrative-char">La Encarna</span> te ofrece ayuda legal; ${personajeImg('miguelito')} <span class="narrative-char">Miguelito</span> quiere salir a buscar culpables por las bravas.
+    </p>
+  `);
 
   currentChoiceHandlers = [
     () => chapter6_investigar_gatos(),
@@ -421,6 +526,7 @@ function chapter6_venganza_directa() {
   modFaction('clanes', -15);
   modFaction('policia', -20);
 
+  // REINICIO: si la Honra cae por debajo de 15, el clan te abandona
   if (GameState.stats.honra < 15) {
     renderNarrative(`
       <div class="event-date">San Blas — Consecuencias</div>
@@ -451,12 +557,22 @@ function chapter6_venganza_directa() {
   renderContinue('▶ Continuar a pesar de todo', chapter6_elecciones_convocadas);
 }
 
+// ════════════════════════════════════════
+// DECIDIR QUÉ HACER CON LA INFORMACIÓN
+// ════════════════════════════════════════
 function chapter6_decidir_venganza() {
+  // Escena intermedia: consultas con el clan
   renderNarrative(`
     <div class="event-date">San Blas — La decisión</div>
-    <h2 class="event-title">¿Qué haces con el sicario?</h2>
+    <h2 class="event-title">Consultando a los mayores</h2>
     <p class="narrative-text">
-      Tienes la información. Sabes quién mató al Tío Antonio y quién lo ordenó. Ahora debes decidir cómo actuar. La Ley del Camino te da varias opciones, pero no todas son igual de sabias.
+      Tienes la información. Sabes quién mató al Tío Antonio y quién lo ordenó. Antes de tomar una decisión definitiva, consultas con la abuela y con ${GameState.flags.mediadorElegido ? 'algunos ancianos del clan' : 'La Encarna'}.
+    </p>
+    <p class="narrative-text">
+      La abuela te dice: <em>"Hagas lo que hagas, hazlo con honra. La venganza no es mala si es justa."</em>
+    </p>
+    <p class="narrative-text">
+      Ahora debes decidir cómo actuar. La Ley del Camino te da varias opciones, pero no todas son igual de sabias.
     </p>
   `);
 
@@ -504,7 +620,8 @@ function chapter6_venganza_legal() {
     </p>
   `);
 
-  renderContinue('▶ Continuar — Las elecciones se acercan', chapter6_elecciones_convocadas);
+  // Escena intermedia: reacción de los clanes
+  chapter6_reaccion_clanes_venganza('legal');
 }
 
 function chapter6_venganza_sangre() {
@@ -526,7 +643,7 @@ function chapter6_venganza_sangre() {
     </p>
   `);
 
-  renderContinue('▶ Continuar — Las elecciones se acercan', chapter6_elecciones_convocadas);
+  chapter6_reaccion_clanes_venganza('sangre');
 }
 
 function chapter6_venganza_publica() {
@@ -547,9 +664,41 @@ function chapter6_venganza_publica() {
     </p>
   `);
 
+  chapter6_reaccion_clanes_venganza('publica');
+}
+
+// ═══ NUEVA ESCENA OBLIGATORIA: REACCIÓN DE LOS CLANES ═══
+function chapter6_reaccion_clanes_venganza(tipo) {
+  let mensaje = '';
+  switch(tipo) {
+    case 'legal':
+      mensaje = 'Algunos clanes te respetan por haber respetado la ley, otros murmuran que eres un chivato. Pero la Abuela Flor zanja la discusión: "Este muchacho ha hecho lo correcto. El que quiera quejarse, que me lo diga a la cara."';
+      break;
+    case 'sangre':
+      mensaje = 'Los viejos del barrio asienten con gravedad. La venganza de sangre es antigua, pero respetada. La policía no encuentra pruebas, pero Torres sabe quién fue. Ahora te teme un poco más.';
+      break;
+    case 'publica':
+      mensaje = 'Los clanes aplauden tu sabiduría. La Abuela Flor te invita a cenar con Las Flores. El WiFi te mira con admiración y un poco de miedo.';
+      break;
+  }
+
+  renderNarrative(`
+    <div class="event-date">Madrid — Días después</div>
+    <h2 class="event-title">La calma tras la tormenta</h2>
+    <p class="narrative-text">
+      ${mensaje}
+    </p>
+    <p class="narrative-text">
+      Con el asesinato resuelto, todos te miran con otros ojos. Eres un líder, para bien o para mal. Y ahora, el siguiente desafío no es un enemigo, sino la política.
+    </p>
+  `);
+
   renderContinue('▶ Continuar — Las elecciones se acercan', chapter6_elecciones_convocadas);
 }
 
+// ════════════════════════════════════════
+// ROMANCE CON LA RIZOS Y ELECCIONES
+// ════════════════════════════════════════
 function chapter6_elecciones_convocadas() {
   renderNarrative(`
     <div class="event-date">Junta Municipal — Una semana después</div>
@@ -794,6 +943,9 @@ function chapter6_contraoferta_fer() {
   renderContinue('▶ Continuar con la campaña electoral', chapter6_campana_electoral);
 }
 
+// ════════════════════════════════════════
+// CAMPAÑA ELECTORAL
+// ════════════════════════════════════════
 function chapter6_campana_electoral() {
   renderNarrative(`
     <div class="event-date">Madrid — Seis meses después</div>
@@ -851,7 +1003,8 @@ function chapter6_mitin_clanes() {
     </p>
   `);
 
-  renderContinue('▶ Día de las elecciones', chapter6_dia_elecciones);
+  // Escena intermedia: encuesta
+  chapter6_encuesta();
 }
 
 function chapter6_desprestigiar_rival() {
@@ -872,7 +1025,7 @@ function chapter6_desprestigiar_rival() {
     </p>
   `);
 
-  renderContinue('▶ Día de las elecciones', chapter6_dia_elecciones);
+  chapter6_encuesta();
 }
 
 function chapter6_compra_votos() {
@@ -894,6 +1047,26 @@ function chapter6_compra_votos() {
       <span class="stat-change stat-down">⭐ -10 Honra</span>
     </p>
   `);
+
+  chapter6_encuesta();
+}
+
+// ═══ NUEVA ESCENA: ENCUESTA A PIE DE CALLE ═══
+function chapter6_encuesta() {
+  renderNarrative(`
+    <div class="event-date">San Blas — Última semana de campaña</div>
+    <h2 class="event-title">Lo que dice la calle</h2>
+    <p class="narrative-text">
+      Una encuesta a pie de calle muestra un empate técnico. ${personajeImg('miguelito')} <span class="narrative-char">Miguelito</span>, que se ha convertido en tu jefe de prensa improvisado, sube un vídeo pidiendo el voto: <em>"¡Que mi primo va a ser asesor! ¡Votadle, makinas!"</em> El vídeo se hace viral y ganas puntos entre los jóvenes.
+    </p>
+    <p class="narrative-text">
+      ${personajeImg('rizos')} <span class="narrative-char">La Rizos</span> te pone los pies en el suelo: <em>"Vamos bien, pero no te confíes. Los payos aún no saben si eres un líder o un chiste."</em>
+    </p>
+    <p class="narrative-text">
+      <span class="stat-change stat-up">🔥 +5 con Otros Clanes</span>
+    </p>
+  `);
+  modFaction('clanes', 5);
 
   renderContinue('▶ Día de las elecciones', chapter6_dia_elecciones);
 }
@@ -923,6 +1096,30 @@ function chapter6_dia_elecciones() {
   `);
 
   GameState.inventory.push('🏛️ Asesor del Ayuntamiento de Madrid');
+
+  // Escena extra: reflexión final antes del capítulo 7
+  setTimeout(() => {
+    chapter6_reflexion_final();
+  }, 100);
+}
+
+function chapter6_reflexion_final() {
+  const name = GameState.playerName;
+  
+  renderNarrative(`
+    <div class="event-date">San Blas — Amanecer tras la victoria</div>
+    <h2 class="event-title">Un nuevo amanecer</h2>
+    <p class="narrative-text">
+      La fiesta terminó hace horas. Estás solo en el mercadillo, viendo salir el sol. Las calles están vacías, pero por primera vez sientes que Madrid es un poco tuyo.
+    </p>
+    <p class="narrative-text">
+      <em>"No está mal para un chaval de San Blas, ¿eh?"</em> —te dices a ti mismo. Pero sabes que esto no ha hecho más que empezar. Ser asesor es solo el primer paso.
+    </p>
+    <p class="narrative-text">
+      El siguiente objetivo es más grande: las elecciones a la Comunidad de Madrid. Pero eso ya será otra historia.
+    </p>
+    <div class="event-title">CONTINUARÁ...</div>
+  `);
 
   renderContinue('▶ Ir al Capítulo VII', 'startChapter7()');
 }
