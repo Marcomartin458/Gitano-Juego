@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════════════════════
    EL GITANO JUEGO — CAPÍTULO 5: EL DESENLACE v5.0
-   (Original + Batalla de San Blas)
+   (Extendido con preparación, reacciones y más historia)
    ═══════════════════════════════════════════════════════════ */
 
 'use strict';
@@ -28,6 +28,96 @@ function startChapter5() {
     </p>
     <p class="narrative-text">
       Es la hora de la confrontación final. La que definirá el destino del ${GameState.clanData.nombre} durante generaciones.
+    </p>
+    <p class="narrative-text">
+      Antes de decidir el camino definitivo, ${personajeImg('laEncarna')} <span class="narrative-char">La Encarna</span> te sugiere hacer un último movimiento preparatorio. <em>"Cada paso cuenta ahora."</em>
+    </p>
+  `);
+
+  // Escena de preparación antes de los desenlaces
+  currentChoiceHandlers = [
+    () => chapter5_preparar_apoyo(),
+    () => chapter5_preparar_golpe(),
+    () => chapter5_preparar_fe()
+  ];
+
+  renderChoices([
+    {
+      text: '🤝 Reunir a los aliados y pedir consejo a los ancianos.',
+      hint: 'Refuerzas lazos y obtienes información valiosa.',
+      good: true
+    },
+    {
+      text: '🗡️ Preparar un golpe contundente sin avisar.',
+      hint: 'Ganas factor sorpresa, pero arriesgas apoyos.',
+      danger: true
+    },
+    {
+      text: '🙏 Visitar la ermita de la Virgen del Rocío y pedir fe.',
+      hint: 'Encuentras paz interior, pero no efectos materiales.',
+    }
+  ]);
+}
+
+function chapter5_preparar_apoyo() {
+  addHistory('Reuniste aliados y ancianos antes de la confrontación final.');
+  modStat('diplomacia', 5);
+  modFaction('clanes', 5);
+
+  renderNarrative(`
+    <p class="narrative-text">
+      Pasas la noche en vela con representantes de los clanes amigos y los ancianos del barrio. Te cuentan historias de cómo superaron crisis en el pasado. Te llevas buenos consejos y la certeza de que no estás solo.
+    </p>
+    <p class="narrative-text">
+      <span class="stat-change stat-up">🧠 +5 Diplomacia</span>
+      <span class="stat-change stat-up">🔥 +5 con Otros Clanes</span>
+    </p>
+  `);
+
+  chapter5_mostrar_desenlaces();
+}
+
+function chapter5_preparar_golpe() {
+  addHistory('Planificaste un ataque sorpresa sin consultar a los aliados.');
+  modStat('combate', 5);
+  modFaction('clanes', -3);
+
+  renderNarrative(`
+    <p class="narrative-text">
+      Reúnes a los tuyos en secreto y trazas un plan para golpear al enemigo principal sin previo aviso. Algunos aliados se sienten desplazados, pero la ventaja táctica puede ser decisiva.
+    </p>
+    <p class="narrative-text">
+      <span class="stat-change stat-up">⚔️ +5 Combate</span>
+      <span class="stat-change stat-down">🔥 -3 con Otros Clanes</span>
+    </p>
+  `);
+
+  chapter5_mostrar_desenlaces();
+}
+
+function chapter5_preparar_fe() {
+  addHistory('Buscaste fortaleza espiritual en la ermita.');
+  modStat('honra', 5);
+
+  renderNarrative(`
+    <p class="narrative-text">
+      Te acercas a la pequeña ermita del barrio. Enciendes una vela y te sientas en silencio. Al salir, sientes una calma que no tenías desde hace tiempo. Lo que venga, lo afrontarás con entereza.
+    </p>
+    <p class="narrative-text">
+      <span class="stat-change stat-up">⭐ +5 Honra</span>
+    </p>
+  `);
+
+  chapter5_mostrar_desenlaces();
+}
+
+function chapter5_mostrar_desenlaces() {
+  const clan = GameState.clanData;
+  const name = GameState.playerName;
+
+  renderNarrative(`
+    <p class="narrative-text">
+      Con la preparación hecha, es hora de elegir la estrategia definitiva contra ${clan.enemigoPrincipal}. Cada opción tendrá consecuencias para el futuro del clan.
     </p>
   `);
 
@@ -117,7 +207,9 @@ function chapter5_negociacion_final() {
   `);
 
   GameState.flags.clanRivalActivo = false;
-  renderContinue('▶ Ver el epílogo', 'showEnding()');
+
+  // Reacción del clan
+  chapter5_reaccion_clan('negociacion');
 }
 
 // ════════════════════════════════════════
@@ -166,7 +258,7 @@ function chapter5_movilizacion_final() {
   `);
 
   GameState.flags.clanRivalActivo = false;
-  renderContinue('▶ Ver el epílogo', 'showEnding()');
+  chapter5_reaccion_clan('movilizacion');
 }
 
 // ════════════════════════════════════════
@@ -215,8 +307,6 @@ function chapter5_duelo_final() {
   const c = GameState.combat;
   document.getElementById('playerFighterName').textContent = GameState.playerName;
   document.getElementById('enemyFighterName').textContent = c.enemyName;
-  document.getElementById('playerFighterImg').src = GameState.personajes.jugador.img;
-  document.getElementById('enemyFighterImg').src = getEnemyImgUrl(c.enemyName);
   document.getElementById('playerHP').textContent = c.playerHP;
   document.getElementById('enemyHP').textContent = c.enemyHP;
   document.getElementById('roundNum').textContent = c.round;
@@ -224,6 +314,10 @@ function chapter5_duelo_final() {
   document.getElementById('enemyHealth').style.width = '100%';
   document.getElementById('combatTitle').textContent = '⚔️ EL DUELO FINAL';
   document.getElementById('combatSubtitle').textContent = 'Todo converge en este momento';
+
+  // Asignar imágenes
+  document.getElementById('playerFighterImg').src = GameState.personajes.jugador.img;
+  document.getElementById('enemyFighterImg').src = getEnemyImgUrl(c.enemyName);
 
   const logEl = document.getElementById('combatLog');
   logEl.innerHTML = '';
@@ -233,7 +327,7 @@ function chapter5_duelo_final() {
   showScreen('combat');
 }
 
-// Sobrescribir resolveCombat para el duelo final
+// Sobrescribir resolveCombat para el duelo final (con añadido de reacción)
 const originalResolveCombat = resolveCombat;
 resolveCombat = function(playerWon, type) {
   GameState.combat.resolved = true;
@@ -279,7 +373,7 @@ resolveCombat = function(playerWon, type) {
           El ${GameState.clanData.nombre} ha demostrado quién manda en este barrio. Y el que manda eres tú.
         </p>
       `);
-      renderContinue('▶ Ver el epílogo', 'showEnding()');
+      chapter5_reaccion_clan('duelo_ganado');
     }, 1500);
 
   } else if (playerWon === false) {
@@ -317,7 +411,7 @@ resolveCombat = function(playerWon, type) {
           Pero recuerda: un clan nunca muere del todo mientras quede alguien que recuerde su nombre.
         </p>
       `);
-      renderContinue('▶ Ver el epílogo', 'showEnding()');
+      chapter5_reaccion_clan('duelo_perdido');
     }, 1500);
 
   } else {
@@ -346,7 +440,7 @@ resolveCombat = function(playerWon, type) {
           A veces, sobrevivir ya es ganar.
         </p>
       `);
-      renderContinue('▶ Ver el epílogo', 'showEnding()');
+      chapter5_reaccion_clan('duelo_empate');
     }, 1500);
   }
 };
@@ -393,7 +487,7 @@ function chapter5_sacrificio() {
     </p>
   `);
 
-  renderContinue('▶ Ver el epílogo', 'showEnding()');
+  chapter5_reaccion_clan('sacrificio');
 }
 
 // ════════════════════════════════════════
@@ -430,7 +524,52 @@ function chapter5_filtracion() {
     </p>
   `);
 
-  renderContinue('▶ Ver el epílogo', 'showEnding()');
+  chapter5_reaccion_clan('filtracion');
+}
+
+// ════════════════════════════════════════
+// REACCIÓN DEL CLAN (común a todos los desenlaces)
+// ════════════════════════════════════════
+function chapter5_reaccion_clan(tipo) {
+  let mensaje = '';
+
+  switch(tipo) {
+    case 'negociacion':
+      mensaje = `El Miguelito te da una palmada en la espalda. <em>"Eres más listo que el hambre, primo."</em> La abuela asiente desde su silla. El clan respira aliviado.`;
+      break;
+    case 'movilizacion':
+      mensaje = `La Encarna sonríe orgullosa. <em>"Hemos demostrado que la unión hace la fuerza."</em> Incluso el tío Antonio aplaude.`;
+      break;
+    case 'duelo_ganado':
+      mensaje = `Miguelito grita: <em>"¡Ese es mi primo!"</em> La abuela se santigua. La noticia corre por todo Madrid.`;
+      break;
+    case 'duelo_perdido':
+      mensaje = `Hay lágrimas y abrazos. Pero también hay determinación. <em>"Volveremos más fuertes."</em>`;
+      break;
+    case 'duelo_empate':
+      mensaje = `Reina el silencio. Nadie sabe qué decir. Pero están vivos, y eso ya es algo.`;
+      break;
+    case 'sacrificio':
+      mensaje = `Al principio hay murmullos, pero luego la abuela se levanta y te abraza. <em>"Eres más grande que cualquiera de nosotros."</em>`;
+      break;
+    case 'filtracion':
+      mensaje = `La Encarna te guiña un ojo. <em>"La pluma es más fuerte que la espada."</em> El barrio os respeta más que nunca.`;
+      break;
+  }
+
+  renderNarrative(`
+    <div class="event-date">San Blas — Reacciones</div>
+    <h2 class="event-title">El Después</h2>
+    <p class="narrative-text">
+      ${mensaje}
+    </p>
+    <p class="narrative-text">
+      Con el conflicto principal resuelto, toca mirar hacia el futuro. Pero antes, los viejos del clan te piden que dejes por escrito o en la memoria un legado.
+    </p>
+  `);
+
+  // Transición al epílogo
+  showEnding();
 }
 
 // ════════════════════════════════════════
@@ -570,7 +709,8 @@ function showEnding() {
 
   showScreen('game');
   renderNarrative(endingHTML);
-    // Mostrar botón para continuar hacia la batalla final en lugar de un setTimeout silencioso
+
+  // Botón para continuar a la batalla de San Blas
   document.getElementById('choicesInner').innerHTML = `
     <div class="text-center mt-3">
       <p class="narrative-text text-gold fw-bold animate__animated animate__pulse animate__infinite">
