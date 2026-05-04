@@ -138,7 +138,7 @@ function chapter1_pelea_mercadillo() {
         <span class="narrative-danger">EL CLAN SE HA DISUELTO. Debes reiniciar el capítulo.</span>
       </p>
     `);
-    renderContinue('🔄 Reiniciar Capítulo I', 'restartChapter1()');
+    renderContinue('🔄 Reiniciar Capítulo I', restartChapter1);
     return;
   }
 
@@ -435,7 +435,7 @@ function chapter1_c_ignorar() {
         <span class="narrative-danger">EL CLAN SE HA DISUELTO. Debes reiniciar el capítulo.</span>
       </p>
     `);
-    renderContinue('🔄 Reiniciar Capítulo I', 'restartChapter1()');
+    renderContinue('🔄 Reiniciar Capítulo I', restartChapter1);
     return;
   }
 
@@ -553,7 +553,7 @@ function chapter1_tarde_en_casa() {
     </p>
   `);
 
-  renderContinue('▶ Pasar al Capítulo II — La Reunión', 'startChapter2()');
+  renderContinue('▶ Pasar al Capítulo II — La Reunión', startChapter2);
 }
 
 // ════════════════════════════════════════
@@ -786,7 +786,7 @@ function chapter2_usar_informacion() {
     </p>
   `);
 
-  renderContinue('▶ Continuar — El Chato no se rinde', 'chapter2_escala_conflicto()');
+  renderContinue('▶ Continuar — El Chato no se rinde', chapter2_escala_conflicto);
 }
 
 function chapter2_protestar() {
@@ -813,7 +813,7 @@ function chapter2_protestar() {
     </p>
   `);
 
-  renderContinue('▶ Continuar — El conflicto se calienta', 'chapter2_escala_conflicto()');
+  renderContinue('▶ Continuar — El conflicto se calienta', chapter2_escala_conflicto);
 }
 
 function chapter2_alianza_montoya() {
@@ -870,13 +870,13 @@ function chapter2_alianza_montoya() {
 function chapter2_postmontoya_aceptar() {
   addHistory('Aceptaste la invitación del Clan Montoya. La alianza se fortalece.');
   modFaction('clanes', 5);
-  renderContinue('▶ Continuar — El Chato trama algo', 'chapter2_escala_conflicto()');
+  renderContinue('▶ Continuar — El Chato trama algo', chapter2_escala_conflicto);
 }
 
 function chapter2_postmontoya_rechazar() {
   addHistory('Rechazaste la invitación del Clan Montoya.');
   modFaction('clanes', -2);
-  renderContinue('▶ Continuar — El Chato trama algo', 'chapter2_escala_conflicto()');
+  renderContinue('▶ Continuar — El Chato trama algo', chapter2_escala_conflicto);
 }
 
 
@@ -898,7 +898,7 @@ function chapter2_soborno_legal() {
         <span class="narrative-danger">Te arrestan por soborno. El clan se desmorona. Debes reiniciar el capítulo.</span>
       </p>
     `);
-    renderContinue('🔄 Reiniciar Capítulo II', 'restartChapter2()');
+    renderContinue('🔄 Reiniciar Capítulo II', restartChapter2);
     return;
   }
 
@@ -923,7 +923,7 @@ function chapter2_soborno_legal() {
     </p>
   `);
 
-  renderContinue('▶ Continuar — El Chato no se rinde', 'chapter2_escala_conflicto()');
+  renderContinue('▶ Continuar — El Chato no se rinde', chapter2_escala_conflicto);
 }
 
 function chapter2_escala_conflicto() {
@@ -957,13 +957,611 @@ function chapter2_escala_conflicto() {
   `);
 
   GameState.flags.clanRivalActivo = true;
-  renderContinue('▶ Fase 1: El Aviso', 'startPhase1ConflictoRival()');
+  renderContinue('▶ Fase 1: El Aviso', startPhase1ConflictoRival);
 }
 
 // ════════════════════════════════════════
-// EL CONFLICTO CON EL RIVAL — 3 FASES (sin cambios respecto a la versión anterior)
+// EL CONFLICTO CON EL RIVAL — 3 FASES
 // ════════════════════════════════════════
-// ... (mantén aquí todas las funciones de las fases, combate, policía, etc., exactamente igual que antes)
+function startPhase1ConflictoRival() {
+  const clan = GameState.clanData;
+
+  renderNarrative(`
+    <div class="event-date">Conflicto — Fase 1</div>
+    <h2 class="event-title">⚖️ El Aviso</h2>
+    <p class="narrative-text">
+      Según la <span class="narrative-emph">Ley del Camino</span>, el primer paso es enviar un representante a comunicar formalmente el agravio. Es un gesto de respeto, incluso hacia el rival. Viene a decir: <em>"Sabemos lo que has hecho. Te damos la oportunidad de responder con honra."</em>
+    </p>
+    <p class="narrative-text">
+      Quién envíes y cómo ya es un mensaje en sí mismo.
+    </p>
+  `);
+
+  currentChoiceHandlers = [
+    () => phase1_enviarMiguelito(),
+    () => phase1_enviarEncarna(),
+    () => phase1_irTuMismo(),
+  ];
+
+  renderChoices([
+    {
+      text: '💪 Enviar al Miguelito, para que vea con quién se juega.',
+      hint: 'Mensaje intimidante. Puede resolver o escalar.',
+      danger: true
+    },
+    {
+      text: '📜 Enviar a La Encarna, que sabe hablar en legal.',
+      hint: 'Mensaje civilizado. Baja probabilidad de violencia.',
+      good: true
+    },
+    {
+      text: '👑 Ir tú mismo. Es la máxima señal de que esto va en serio.',
+      hint: 'Alto riesgo personal. Alta ganancia de Honra.',
+    }
+  ]);
+}
+
+function phase1_enviarMiguelito() {
+  addHistory('Enviaste a Miguelito como aviso. Matón pero efectivo.');
+  modStat('intimidacion', 10);
+  modFaction('payos', -10);
+
+  renderNarrative(`
+    <div class="event-date">Fase 1 — El Aviso</div>
+    <h2 class="event-title">El Mensaje de los Puños</h2>
+    <p class="narrative-text">
+      ${personajeImg('miguelito')} <span class="narrative-char">Miguelito</span> se planta en el negocio del Chato con su cara de pocos amigos. Le suelta el mensaje: <em>"El ${GameState.playerName} y el ${GameState.clanData.nombre} saben lo que hiciste. Tienes tres días para responder con honra."</em>
+    </p>
+    <p class="narrative-text">
+      El Chato se ríe. Le dice que se vaya a la mierda y que "ya hablará con sus abogados".
+    </p>
+    <p class="narrative-text">
+      El aviso fracasa. Habrá que buscar mediación.
+    </p>
+  `);
+
+  renderContinue('▶ Fase 2: La Mediación', startPhase2ConflictoRival);
+}
+
+function phase1_enviarEncarna() {
+  addHistory('Enviaste a La Encarna como aviso. Elegante y legal.');
+  modStat('diplomacia', 8);
+  modStat('honra', 5);
+
+  renderNarrative(`
+    <div class="event-date">Fase 1 — El Aviso</div>
+    <h2 class="event-title">La Palabra que Pesa</h2>
+    <p class="narrative-text">
+      ${personajeImg('laEncarna')} <span class="narrative-char">La Encarna</span> se presenta con toda la dignidad del mundo. Le habla al Chato de responsabilidad civil, de testigos, de la documentación que tenéis. Le habla como quien sabe de leyes.
+    </p>
+    <p class="narrative-text">
+      El Chato está incómodo. No se lo esperaba. Pide tiempo para consultar con su socio.
+    </p>
+    <p class="narrative-text">
+      Resultado: no hay disculpa, pero tampoco escalada inmediata. El proceso sigue.
+      <span class="stat-change stat-up">⭐ +5 Honra</span>
+      <span class="stat-change stat-up">🧠 +8 Diplomacia</span>
+    </p>
+  `);
+
+  renderContinue('▶ Fase 2: La Mediación', startPhase2ConflictoRival);
+}
+
+function phase1_irTuMismo() {
+  addHistory('Fuiste tú mismo a dar la cara. Respeto máximo.');
+  modStat('honra', 12);
+  modFaction('payos', -5);
+
+  renderNarrative(`
+    <div class="event-date">Fase 1 — El Aviso</div>
+    <h2 class="event-title">El Cara a Cara</h2>
+    <p class="narrative-text">
+      Vas solo. Sin escolta. Eso ya es un mensaje: no necesitas a nadie que te proteja.
+    </p>
+    <p class="narrative-text">
+      ${personajeImg('chatoRuiz')} <span class="narrative-char">El Chato</span> te recibe con cara de sorpresa. Le miras a los ojos:
+    </p>
+    <p class="narrative-text">
+      <em>"Tú y yo sabemos lo que pasó. No he venido a amenazarte. He venido a darte la oportunidad de ser hombre. Tienes tres días."</em>
+    </p>
+    <p class="narrative-text">
+      Se te queda mirando un rato largo. Luego dice que lo pensará.
+    </p>
+    <p class="narrative-text">
+      <span class="stat-change stat-up">⭐ +12 Honra</span> El clan lo sabrá. Eres de los que se plantan.
+    </p>
+  `);
+
+  renderContinue('▶ Fase 2: La Mediación', startPhase2ConflictoRival);
+}
+
+function startPhase2ConflictoRival() {
+  renderNarrative(`
+    <div class="event-date">Conflicto — Fase 2</div>
+    <h2 class="event-title">⚖️ La Mediación</h2>
+    <p class="narrative-text">
+      ${personajeImg('viejoSebastian')} <span class="narrative-char">El Viejo Sebastián</span>, patriarca del Clan Romero y respetado en todo Madrid, acepta mediar. Tiene ochenta años, bastón y una palabra que vale más que un contrato.
+    </p>
+    <p class="narrative-text">
+      Propone juntarse en la trastienda del bar de siempre, terreno neutral. Condiciones: el Chato pagará el dinero robado al Miguelito con un recargo del 20% como compensación de honor.
+    </p>
+    <p class="narrative-text">
+      El Chato, sorprendentemente, acepta la mediación. Algo le preocupa.
+    </p>
+    <div class="cultural-note">
+      📚 <b>Dato real:</b> La figura del <i>anciano mediador</i> en los conflictos gitanos es central. Su autoridad viene del respeto y de ser visto como justo por todas las partes. Sigue vigente hoy en muchas comunidades gitanas españolas.
+    </div>
+  `);
+
+  currentChoiceHandlers = [
+    () => phase2_aceptar_terminos(),
+    () => phase2_negociar_mas(),
+    () => phase2_rechazar(),
+  ];
+
+  renderChoices([
+    {
+      text: '✅ Aceptar los términos del Viejo Sebastián. Cierra el conflicto con honor.',
+      hint: '+Honra. Cierra el conflicto sin pelea.',
+      good: true
+    },
+    {
+      text: '🤝 Aceptar el dinero pero exigir también una disculpa pública en el mercadillo.',
+      hint: 'Puede que el Chato se niegue y acabe en duelo.',
+    },
+    {
+      text: '❌ Rechazar la mediación. Solo un duelo lo arregla.',
+      hint: 'Directo a la pelea. Alta Honra si ganas.',
+      danger: true
+    }
+  ]);
+}
+
+function phase2_aceptar_terminos() {
+  addHistory('Aceptaste los términos del Viejo Sebastián. Conflicto resuelto con honor.');
+  modStat('honra', 15);
+  modStat('recursos', 20);
+  modFaction('clanes', 10);
+  GameState.flags.clanRivalActivo = false;
+
+  renderNarrative(`
+    <div class="event-date">Fase 2 — Resolución</div>
+    <h2 class="event-title">La Paz Ganada</h2>
+    <p class="narrative-text">
+      Estrechas la mano. ${personajeImg('viejoSebastian')} <span class="narrative-char">Sebastián</span> asiente. El Chato parece incómodo pero paga esa misma tarde.
+    </p>
+    <p class="narrative-text">
+      Hay conflictos que se ganan pegando y otros con inteligencia. Este lo has ganado siendo más listo.
+    </p>
+    <p class="narrative-text">
+      <span class="stat-change stat-up">⭐ +15 Honra</span>
+      <span class="stat-change stat-up">💶 +20 Parné (compensación)</span>
+      <span class="stat-change stat-up">🔥 +10 con Otros Clanes</span>
+    </p>
+  `);
+
+  renderContinue('▶ Continuar al Capítulo III', startChapter3);
+}
+
+function phase2_negociar_mas() {
+  const exito = GameState.stats.honra > 50 ? rand(1, 10) <= 6 : rand(1, 10) <= 3;
+  addHistory(exito ? 'Exigiste más en la mediación y conseguiste la disculpa.' : 'La exigencia de más rompió la mediación.');
+
+  if (exito) {
+    modStat('honra', 20);
+    modStat('recursos', 15);
+    modFaction('clanes', 15);
+
+    renderNarrative(`
+      <div class="event-date">Fase 2 — Victoria Completa</div>
+      <h2 class="event-title">La Disculpa Ante Todos</h2>
+      <p class="narrative-text">
+        Contra todo pronóstico, el Chato acepta. El Viejo Sebastián le ha convencido de que una disculpa pública es mejor que lo que se le viene encima si no.
+      </p>
+      <p class="narrative-text">
+        Tres días después, en el mercadillo, delante de todo el barrio, el Chato se acerca al Miguelito y le suelta en voz alta que lo que pasó fue un error y que lo lamenta.
+      </p>
+      <p class="narrative-text">
+        No suena muy sincero, pero la gente lo ha oído. La Ley del Camino ha funcionado.
+        <span class="stat-change stat-up">⭐ +20 Honra</span>
+        <span class="stat-change stat-up">💶 +15 Parné</span>
+      </p>
+    `);
+    renderContinue('▶ Capítulo III', startChapter3);
+  } else {
+    modStat('honra', -5);
+    modFaction('payos', -10);
+
+    renderNarrative(`
+      <div class="event-date">Fase 2 — Ruptura</div>
+      <h2 class="event-title">El Orgullo que Rompe</h2>
+      <p class="narrative-text">
+        El Chato se levanta de golpe: <em>"¿Disculpa pública? ${pick(INSULTOS_PAYOS)} ¡Esto se ha acabado!"</em>
+      </p>
+      <p class="narrative-text">
+        La mediación se rompe. El Viejo Sebastián te mira con pena. Ya no hay vuelta atrás. Solo queda el duelo.
+        <span class="stat-change stat-down">⭐ -5 Honra (rompiste la mediación)</span>
+      </p>
+    `);
+    renderContinue('▶ Fase 3: El Duelo', startCombat_fase3);
+  }
+}
+
+function phase2_rechazar() {
+  addHistory('Rechazaste la mediación y elegiste el duelo directo.');
+  modStat('honra', 5);
+
+  renderNarrative(`
+    <div class="event-date">Fase 2 — Duelo Aceptado</div>
+    <h2 class="event-title">La Ley Más Antigua</h2>
+    <p class="narrative-text">
+      ${personajeImg('viejoSebastian')} <span class="narrative-char">El Viejo Sebastián</span> te mira largamente. Asiente despacio. Él también sabe cuándo las cosas solo se arreglan de una manera.
+    </p>
+    <p class="narrative-text">
+      <em>"Que sea justo entonces. Un hombre de cada parte. Al amanecer, en la explanada del polígono."</em>
+    </p>
+    <p class="narrative-text">
+      El aviso llega a los dos clanes esta tarde. Mañana se verá quién es quién.
+    </p>
+  `);
+
+  renderContinue('▶ Fase 3: El Duelo al Amanecer', startCombat_fase3);
+}
+
+// ════════════════════════════════════════
+// SISTEMA DE COMBATE (con evento ¡Policía!)
+// ════════════════════════════════════════
+function startCombat_fase3() {
+  const clan = GameState.clanData;
+  const name = GameState.playerName;
+
+  GameState.combat = {
+    playerHP: 100,
+    enemyHP: 100,
+    playerMaxHP: 100,
+    enemyMaxHP: 100,
+    round: 1,
+    enemyName: clan.enemigoPrincipal,
+    enemyStr: 45 + (GameState.flags.pegastePolicia ? -5 : 0),
+    playerStr: GameState.stats.combate,
+    playerAgi: 50 + (GameState.playerRole === 'guerrero' ? 15 : 0),
+    playerRep: GameState.stats.honra,
+    enemyRep: 40,
+    log: [],
+    stamina: 100,
+    resolved: false,
+    policeInterrupt: false
+  };
+
+  const c = GameState.combat;
+
+  document.getElementById('playerFighterName').textContent = name;
+  document.getElementById('enemyFighterName').textContent = c.enemyName;
+  document.getElementById('playerHP').textContent = c.playerHP;
+  document.getElementById('enemyHP').textContent = c.enemyHP;
+  document.getElementById('roundNum').textContent = c.round;
+  document.getElementById('playerHealth').style.width = '100%';
+  document.getElementById('enemyHealth').style.width = '100%';
+  document.getElementById('combatTitle').textContent = '⚔️ EL DUELO';
+  document.getElementById('combatSubtitle').textContent = 'La navaja silba en el aire del amanecer de Canillejas';
+
+  // Asignamos las imágenes
+  document.getElementById('playerFighterImg').src = GameState.personajes.jugador.img;
+  document.getElementById('enemyFighterImg').src = getEnemyImgUrl(c.enemyName);
+
+  const logEl = document.getElementById('combatLog');
+  logEl.innerHTML = '';
+  addCombatLog(`${name} se planta frente a ${c.enemyName}. La explanada del polígono huele a tierra húmeda y gasolina.`);
+  addCombatLog(`${pick(EXPRESIONES_GITANAS)}. El corazón te late fuerte, pero los pies están clavados en el suelo.`);
+
+  showScreen('combat');
+}
+
+function addCombatLog(text) {
+  const log = document.getElementById('combatLog');
+  const p = document.createElement('p');
+  p.className = 'combat-log-line';
+  p.textContent = text;
+  log.appendChild(p);
+  log.scrollTop = log.scrollHeight;
+}
+
+function updateHealthBars() {
+  const c = GameState.combat;
+  const ph = Math.max(0, (c.playerHP / c.playerMaxHP) * 100);
+  const eh = Math.max(0, (c.enemyHP / c.enemyMaxHP) * 100);
+  document.getElementById('playerHealth').style.width = ph + '%';
+  document.getElementById('enemyHealth').style.width = eh + '%';
+  document.getElementById('playerHP').textContent = Math.max(0, c.playerHP);
+  document.getElementById('enemyHP').textContent = Math.max(0, c.enemyHP);
+  document.getElementById('roundNum').textContent = c.round;
+}
+
+function combatAction(action) {
+  if (GameState.combat.resolved) return;
+  const c = GameState.combat;
+  const name = GameState.playerName;
+
+  document.querySelectorAll('#combatActions .btn').forEach(b => b.disabled = true);
+
+  let playerDamage = 0;
+  let enemyDamage = 0;
+  let playerMsg = '';
+  let enemyMsg = '';
+
+  const roll = rand(1, 20);
+
+  if (action === 'attack') {
+    playerDamage = rand(15, 30) + Math.floor(c.playerStr / 10);
+    if (roll >= 17) {
+      playerDamage = Math.floor(playerDamage * 1.8);
+      playerMsg = `💥 ¡CRÍTICO! ${name} suelta un golpe con toda la furia del clan. ${c.enemyName} se tambalea. (-${playerDamage} HP)`;
+    } else if (roll <= 3) {
+      playerDamage = 0;
+      playerMsg = `💨 ${name} falla el golpe. ${c.enemyName} se aparta a tiempo.`;
+    } else {
+      playerMsg = `👊 ${name} golpea de lleno. ${c.enemyName} gruñe. (-${playerDamage} HP)`;
+    }
+    c.stamina = Math.max(0, c.stamina - 15);
+  }
+
+  if (action === 'dodge') {
+    const incoming = rand(10, 25);
+    if (roll >= 14) {
+      playerDamage = rand(20, 35);
+      enemyDamage = Math.floor(incoming * 0.3);
+      playerMsg = `💨 ${name} esquiva con estilo y contraataca. ¡Duende en los pies! (-${playerDamage} HP al rival, -${enemyDamage} HP a ti)`;
+    } else {
+      enemyDamage = Math.floor(incoming * 0.6);
+      playerDamage = rand(5, 15);
+      playerMsg = `💨 Esquiva parcial. ${name} evita lo peor pero recibe un roce. (-${enemyDamage} HP, contraataca -${playerDamage} HP)`;
+    }
+  }
+
+  if (action === 'bluff') {
+    const repDiff = c.playerRep - c.enemyRep;
+    if (repDiff > 20 || roll >= 15) {
+      playerMsg = `😈 ${name} avanza y susurra algo al oído de ${c.enemyName}. El rival palidece. `;
+      if (roll >= 18 || repDiff > 40) {
+        c.enemyHP = 0;
+        addCombatLog(playerMsg + `${c.enemyName} retrocede, se gira y sale corriendo. ¡Ha huido!`);
+        updateHealthBars();
+        setTimeout(() => resolveCombat(true, 'huida'), 1500);
+        return;
+      } else {
+        enemyDamage = 0;
+        playerDamage = rand(10, 20);
+        playerMsg += `Se queda helado un momento. Aprovechas para golpear. (-${playerDamage} HP)`;
+      }
+    } else {
+      enemyDamage = rand(20, 35);
+      playerMsg = `😤 El farol no cuela. ${c.enemyName} se ríe: "${pick(INSULTOS_GITANOS)}" y te suelta un golpe. (-${enemyDamage} HP a ti)`;
+      playerDamage = 0;
+    }
+  }
+
+  c.enemyHP -= playerDamage;
+  addCombatLog(playerMsg);
+
+  setTimeout(() => {
+    if (c.enemyHP > 0) {
+      const eRoll = rand(1, 20);
+      const eAction = rand(1, 3);
+
+      if (eAction <= 2) {
+        let eDmg = rand(12, 25) + Math.floor(c.enemyStr / 12);
+        if (eRoll >= 17) {
+          eDmg = Math.floor(eDmg * 1.6);
+          enemyMsg = `💥 ${c.enemyName} te lanza un golpe bestial. (-${eDmg} HP)`;
+        } else if (eRoll <= 3) {
+          eDmg = 0;
+          enemyMsg = `💨 ${c.enemyName} falla el golpe. Los nervios le traicionan.`;
+        } else {
+          enemyMsg = `😤 ${c.enemyName} te da donde duele. (-${eDmg} HP)`;
+        }
+        c.playerHP -= eDmg;
+      } else {
+        enemyMsg = `💨 ${c.enemyName} retrocede buscando una abertura.`;
+      }
+
+      if (enemyMsg) addCombatLog(enemyMsg);
+      if (action !== 'dodge' && enemyDamage > 0) {
+        c.playerHP -= enemyDamage;
+      }
+    }
+
+    c.round++;
+    updateHealthBars();
+
+    // ¡Evento inesperado! Posibilidad de que aparezca la pasma
+    if (!c.policeInterrupt && c.round === 3 && rand(1, 10) <= 4) {
+      c.policeInterrupt = true;
+      addCombatLog('🚨 ¡De repente, sirenas! Dos coches de policía aparecen en la explanada.');
+      addCombatLog('El agente Torres grita: "¡Alto! ¡Se acabó el espectáculo!"');
+      document.querySelectorAll('#combatActions .btn').forEach(b => b.disabled = true);
+      setTimeout(() => policeInterruption(), 1500);
+      return;
+    }
+
+    if (c.playerHP <= 0) {
+      setTimeout(() => resolveCombat(false, 'derrota'), 800);
+    } else if (c.enemyHP <= 0) {
+      setTimeout(() => resolveCombat(true, 'victoria'), 800);
+    } else if (c.round > 8) {
+      setTimeout(() => resolveCombat(null, 'empate'), 800);
+    } else {
+      setTimeout(() => {
+        document.querySelectorAll('#combatActions .btn').forEach(b => b.disabled = false);
+      }, 200);
+    }
+  }, 1200);
+}
+
+function policeInterruption() {
+  const c = GameState.combat;
+  const name = GameState.playerName;
+  document.getElementById('combatLog').innerHTML += '<p class="combat-log-line">🚔 La pasma os tiene rodeados. ¿Qué haces?</p>';
+
+  const actions = document.getElementById('combatActions');
+  actions.innerHTML = `
+    <button class="btn btn-warning flex-fill" onclick="policeAction('sobornar')"><i class="fas fa-euro-sign"></i> SOBORNAR</button>
+    <button class="btn btn-primary flex-fill" onclick="policeAction('correr')"><i class="fas fa-running"></i> CORRER</button>
+    <button class="btn btn-danger flex-fill" onclick="policeAction('enfrentar')"><i class="fas fa-fist-raised"></i> ENFRENTAR</button>
+  `;
+}
+
+function policeAction(action) {
+  const c = GameState.combat;
+  const name = GameState.playerName;
+  const clan = GameState.clanData;
+
+  if (action === 'sobornar') {
+    if (GameState.stats.recursos >= 30) {
+      modStat('recursos', -30);
+      addCombatLog('Le pasas un fajo de billetes en un apretón de manos al agente Torres.');
+      addCombatLog('"No hemos visto nada. Largo de aquí." —dice Torres.');
+      modFaction('policia', 5);
+      setTimeout(() => resolveCombat(null, 'interrumpido_policia'), 1000);
+    } else {
+      addCombatLog('Intentas sobornar pero no tienes suficiente parné. Torres se ríe.');
+      addCombatLog('"Me debes una, gitanico." Te deja ir pero con advertencia.');
+      modFaction('policia', -10);
+      setTimeout(() => resolveCombat(null, 'interrumpido_policia'), 1000);
+    }
+  } else if (action === 'correr') {
+    addCombatLog(`${name} y ${c.enemyName} intercambian una mirada cómplice. Ambos salen corriendo por el callejón.`);
+    addCombatLog('La pasma no os pilla. El duelo queda en empate técnico.');
+    modFaction('policia', -5);
+    setTimeout(() => resolveCombat(null, 'empate'), 1000);
+  } else if (action === 'enfrentar') {
+    addCombatLog('Te encaras con Torres. "Esto es un duelo legal, no tienes nada que hacer aquí."');
+    addCombatLog('Torres se tensa, pero reconoce que no puede deteneros sin pruebas. Se va refunfuñando.');
+    modFaction('policia', -10);
+    modStat('honra', 5);
+    // Reanudar combate
+    c.policeInterrupt = true;
+    document.getElementById('combatActions').innerHTML = `
+      <button class="btn btn-danger flex-fill" onclick="combatAction('attack')"><i class="fas fa-fist-raised"></i> ATACAR</button>
+      <button class="btn btn-primary flex-fill" onclick="combatAction('dodge')"><i class="fas fa-wind"></i> ESQUIVAR</button>
+      <button class="btn btn-warning flex-fill" onclick="combatAction('bluff')"><i class="fas fa-face-smile"></i> FAROLEAR</button>
+    `;
+    document.querySelectorAll('#combatActions .btn').forEach(b => b.disabled = false);
+    addCombatLog('El duelo continúa...');
+  }
+}
+
+// ════════════════════════════════════════
+// RESOLUCIÓN DE COMBATE (asignación a variable global)
+// ════════════════════════════════════════
+resolveCombat = function(playerWon, type) {
+  GameState.combat.resolved = true;
+  const c = GameState.combat;
+  const name = GameState.playerName;
+
+  document.getElementById('combatActions').innerHTML = '';
+
+  if (playerWon === true) {
+    GameState.flags.primeraVictoriaCombate = true;
+    modStat('honra', type === 'huida' ? 20 : 25);
+    modStat('recursos', 30);
+    modFaction('clanes', 15);
+    modFaction('payos', -15);
+    addHistory(`Ganaste el duelo contra ${c.enemyName}${type === 'huida' ? ' (huyó)' : ''}.`);
+    GameState.inventory.push('🏆 Victoria sobre ' + c.enemyName);
+
+    addCombatLog(`═══════════════════════`);
+    addCombatLog(`🏆 VICTORIA — ${name} ha ganado el duelo.`);
+
+    setTimeout(() => {
+      showScreen('game');
+      updateStats();
+      renderNarrative(`
+        <div class="event-date">El Duelo — Resultado</div>
+        <h2 class="event-title">🏆 La Victoria del Camino</h2>
+        <p class="narrative-text">
+          ${type === 'huida'
+            ? `${personajeImg('chatoRuiz')} <span class="narrative-char">${c.enemyName}</span> ha salido corriendo. En la Ley del Camino, huir es la derrota más deshonrosa. El ${personajeImg('viejoSebastian')} <span class="narrative-char">Viejo Sebastián</span> lo ha visto.`
+            : `${personajeImg('chatoRuiz')} <span class="narrative-char">${c.enemyName}</span> está en el suelo, vencido. El ${personajeImg('viejoSebastian')} <span class="narrative-char">Viejo Sebastián</span> alza tu mano.`
+          }
+        </p>
+        <p class="narrative-text">
+          En el barrio la noticia corre antes del mediodía. El ${GameState.clanData.nombre} no se toca. Y tú eres ${calóWord('juncal')}, ${name}. Digno y elegante como los buenos.
+        </p>
+        <p class="narrative-text">
+          <span class="stat-change stat-up">⭐ +25 Honra</span>
+          <span class="stat-change stat-up">💶 +30 Parné</span>
+          <span class="stat-change stat-up">🔥 +15 con Otros Clanes</span>
+        </p>
+      `);
+      renderContinue('▶ Continuar al Capítulo III', startChapter3);
+    }, 1500);
+
+  } else if (playerWon === false) {
+    GameState.flags.combatePerdido = true;
+    modStat('honra', -20);
+    modStat('miembros', -1);
+    modFaction('clanes', -10);
+    addHistory(`Perdiste el duelo contra ${c.enemyName}. Humillación pública.`);
+
+    addCombatLog(`═══════════════════════`);
+    addCombatLog(`💀 DERROTA — ${name} ha caído.`);
+
+    setTimeout(() => {
+      showScreen('game');
+      updateStats();
+      renderNarrative(`
+        <div class="event-date">El Duelo — Derrota</div>
+        <h2 class="event-title">La Caída</h2>
+        <p class="narrative-text">
+          Estás en el suelo. No sientes vergüenza todavía, eso vendrá después. Ahora solo sientes el frío del asfalto y la respiración entrecortada.
+        </p>
+        <p class="narrative-text">
+          ${personajeImg('chatoRuiz')} <span class="narrative-char">${c.enemyName}</span> se aleja sin decir nada. Es casi peor.
+        </p>
+        <p class="narrative-text">
+          ${personajeImg('miguelito')} <span class="narrative-char">Miguelito</span> te ayuda a levantarte. No dice nada. La deuda de honor queda pendiente.
+        </p>
+        <p class="narrative-text">
+          <span class="stat-change stat-down">⭐ -20 Honra</span>
+          <span class="stat-change stat-down">👥 -1 Miembro</span>
+          <span class="stat-change stat-down">🔥 -10 con Otros Clanes</span>
+        </p>
+        <p class="narrative-text">
+          Esto no se ha acabado. La revancha está en el aire. Pero primero hay que recuperarse.
+        </p>
+      `);
+      renderContinue('▶ Continuar al Capítulo III', startChapter3);
+    }, 1500);
+
+  } else {
+    // Empate o interrupción por policía
+    modStat('honra', type === 'interrumpido_policia' ? 0 : 5);
+    addHistory(`El duelo contra ${c.enemyName} terminó en ${type === 'interrumpido_policia' ? 'interrupción policial' : 'empate'}.`);
+
+    addCombatLog(`═══════════════════════`);
+    addCombatLog(type === 'interrumpido_policia' ? `🚔 INTERRUPCIÓN — La pasma ha cortado el duelo.` : `🤝 EMPATE — Ninguno puede más.`);
+
+    setTimeout(() => {
+      showScreen('game');
+      updateStats();
+      renderNarrative(`
+        <div class="event-date">El Duelo — ${type === 'interrumpido_policia' ? 'Interrupción' : 'Empate'}</div>
+        <h2 class="event-title">${type === 'interrumpido_policia' ? 'La Pasma en Medio' : 'Los Dos Cansados'}</h2>
+        <p class="narrative-text">
+          ${type === 'interrumpido_policia'
+            ? `La policía ha disuelto el duelo. No hay ganador ni perdedor, pero todo el barrio se ha enterado del enfrentamiento. El Chato y tú os habéis visto las caras.`
+            : `Después de ocho rondas, los dos estáis reventados. El ${personajeImg('viejoSebastian')} <span class="narrative-char">Viejo Sebastián</span> interviene: <em>"Ya está. Los dos habéis demostrado lo que sois. No hay ganador ni perdedor hoy."</em>`
+          }
+        </p>
+        <p class="narrative-text">
+          La cosa no se resuelve, pero al menos no has perdido la honra.
+          <span class="stat-change stat-up">⭐ +5 Honra</span>
+        </p>
+      `);
+      renderContinue('▶ Continuar al Capítulo III', startChapter3);
+    }, 1500);
+  }
+};
 
 function restartChapter1() {
   restoreCurrentState();
