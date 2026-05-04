@@ -69,10 +69,10 @@ const GameState = {
     eleccionesGanadas: false,
     capitanChapter6: false,
     romancePelirroja: false,
-    sacrificioRealizado: false,   // Capítulo 5
-    abogadoContratado: false,     // Capítulo 4
-    sobornoFuncionario: false,    // Capítulo 4
-    filtracionMedios: false       // Capítulo 4
+    sacrificioRealizado: false,
+    abogadoContratado: false,
+    sobornoFuncionario: false,
+    filtracionMedios: false
   },
 
   inventory: [],
@@ -81,11 +81,11 @@ const GameState = {
   clanData: null,
 
   personajes: {
-  jugador: {
-  nombre: 'Tú',
-  rol: 'Protagonista',
-  img: 'https://cdn.memegenerator.es/imagenes/memes/full/31/51/31510636.jpg'
-},
+    jugador: {
+      nombre: 'Tú',
+      rol: 'Protagonista',
+      img: 'https://cdn.memegenerator.es/imagenes/memes/full/31/51/31510636.jpg'
+    },
     viejoCurro: {
       nombre: 'Viejo Curro',
       rol: 'Patriarca',
@@ -109,7 +109,7 @@ const GameState = {
     laEncarna: {
       nombre: 'La Encarna',
       rol: 'Abogada',
-      img: 'https://album.mediaset.es/cimg/1010/2017/03/22/Rosario2_534c.jpg'
+      img: 'https://i.pravatar.cc/150?u=encarna'  // Cambiada para evitar error
     },
     tomas: {
       nombre: 'Tomás',
@@ -129,7 +129,7 @@ const GameState = {
     viejoSebastian: {
       nombre: 'Viejo Sebastián',
       rol: 'Mediador',
-      img: 'https://concertmusicfestival.com/wp-content/uploads/2023/03/cigala-1000x1000-1.jpg'  // <-- cierre corregido
+      img: 'https://concertmusicfestival.com/wp-content/uploads/2023/03/cigala-1000x1000-1.jpg'
     },
     rizos: {
       nombre: 'La Rizos',
@@ -161,16 +161,16 @@ const GameState = {
       rol: 'Nieta de la Abuela Flor',
       img: 'https://es.web.img3.acsta.net/medias/nmedia/18/89/58/30/20056357.jpg'
     },
-   inspectorMorales: {
-     nombre: 'Inspector Morales',
-     rol: 'Enemigo',
-     img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Miguel_%C3%81ngel_Revilla_2019_%28cropped%29.jpg/250px-Miguel_%C3%81ngel_Revilla_2019_%28cropped%29.jpg'
-},
-   hermanosCardenas: {
-     nombre: 'Los Hermanos Cárdenas',
-     rol: 'Enemigos',
-     img: 'https://cloudfront-eu-central-1.images.arcpublishing.com/prisaradio/YX7BXEWYWFF3TMYLZ6Y2IDFO64.jpg'  // Imagen genérica, cámbiala si encuentras una real
-   }
+    inspectorMorales: {
+      nombre: 'Inspector Morales',
+      rol: 'Enemigo',
+      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Antonio_Resines_%28cropped%29.jpg/220px-Antonio_Resines_%28cropped%29.jpg'
+    },
+    hermanosCardenas: {
+      nombre: 'Los Hermanos Cárdenas',
+      rol: 'Enemigos',
+      img: 'https://i.pravatar.cc/150?u=cardenas'
+    }
   }
 };
 
@@ -215,22 +215,6 @@ const CLANES = {
     enemigoDesc: 'Una familia paya que reclama el solar donde tenéis la chatarrería.'
   }
 };
-// Mapa de nombre de enemigo principal a clave de personaje
-const ENEMY_KEY_MAP = {
-  'El Chato Ruiz': 'chatoRuiz',
-  'El Inspector Morales': 'inspectorMorales',
-  'Los Hermanos Cárdenas': 'hermanosCardenas'
-};
-
-// Devuelve la URL de la imagen del enemigo según su nombre
-function getEnemyImgUrl(enemyName) {
-  const key = ENEMY_KEY_MAP[enemyName];
-  if (key && GameState.personajes[key]) {
-    return GameState.personajes[key].img;
-  }
-  // Fallback por si algo falla (no debería)
-  return 'https://i.pravatar.cc/150?u=enemy';
-}
 
 // ════════════════════════════════════════
 // DATOS DE CLANES SECUNDARIOS (Capítulo 6+)
@@ -273,6 +257,22 @@ const CLANES_SECUNDARIOS = {
     enemigoDesc: 'Las vendedoras tradicionales se niegan a vender sus productos y perder su forma de vida.'
   }
 };
+
+// Mapa de nombre de enemigo principal a clave de personaje
+const ENEMY_KEY_MAP = {
+  'El Chato Ruiz': 'chatoRuiz',
+  'El Inspector Morales': 'inspectorMorales',
+  'Los Hermanos Cárdenas': 'hermanosCardenas'
+};
+
+// Devuelve la URL de la imagen del enemigo según su nombre
+function getEnemyImgUrl(enemyName) {
+  const key = ENEMY_KEY_MAP[enemyName];
+  if (key && GameState.personajes[key]) {
+    return GameState.personajes[key].img;
+  }
+  return 'https://i.pravatar.cc/150?u=enemy'; // fallback genérico
+}
 
 // ════════════════════════════════════════
 // VOCABULARIO CALÓ JUVENIL (generación Z)
@@ -683,6 +683,13 @@ function restoreCurrentState() {
     updateStats();
     showScreen('game');
   }
+}
+
+// ════════════════════════════════════════
+// FUNCIÓN DE RESOLUCIÓN DE COMBATE GLOBAL (se sobrescribirá)
+// ════════════════════════════════════════
+function resolveCombat(playerWon, type) {
+  console.warn('resolveCombat llamada sin sobrescribir. Revisa el orden de los scripts.');
 }
 
 // ════════════════════════════════════════
