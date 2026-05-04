@@ -109,7 +109,7 @@ const GameState = {
     laEncarna: {
       nombre: 'La Encarna',
       rol: 'Abogada',
-      img: 'https://i.pravatar.cc/150?u=encarna'  // Cambiada para evitar error
+      img: 'https://pbs.twimg.com/profile_images/903933654006673408/oYTR0sqO_400x400.jpg'  // Cambiada para evitar error
     },
     tomas: {
       nombre: 'Tomás',
