@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════════════════════
    EL GITANO JUEGO — CAPÍTULOS 3 y 4 v5.0 (San Blas Edition)
-   Extendidos con más decisiones
+   Extendidos con más decisiones y eventos obligatorios
    ═══════════════════════════════════════════════════════════ */
 
 'use strict';
@@ -81,7 +81,7 @@ function chapter3_apoyar_tomas() {
         <span class="narrative-danger">EL CLAN SE HA DISUELTO POR BANCARROTA. Debes reiniciar el capítulo.</span>
       </p>
     `);
-    renderContinue('🔄 Reiniciar Capítulo III', 'restartChapter3()');
+    renderContinue('🔄 Reiniciar Capítulo III', restartChapter3);
     return;
   }
 
@@ -105,7 +105,7 @@ function chapter3_apoyar_tomas() {
     </p>
   `);
 
-  // Nueva escena: discusión con el tío Antonio
+  // Nueva escena obligatoria: discusión con el tío Antonio
   chapter3_discusion_familiar();
 }
 
@@ -160,7 +160,7 @@ function chapter3_mitad_tomas() {
   chapter3_discusion_familiar();
 }
 
-// ═══ NUEVA ESCENA: DISCUSIÓN CON EL TÍO ANTONIO ═══
+// ═══ ESCENA OBLIGATORIA: DISCUSIÓN CON EL TÍO ANTONIO ═══
 function chapter3_discusion_familiar() {
   renderNarrative(`
     <div class="event-date">San Blas — Esa misma noche</div>
@@ -214,7 +214,8 @@ function chapter3_calar_antonio() {
     </p>
   `);
 
-  renderContinue('▶ Continuar — La Lola y su amor prohibido', 'startRomanceLola');
+  // Después de la discusión, evento intermedio antes del romance
+  chapter3_evento_intermedio();
 }
 
 function chapter3_enfrentar_antonio() {
@@ -235,7 +236,7 @@ function chapter3_enfrentar_antonio() {
     </p>
   `);
 
-  renderContinue('▶ Continuar — La Lola y su amor prohibido', 'startRomanceLola');
+  chapter3_evento_intermedio();
 }
 
 function chapter3_ignorar_antonio() {
@@ -251,10 +252,29 @@ function chapter3_ignorar_antonio() {
     </p>
   `);
 
-  renderContinue('▶ Continuar — La Lola y su amor prohibido', 'startRomanceLola');
+  chapter3_evento_intermedio();
 }
 
-// ═══ NUEVA ESCENA: CONFLICTO VECINAL ═══
+// ═══ EVENTO INTERMEDIO OBLIGATORIO ═══
+function chapter3_evento_intermedio() {
+  renderNarrative(`
+    <div class="event-date">San Blas — Días después</div>
+    <h2 class="event-title">La vida sigue en el barrio</h2>
+    <p class="narrative-text">
+      Mientras esperas noticias de Tomás y meditas sobre la decisión, ${personajeImg('miguelito')} te arrastra al bar de la plaza. <em>"Primo, que no todo es trabajar. Vente a tomar algo, que te veo muy serio."</em>
+    </p>
+    <p class="narrative-text">
+      Allí coincidís con unos payos del barrio que no os miran mal. Uno se te acerca y te dice: <em>"Oye, siento lo del mercadillo. No todos pensamos igual."</em> Es un gesto pequeño, pero importante.
+    </p>
+    <p class="narrative-text">
+      <span class="stat-change stat-up">😤 +3 Payos</span>
+    </p>
+  `);
+  modFaction('payos', 3);
+  renderContinue('▶ Continuar — La Lola y su amor prohibido', startRomanceLola);
+}
+
+// ═══ NUEVA ESCENA: CONFLICTO VECINAL (se mantiene igual) ═══
 function chapter3_conflicto_vecinal() {
   renderNarrative(`
     <div class="event-date">San Blas — Una semana después</div>
@@ -309,7 +329,7 @@ function chapter3_fiesta_disculparse() {
     </p>
   `);
 
-  renderContinue('▶ Continuar — El barrio se caldea', 'chapter3_barrio_tenso');
+  renderContinue('▶ Continuar — El barrio se caldea', chapter3_barrio_tenso);
 }
 
 function chapter3_fiesta_plantarcara() {
@@ -327,7 +347,7 @@ function chapter3_fiesta_plantarcara() {
     </p>
   `);
 
-  renderContinue('▶ Continuar — El barrio se caldea', 'chapter3_barrio_tenso');
+  renderContinue('▶ Continuar — El barrio se caldea', chapter3_barrio_tenso);
 }
 
 function chapter3_fiesta_invitar() {
@@ -348,7 +368,7 @@ function chapter3_fiesta_invitar() {
     </p>
   `);
 
-  renderContinue('▶ Continuar — El barrio se caldea', 'chapter3_barrio_tenso');
+  renderContinue('▶ Continuar — El barrio se caldea', chapter3_barrio_tenso);
 }
 
 // ════════════════════════════════════════
@@ -459,7 +479,7 @@ function chapter3_resistir_policia() {
         <span class="narrative-danger">EL CLAN HA SIDO DESARTICULADO POR LA POLICÍA. Debes reiniciar el capítulo.</span>
       </p>
     `);
-    renderContinue('🔄 Reiniciar Capítulo III', 'restartChapter3()');
+    renderContinue('🔄 Reiniciar Capítulo III', restartChapter3);
     return;
   }
 
@@ -566,7 +586,7 @@ function chapter3_postpolicia_reunion() {
     </p>
   `);
 
-  renderContinue('▶ Continuar al Capítulo IV', 'startChapter4');
+  renderContinue('▶ Continuar al Capítulo IV', startChapter4);
 }
 
 function chapter3_postpolicia_ignorar() {
@@ -582,7 +602,7 @@ function chapter3_postpolicia_ignorar() {
     </p>
   `);
 
-  renderContinue('▶ Continuar al Capítulo IV', 'startChapter4');
+  renderContinue('▶ Continuar al Capítulo IV', startChapter4);
 }
 
 function chapter3_postpolicia_agradecer() {
@@ -598,7 +618,7 @@ function chapter3_postpolicia_agradecer() {
     </p>
   `);
 
-  renderContinue('▶ Continuar al Capítulo IV', 'startChapter4');
+  renderContinue('▶ Continuar al Capítulo IV', startChapter4);
 }
 
 // ════════════════════════════════════════
@@ -645,7 +665,7 @@ function startChapter4() {
   chapter4_preparacion();
 }
 
-// ═══ NUEVA ESCENA: PREPARACIÓN DE RECURSOS ═══
+// ═══ PREPARACIÓN OBLIGATORIA ═══
 function chapter4_preparacion() {
   renderNarrative(`
     <div class="event-date">San Blas — La planificación</div>
@@ -682,7 +702,7 @@ function chapter4_preparacion() {
 function chapter4_prep_abogado() {
   if (GameState.stats.recursos < 25) {
     showNotification('No tienes suficiente parné para el abogado.', 'bad');
-    chapter4_gran_decision(); // sigue sin bonus
+    chapter4_gran_decision();
     return;
   }
   addHistory('Contrataste un abogado especializado.');
@@ -698,7 +718,7 @@ function chapter4_prep_abogado() {
     </p>
   `);
 
-  renderContinue('▶ Continuar con la estrategia principal', 'chapter4_gran_decision');
+  renderContinue('▶ Continuar con la estrategia principal', chapter4_gran_decision);
 }
 
 function chapter4_prep_soborno() {
@@ -717,7 +737,7 @@ function chapter4_prep_soborno() {
       </p>
     `);
     modFaction('policia', -10);
-    renderContinue('▶ Continuar con la estrategia principal', 'chapter4_gran_decision');
+    renderContinue('▶ Continuar con la estrategia principal', chapter4_gran_decision);
     return;
   }
   addHistory('Sobornaste a un funcionario para retrasar la orden.');
@@ -735,7 +755,7 @@ function chapter4_prep_soborno() {
     </p>
   `);
 
-  renderContinue('▶ Continuar con la estrategia principal', 'chapter4_gran_decision');
+  renderContinue('▶ Continuar con la estrategia principal', chapter4_gran_decision);
 }
 
 function chapter4_prep_medios() {
@@ -748,7 +768,7 @@ function chapter4_prep_medios() {
     </p>
   `);
 
-  renderContinue('▶ Continuar con la estrategia principal', 'chapter4_gran_decision');
+  renderContinue('▶ Continuar con la estrategia principal', chapter4_gran_decision);
 }
 
 // ═══ DECISIÓN PRINCIPAL DEL CAPÍTULO 4 ═══
@@ -871,7 +891,7 @@ function chapter4_lucha_legal() {
         <span class="narrative-danger">EL CLAN SE HA EXTINGUIDO. Debes reiniciar el capítulo.</span>
       </p>
     `);
-    renderContinue('🔄 Reiniciar Capítulo IV', 'restartChapter4()');
+    renderContinue('🔄 Reiniciar Capítulo IV', restartChapter4);
     return;
   }
 
@@ -921,7 +941,7 @@ function chapter4_movilizacion_clanes() {
         <span class="narrative-danger">EL CLAN SE HA EXTINGUIDO. Debes reiniciar el capítulo.</span>
       </p>
     `);
-    renderContinue('🔄 Reiniciar Capítulo IV', 'restartChapter4()');
+    renderContinue('🔄 Reiniciar Capítulo IV', restartChapter4);
     return;
   }
 
@@ -983,7 +1003,7 @@ function chapter4_medios() {
         <span class="narrative-danger">EL CLAN SE HA EXTINGUIDO. Debes reiniciar el capítulo.</span>
       </p>
     `);
-    renderContinue('🔄 Reiniciar Capítulo IV', 'restartChapter4()');
+    renderContinue('🔄 Reiniciar Capítulo IV', restartChapter4);
     return;
   }
 
@@ -1033,7 +1053,7 @@ function chapter4_resistencia() {
         <span class="narrative-danger">EL CLAN SE HA EXTINGUIDO. Debes reiniciar el capítulo.</span>
       </p>
     `);
-    renderContinue('🔄 Reiniciar Capítulo IV', 'restartChapter4()');
+    renderContinue('🔄 Reiniciar Capítulo IV', restartChapter4);
     return;
   }
 
@@ -1089,7 +1109,7 @@ function chapter4_traidor_perdonar() {
     </p>
   `);
 
-  renderContinue('▶ Continuar al Capítulo V — El Desenlace', 'startChapter5');
+  renderContinue('▶ Continuar al Capítulo V — El Desenlace', startChapter5);
 }
 
 function chapter4_traidor_expulsar() {
@@ -1107,7 +1127,7 @@ function chapter4_traidor_expulsar() {
     </p>
   `);
 
-  renderContinue('▶ Continuar al Capítulo V — El Desenlace', 'startChapter5');
+  renderContinue('▶ Continuar al Capítulo V — El Desenlace', startChapter5);
 }
 
 function chapter4_traidor_vigilar() {
@@ -1125,7 +1145,7 @@ function chapter4_traidor_vigilar() {
     </p>
   `);
 
-  renderContinue('▶ Continuar al Capítulo V — El Desenlace', 'startChapter5');
+  renderContinue('▶ Continuar al Capítulo V — El Desenlace', startChapter5);
 }
 
 // ═══ FUNCIONES DE REINICIO ═══
